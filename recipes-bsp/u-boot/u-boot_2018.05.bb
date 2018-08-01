@@ -15,7 +15,7 @@ DEFAULT_PREFERENCE_sun50i="1"
 
 SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
             file://u-boot-pylibfdt-native-build.patch \
-            file://boot.cmd \
+            file://${ARMBIAN_DEFCONFIG}-boot/boot.cmd \
             file://do_patch.sh \
             file://patches \
 "
@@ -36,6 +36,7 @@ EXTRA_OEMAKE_append_sun50i = " BL31=${DEPLOY_DIR_IMAGE}/bl31.bin "
 do_compile_sun50i[depends] += "atf-sunxi:do_deploy"
 
 do_compile_append() {
+    cp ${WORKDIR}/${ARMBIAN_DEFCONFIG}-boot/boot.cmd ${WORKDIR}/boot.cmd
     ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/boot.cmd ${WORKDIR}/${UBOOT_ENV_BINARY}
 }
 

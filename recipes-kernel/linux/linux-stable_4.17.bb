@@ -30,11 +30,8 @@ SRC_URI = " \
         file://${ARMBIAN_DEFCONFIG}-defconfig/defconfig \
 "
 
-do_kernel_configme_prepend() {
-    cp ${WORKDIR}/${ARMBIAN_DEFCONFIG}-defconfig/defconfig ${WORKDIR}/defconfig
-}
-
 do_patch_append() {
+    cp ${WORKDIR}/${ARMBIAN_DEFCONFIG}-defconfig/defconfig ${WORKDIR}/defconfig
     cd ${WORKDIR}/git
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patches
 }
