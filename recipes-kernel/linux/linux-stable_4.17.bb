@@ -19,9 +19,9 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/linux-stable:"
 
 S = "${WORKDIR}/git"
 
-PV = "4.17.10"
-# v4.17.10 tag
-SRCREV = "50f9e029a6f9f440b8da4259fb7f9b879361368a"
+PV = "4.17.12"
+# v4.17.12 tag
+SRCREV = "506f6fba269679b77f5e7b71df07ef0bb3013a36"
 
 SRC_URI = " \
         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=linux-${LINUX_VERSION}.y \
