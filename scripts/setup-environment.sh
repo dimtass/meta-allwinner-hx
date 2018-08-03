@@ -67,8 +67,8 @@ fi
 echo -e "These are the default supported images:\n${LIST_IMAGES}"
 cat <<EOF
 
-You can now build your image. To build the sunxi-image then run this:
-$ bitbake sunxi-image
+You can now build your image. To build the allwinner-image then run this:
+$ bitbake allwinner-image
 
 EOF
 
