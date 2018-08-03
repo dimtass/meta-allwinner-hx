@@ -1,7 +1,7 @@
 #!/bin/bash
 : ${MACHINE:=}
 : ${SD:=$1}
-: ${IMAGE:=build/tmp/deploy/images/${MACHINE}/sunxi-image-${MACHINE}.wic.bz2}
+: ${IMAGE:=build/tmp/deploy/images/${MACHINE}/allwinner-image-${MACHINE}.wic.bz2}
 
 if [ "$(whoami)" != "root" ]; then
     echo "You need to run the script as root..."
