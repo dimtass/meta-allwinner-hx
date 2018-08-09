@@ -32,6 +32,6 @@ GCCVERSION = "7.3%"
 
 SDKMACHINE = "x86_64"
 
-WKS_FILE = "${BSPDIR}/sources/meta-allwinner-hx/scripts/allwinner_template.wks"
+WKS_FILE ?= "${IMGDEPLOYDIR}/${IMAGE_BASENAME}.wks"
 
 # RM_WORK_EXCLUDE += " linux-stable u-boot"
