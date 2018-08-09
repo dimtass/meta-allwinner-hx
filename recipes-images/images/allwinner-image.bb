@@ -3,6 +3,11 @@ LICENSE = "MIT"
 AUTHOR = "Dimitris Tassopoulos"
 
 inherit core-image
+inherit allwinner-create-wks
+
+# Add the wks creation class. This will enable the custom
+# wks file creation per image
+IMAGE_FSTYPES += " wksbuild"
 
 EXTRA_IMAGE_FEATURES = ""
 CORE_IMAGE_EXTRA_INSTALL_append = " packagegroup-core-ssh-dropbear"
