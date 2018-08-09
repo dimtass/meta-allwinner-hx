@@ -13,7 +13,7 @@ RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
 KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"
 
 LINUX_VERSION = "4.17"
-LINUX_VERSION_EXTENSION = "-ni-dt-framework"
+LINUX_VERSION_EXTENSION = "-allwinner"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/linux-stable:"
 
