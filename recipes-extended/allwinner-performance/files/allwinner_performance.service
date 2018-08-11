@@ -3,7 +3,7 @@ Description=Setup the sunxi max performance via sysfs
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/sunxi_performance
+ExecStart=/usr/bin/allwinner_performance
 
 [Install]
 WantedBy=multi-user.target
