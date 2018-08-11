@@ -16,7 +16,7 @@ PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
 PREFERRED_PROVIDER_u-boot ?= "u-boot"
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
 
-KERNEL_IMAGETYPE ?= "uImage"
+KERNEL_IMAGETYPE ?= "zImage"
 
 IMAGE_CLASSES += "sdcard_image-sunxi"
 IMAGE_FSTYPES += "ext4 tar.gz sunxi-sdimg wic.bz2 wic.bmap"
@@ -35,3 +35,7 @@ SPL_BINARY ?= "u-boot-sunxi-with-spl.bin"
 
 SERIAL_CONSOLE ?= "115200 ttyS0"
 MACHINE_FEATURES ?= "alsa apm keyboard rtc serial screen usbgadget usbhost vfat"
+
+PREFERRED_VERSION_u-boot ?= "v2018.05%"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable-rt"
+PREFERRED_VERSION_linux-stable-rt ?= "4.14%"
