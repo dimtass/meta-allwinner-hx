@@ -16,13 +16,12 @@ IMAGE_FEATURES = " debug-tweaks "
 IMAGE_LINGUAS = "en-us"
 
 EXTRA_PKGS = " \
-    ${SENSORS_PKGS} \
     ${WIFI_SUPPORT} \
     xr819 \
-    rtirq \
 "
 
 IMAGE_INSTALL += " \
+    ${EXTRA_PKGS} \
     tar \
     bash \
     merge-files \
@@ -30,4 +29,5 @@ IMAGE_INSTALL += " \
     allwinner-performance \
     procps \
     udev-automount \
+    usbreset \
 "
