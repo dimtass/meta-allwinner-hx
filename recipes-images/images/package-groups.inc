@@ -110,11 +110,8 @@ DEV_SDK_INSTALL = " \
 TEST_TOOLS = " \
     rt-tests \
     stress \
-    python-pandas \
-    crashme \
     sysstat \
     perf \
-    lttng-modules \
     memtester \
     iperf3 \
 "

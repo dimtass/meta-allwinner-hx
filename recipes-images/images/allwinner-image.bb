@@ -21,6 +21,7 @@ EXTRA_PKGS = " \
 "
 
 IMAGE_INSTALL += " \
+    ${TEST_TOOLS} \
     ${EXTRA_PKGS} \
     tar \
     bash \
