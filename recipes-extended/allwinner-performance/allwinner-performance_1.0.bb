@@ -10,19 +10,18 @@ RDEPENDS_${PN} += "bash"
 FILESEXTRAPATHS_append = "${THISDIR}/files:"
 
 SRC_URI = " \
-		file://allwinner_performance;md5=10279eb0a47c560c709f6b7ce84d5ade \
-		file://allwinner_performance.service;md5=9de91736bd7677d7bee24569e701aff2 \
+		file://allwinner_performance; \
+		file://allwinner_performance.service \
 "
 
 S = "${WORKDIR}"
 
 do_install () {
-	install -d ${D}${systemd_unitdir}/system/ ${D}${sysconfdir}/systemd/system/
-	install -m 0644 ${WORKDIR}/allwinner_performance.service ${D}${systemd_unitdir}/system
+	install -d ${D}${systemd_system_unitdir}
+	install -m 0644 ${WORKDIR}/allwinner_performance.service ${D}${systemd_system_unitdir}
 
 	install -d ${D}/usr/bin/
 	install -m 0755 ${WORKDIR}/allwinner_performance ${D}/usr/bin/
-
 }
 
 FILES_${PN} += " \
