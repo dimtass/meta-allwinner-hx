@@ -50,8 +50,8 @@ Then `git clone` this repo inside with `poky` and `meta-openembedded`.
 ```sh
 cd sources
 git clone git@bitbucket.org:dimtass/meta-allwinner-hx.git
-git clone git://git.yoctoproject.org/poky
-git clone git@github.com:openembedded/meta-openembedded.git
+git clone --depth 1 -b sumo git://git.yoctoproject.org/poky
+git clone --depth 1 -b sumo git@github.com:openembedded/meta-openembedded.git
 ```
 
 Then from the `top` directory that includes the sources run this command:
@@ -73,6 +73,14 @@ correct name. To list the names of supported boards you can the script like this
 source ./setup-environment.sh build
 ```
 
+Now in your `build/conf/local.conf` file you can choose which kernel you want to build.
+By default the `linux-stable` 4.14 version is build. In case you want to build the RT
+kernel then un-comment these two lines in the file:
+```
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable-rt"
+PREFERRED_VERSION_linux-stable-rt ?= "4.14%"
+```
+
 This will result in error, but it will also print the supported boards. Therefore,
 for `nanopi-k1-plus`, you can run:
 ```sh
@@ -85,6 +93,17 @@ bitbake allwinner-image
 ```
 
 In this case this will create a `.wic.bz2` image inside your `build/tmp/deploy/images/nanopi-k1-plus`.
+
+## WiFi networking
+If your board has only a wifi network then you can add the `SSID` and the `PSK` password
+in the `build/conf/local.conf` and build the image. You can remove the comment on those
+two lines in the `build/conf/local.conf` and the proper values for your network.
+```sh
+SSID = "YOUR_SSID"
+PSK = YOUR_SSID_PASSWORD"
+```
+
+Then after you build and flash the image then your board should connect on the network.
 
 ## Flashing the image
 After the image is build, you can use `bmaptool` to flash the image on your SD card.
