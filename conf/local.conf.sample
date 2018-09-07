@@ -14,15 +14,6 @@ DISTRO_FEATURES_append = " systemd"
 VIRTUAL-RUNTIME_init_manager = "systemd"
 DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 
-SSTATE_MIRRORS = " \
-     file://.* http://sstate.yoctoproject.org/dev/PATH;downloadfilename=PATH \n \
-     file://.* http://sstate.yoctoproject.org/2.4/PATH;downloadfilename=PATH \n \
-     file://.* http://sstate.yoctoproject.org/2.4.1/PATH;downloadfilename=PATH \n \
-     file://.* http://sstate.yoctoproject.org/2.4.2/PATH;downloadfilename=PATH \n \
-     file://.* http://sstate.yoctoproject.org/2.4.3/PATH;downloadfilename=PATH \n \
-     file://.* http://sstate.yoctoproject.org/2.5/PATH;downloadfilename=PATH \n \
-"
-
 BB_GENERATE_MIRROR_TARBALLS = "1"
 
 DL_DIR ?= "${BSPDIR}/downloads/"
