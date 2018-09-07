@@ -103,7 +103,12 @@ SSID = "YOUR_SSID"
 PSK = YOUR_SSID_PASSWORD"
 ```
 
-Then after you build and flash the image then your board should connect on the network.
+For some reason it seems that the `wpa_supplicant@wlan0.service` service is not installed
+and started automatically. Because of that, on the first boot after the SD flash you need
+to run the following command manually and after that it works fine forever.
+```sh
+systemctl enable wpa_supplicant@wlan0
+```
 
 ## Flashing the image
 After the image is build, you can use `bmaptool` to flash the image on your SD card.
