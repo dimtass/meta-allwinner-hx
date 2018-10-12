@@ -19,14 +19,14 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/linux-stable-rt:"
 
 S = "${WORKDIR}/git"
 
-PV = "4.14.59"
-SRCREV = "53208e12faa5b8c6eac4eb1d23d6e3fae450fc5a"
+PV = "4.14.71"
+SRCREV = "1244bbb3e92135d247e2dddfa6fe5e3e171a9635"
 
 SRC_URI = " \
         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=linux-${LINUX_VERSION}.y \
         file://do_patch.sh \
         file://patches \
-        file://patch-4.14.59-rt37 \
+        file://patch-4.14.71-rt44 \
         file://${ARMBIAN_DEFCONFIG}-rt-defconfig/defconfig \
 "
 
@@ -34,7 +34,7 @@ do_patch_append() {
     bbinfo "Will use ${ARMBIAN_DEFCONFIG}-rt-defconfig for the kernel"
     cp ${WORKDIR}/${ARMBIAN_DEFCONFIG}-rt-defconfig/defconfig ${WORKDIR}/defconfig
     cd ${WORKDIR}/git
-    ${WORKDIR}/do_patch.sh ${WORKDIR}/patch-4.14.59-rt37
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/patch-4.14.71-rt44
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patches
 }
 
