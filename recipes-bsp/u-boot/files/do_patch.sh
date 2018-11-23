@@ -1,4 +1,6 @@
 #!/bin/bash
+# This patch code is striped from the armbian distro as
+# also the patches for the allwinner H2,H3,H5
 
 patch()
 {

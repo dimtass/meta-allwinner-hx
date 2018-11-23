@@ -1,5 +1,6 @@
 SOC_FAMILY ??= ""
 include conf/machine/include/soc-family.inc
+require allwinner-overlays.inc
 
 # Sub-architecture support
 MACHINE_SOCARCH_SUFFIX ?= ""
@@ -12,9 +13,11 @@ XSERVER = "xserver-xorg \
            xf86-input-mouse \
            xf86-input-keyboard"
 
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
+PREFERRED_VERSION_linux-stable ?= "4.14%"
 PREFERRED_PROVIDER_u-boot ?= "u-boot"
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
+PREFERRED_VERSION_u-boot ?= "v2018.05%"
 
 KERNEL_IMAGETYPE ?= "zImage"
 
@@ -36,6 +39,4 @@ SPL_BINARY ?= "u-boot-sunxi-with-spl.bin"
 SERIAL_CONSOLE ?= "115200 ttyS0"
 MACHINE_FEATURES ?= "alsa apm keyboard rtc serial screen usbgadget usbhost vfat"
 
-PREFERRED_VERSION_u-boot ?= "v2018.05%"
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable-rt"
-PREFERRED_VERSION_linux-stable-rt ?= "4.14%"
+KERNEL_DEVICETREE ?= "${SUNXI_OVERLAYS} ${SUNXI_KERNEL_DEVICETREE}"

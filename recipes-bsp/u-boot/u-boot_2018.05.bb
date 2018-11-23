@@ -16,8 +16,10 @@ DEFAULT_PREFERENCE_sun50i="1"
 SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
             file://u-boot-pylibfdt-native-build.patch \
             file://${ARMBIAN_DEFCONFIG}-boot/boot.cmd \
+            file://${ARMBIAN_DEFCONFIG}-boot/fixup.cmd \
             file://do_patch.sh \
             file://patches \
+            file://allwinnerEnv.txt \
 "
 
 SRCREV = "890e79f2b1c26c5ba1a86d179706348aec7feef7"
@@ -29,6 +31,7 @@ S = "${WORKDIR}/git"
 
 UBOOT_ENV_SUFFIX = "scr"
 UBOOT_ENV = "boot"
+UBOOT_FIXUP_BINARY = "fixup.scr"
 
 EXTRA_OEMAKE += ' HOSTLDSHARED="${BUILD_CC} -shared ${BUILD_LDFLAGS} ${BUILD_CFLAGS}" '
 EXTRA_OEMAKE_append_sun50i = " BL31=${DEPLOY_DIR_IMAGE}/bl31.bin "
@@ -38,9 +41,18 @@ do_compile_sun50i[depends] += "atf-sunxi:do_deploy"
 do_compile_append() {
     cp ${WORKDIR}/${ARMBIAN_DEFCONFIG}-boot/boot.cmd ${WORKDIR}/boot.cmd
     ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/boot.cmd ${WORKDIR}/${UBOOT_ENV_BINARY}
+
+    cp ${WORKDIR}/${ARMBIAN_DEFCONFIG}-boot/fixup.cmd ${WORKDIR}/fixup.cmd
+    ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/fixup.cmd ${WORKDIR}/${UBOOT_FIXUP_BINARY}
 }
 
 do_configure_prepend() {
     cd ${S}
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patches
+}
+
+do_deploy_append() {
+    # Copy also the fixup script to the deploy dir
+    install -m 644 ${WORKDIR}/${UBOOT_FIXUP_BINARY} ${DEPLOYDIR}/${UBOOT_FIXUP_BINARY}
+    install -m 644 ${WORKDIR}/allwinnerEnv.txt ${DEPLOYDIR}/allwinnerEnv.txt
 }

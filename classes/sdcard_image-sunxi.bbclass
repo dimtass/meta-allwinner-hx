@@ -54,12 +54,19 @@ IMAGE_CMD_sunxi-sdimg () {
 	mkfs.vfat -n "${BOOTDD_VOLUME_ID}" -S 512 -C ${WORKDIR}/boot.img ${BOOT_SPACE}
 
 	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${MACHINE}.bin ::${KERNEL_IMAGETYPE}
-
+	# Create folder for overlays
+	mmd -i ${WORKDIR}/boot.img ::/overlay
+	
 	# Copy device tree file
 	if test -n "${KERNEL_DEVICETREE}"; then
 		for DTS_FILE in ${KERNEL_DEVICETREE}; do
 			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
 			DTS_DIR_NAME=`dirname ${DTS_FILE}`
+			# Copy all the dtbo files
+			if [ "${DTS_FILE##*.}" = "dtbo" ]; then
+				#bbwarn "copy ${KERNEL_IMAGETYPE}-${DTS_BASE_NAME}.dtbo to boot.img::/${DTS_FILE}"
+				mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${DTS_BASE_NAME}.dtbo ::/overlay/${DTS_BASE_NAME}.dtbo
+			fi
 			if [ -e ${DEPLOY_DIR_IMAGE}/"${KERNEL_IMAGETYPE}-${DTS_BASE_NAME}.dtb" ]; then
 
 				if [ ${DTS_FILE} != ${DTS_BASE_NAME}.dtb ]; then
@@ -75,13 +82,17 @@ IMAGE_CMD_sunxi-sdimg () {
 		done
 	fi
 
-	if [ -e "${DEPLOY_DIR_IMAGE}/fex.bin" ]
-	then
+	if [ -e "${DEPLOY_DIR_IMAGE}/fex.bin" ]; then
 		mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/fex.bin ::script.bin
 	fi
-	if [ -e "${DEPLOY_DIR_IMAGE}/boot.scr" ]
-	then
+	if [ -e "${DEPLOY_DIR_IMAGE}/boot.scr" ]; then
 		mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/boot.scr ::boot.scr
+	fi
+	if [ -e "${DEPLOY_DIR_IMAGE}/fixup.scr" ]; then
+		mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/fixup.scr ::fixup.scr
+	fi
+	if [ -e "${DEPLOY_DIR_IMAGE}/allwinnerEnv.txt" ]; then
+		mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/allwinnerEnv.txt ::allwinnerEnv.txt
 	fi
 
 
