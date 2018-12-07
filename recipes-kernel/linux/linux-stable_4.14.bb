@@ -26,18 +26,18 @@ SRC_URI = " \
         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=linux-${LINUX_VERSION}.y \
         file://do_patch.sh \
         file://patches \
-        file://${ARMBIAN_DEFCONFIG}-defconfig/defconfig \
+        file://${SOC_FAMILY}-defconfig/defconfig \
 "
 
 do_patch_append() {
-    cp ${WORKDIR}/${ARMBIAN_DEFCONFIG}-defconfig/defconfig ${WORKDIR}/defconfig
+    cp ${WORKDIR}/${SOC_FAMILY}-defconfig/defconfig ${WORKDIR}/defconfig
     cd ${WORKDIR}/git
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patches
 }
 
 python() {
-    if not d.getVar('ARMBIAN_DEFCONFIG'):
-        bb.fatal("You need to set 'ARMBIAN_DEFCONFIG' in your local.conf file to 'sunxi' or 'sunxi64' depending your board.")
+    if not d.getVar('SOC_FAMILY'):
+        bb.fatal("You need to set 'SOC_FAMILY' in your local.conf file to 'sunxi' or 'sunxi64' depending your board.")
     else:
-        bb.note("%s-defconfig/defconfig will be used for the kernel." % (d.getVar('ARMBIAN_DEFCONFIG')))
+        bb.note("%s-defconfig/defconfig will be used for the kernel." % (d.getVar('SOC_FAMILY')))
 }

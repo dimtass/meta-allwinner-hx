@@ -2,12 +2,12 @@
 #
 # Author: Dimitris Tassopoulos <dimtass@gmail.com>
 
-# sunxi8 builds a composite image for SPL and u-boot
-SUNXI_SPL_NAME = "u-boot-sunxi-with-spl.bin"
+# sun8i builds a composite image for SPL and u-boot
+SPL_NAME_sun8i = "u-boot-sunxi-with-spl.bin"
 
-# sunxi64 builds an SPL and a u-boot image
-SUNXI64_SPL_NAME = "sunxi-spl.bin"
-SUNXI64_UBOOT_IMAGE = "u-boot.itb"
+# sun50i builds an SPL and a u-boot image
+SPL_NAME_sun50i = "sunxi-spl.bin"
+UBOOT_IMAGE_sun50i = "u-boot.itb"
 
 SUNXI_BOOT_IMAGE = "boot.img"
 

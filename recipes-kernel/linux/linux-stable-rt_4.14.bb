@@ -27,20 +27,20 @@ SRC_URI = " \
         file://do_patch.sh \
         file://patches \
         file://patch-4.14.71-rt44 \
-        file://${ARMBIAN_DEFCONFIG}-rt-defconfig/defconfig \
+        file://${SOC_FAMILY}-rt-defconfig/defconfig \
 "
 
 do_patch_append() {
-    bbinfo "Will use ${ARMBIAN_DEFCONFIG}-rt-defconfig for the kernel"
-    cp ${WORKDIR}/${ARMBIAN_DEFCONFIG}-rt-defconfig/defconfig ${WORKDIR}/defconfig
+    bbinfo "Will use ${SOC_FAMILY}-rt-defconfig for the kernel"
+    cp ${WORKDIR}/${SOC_FAMILY}-rt-defconfig/defconfig ${WORKDIR}/defconfig
     cd ${WORKDIR}/git
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patch-4.14.71-rt44
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patches
 }
 
 python() {
-    if not d.getVar('ARMBIAN_DEFCONFIG'):
-        bb.fatal("You need to set 'ARMBIAN_DEFCONFIG' in your local.conf file to 'sunxi' or 'sunxi64' depending your board.")
+    if not d.getVar('SOC_FAMILY'):
+        bb.fatal("You need to set 'SOC_FAMILY' in your local.conf file to 'sunxi' or 'sunxi64' depending your board.")
     else:
-        bb.note("%s-defconfig/defconfig will be used for the kernel." % (d.getVar('ARMBIAN_DEFCONFIG')))
+        bb.note("%s-defconfig/defconfig will be used for the kernel." % (d.getVar('SOC_FAMILY')))
 }

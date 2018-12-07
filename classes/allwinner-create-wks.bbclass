@@ -17,18 +17,18 @@ wks_build() {
 EOF
 
 #### Partitions specific to sunxi images
-    if [ "${ARMBIAN_DEFCONFIG}" = "sunxi" ]; then
+    if [ "${SOC_FAMILY}" = "sun8i" ]; then
         bbnote "Creating a wks file for sunxi..."
         cat >> "$wks" <<EOF
-part SPL --source rawcopy --sourceparams="file=${SUNXI_SPL_NAME}" --ondisk ${SUNXI_STORAGE_DEVICE} --no-table --align 8
+part SPL --source rawcopy --sourceparams="file=${SPL_NAME}" --ondisk ${SUNXI_STORAGE_DEVICE} --no-table --align 8
 EOF
 
 #### Partitions specific to sunxi64 images
-    elif [ "${ARMBIAN_DEFCONFIG}" = "sunxi64" ]; then
+    elif [ "${SOC_FAMILY}" = "sun50i" ]; then
         bbnote "Creating a wks file for sunxi64..."
         cat >> "$wks" <<EOF
-part SPL --source rawcopy --sourceparams="file=${SUNXI64_SPL_NAME}" --ondisk ${SUNXI_STORAGE_DEVICE} --no-table --align 8
-part u-boot --source rawcopy --sourceparams="file=${SUNXI64_UBOOT_IMAGE}" --ondisk ${SUNXI_STORAGE_DEVICE} --no-table --align 40
+part SPL --source rawcopy --sourceparams="file=${SPL_NAME}" --ondisk ${SUNXI_STORAGE_DEVICE} --no-table --align 8
+part u-boot --source rawcopy --sourceparams="file=${UBOOT_IMAGE}" --ondisk ${SUNXI_STORAGE_DEVICE} --no-table --align 40
 EOF
     fi
 
