@@ -17,7 +17,6 @@ XSERVER = "xserver-xorg \
 
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
 PREFERRED_VERSION_linux-stable ?= "4.14%"
-PREFERRED_PROVIDER_u-boot ?= "u-boot"
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
 PREFERRED_VERSION_u-boot ?= "v2018.05%"
 
@@ -41,4 +40,4 @@ SPL_BINARY ?= "u-boot-sunxi-with-spl.bin"
 SERIAL_CONSOLE ?= "115200 ttyS0"
 MACHINE_FEATURES ?= "alsa apm keyboard rtc serial screen usbgadget usbhost vfat"
 
-KERNEL_DEVICETREE ?= "${SUNXI_OVERLAYS} ${SUNXI_KERNEL_DEVICETREE}"
+KERNEL_DEVICETREE ?= "${SUN8I_OVERLAYS} ${SUNXI_KERNEL_DEVICETREE}"
