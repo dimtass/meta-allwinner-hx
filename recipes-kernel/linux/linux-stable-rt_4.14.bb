@@ -19,14 +19,14 @@ FILESEXTRAPATHS_prepend := "${THISDIR}/linux-stable-rt:"
 
 S = "${WORKDIR}/git"
 
-PV = "4.14.71"
-SRCREV = "1244bbb3e92135d247e2dddfa6fe5e3e171a9635"
+PV = "4.14.78"
+SRCREV = "e7405910ca5553eae8744af4e5c03e64ee048cb1"
 
 SRC_URI = " \
         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=linux-${LINUX_VERSION}.y \
         file://do_patch.sh \
         file://patches \
-        file://patch-4.14.71-rt44 \
+        file://patch-4.14.78-rt47 \
         file://${SOC_FAMILY}-rt-defconfig/defconfig \
 "
 
@@ -34,7 +34,7 @@ do_patch_append() {
     bbinfo "Will use ${SOC_FAMILY}-rt-defconfig for the kernel"
     cp ${WORKDIR}/${SOC_FAMILY}-rt-defconfig/defconfig ${WORKDIR}/defconfig
     cd ${WORKDIR}/git
-    ${WORKDIR}/do_patch.sh ${WORKDIR}/patch-4.14.71-rt44
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/patch-4.14.78-rt47
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patches
 }
 
