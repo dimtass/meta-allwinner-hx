@@ -12,7 +12,7 @@ IMAGE_FSTYPES += " wksbuild"
 
 EXTRA_IMAGE_FEATURES = ""
 CORE_IMAGE_EXTRA_INSTALL_append = " packagegroup-core-ssh-dropbear"
-IMAGE_FEATURES = " debug-tweaks "
+IMAGE_FEATURES += "package-management debug-tweaks"
 IMAGE_LINGUAS = "en-us"
 
 EXTRA_PKGS = " \
