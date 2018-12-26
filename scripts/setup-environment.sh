@@ -64,6 +64,18 @@ EOF
     generated_config=1
 fi
 
+# Run append configurations from other compatible meta-layers.
+# This helps with BSP layers that they need custom configuration and
+# run their own setup scripts.
+echo -e "Searching for append setup scripts...\n"
+extra_setup_scripts=$(ls -1 $CWD/sources/*/setup-environment-append.sh)
+for extra_script in $extra_setup_scripts; do
+	if ! basename $extra_script | grep ${MACHINE}; then
+		echo "Run append script: $extra_script"
+		$extra_script $(dirname $extra_script)
+	fi
+done
+
 echo -e "These are the default supported images:\n${LIST_IMAGES}"
 cat <<EOF
 
@@ -71,4 +83,3 @@ You can now build your image. To build the allwinner-image then run this:
 $ bitbake allwinner-image
 
 EOF
-
