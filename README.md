@@ -94,6 +94,27 @@ bitbake allwinner-image
 
 In this case this will create a `.wic.bz2` image inside your `build/tmp/deploy/images/nanopi-k1-plus`.
 
+## Overlays
+This layer supports overlays for the allwinners boards. In order to use them you need
+to edit the `recipes-bsp/u-boot/files/allwinnerEnv.txt` file or even better create
+a new layer with your custom cofiguration and override the `allwinnerEnv.txt` file by
+pointing to your custom file in your `recipes-bsp/u-boot/u-boot_2018.05.bbappend`
+with this line:
+
+```sh
+SRC_URI += "file://allwinnerEnv.txt"
+```
+
+Of course, you need to create this file and place it in your layer file folder.
+In that file you need to edit it and add the overlays you need, for example:
+
+```sh
+extra_bootargs=
+rootfstype=ext4
+verbosity=d
+overlays=sun8i-h3-i2c0 sun8i-h3-spi-spidev
+```
+
 ## WiFi networking
 If your board has only a wifi network then you can add the `SSID` and the `PSK` password
 in the `build/conf/local.conf` and build the image. You can remove the comment on those

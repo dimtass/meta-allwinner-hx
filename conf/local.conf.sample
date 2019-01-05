@@ -37,4 +37,7 @@ PREFERRED_VERSION_linux-stable ?= "4.14%"
 #SSID = "YOUR_SSID"
 #PSK = YOUR_SSID_PASSWORD"
 
-# RM_WORK_EXCLUDE += " linux-stable u-boot"
+# For debugging u-boot and kernel
+#RM_WORK_EXCLUDE += " linux-stable u-boot"
+
+# Add your custom config under this line
