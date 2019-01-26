@@ -11,7 +11,7 @@ require package-groups.inc
 IMAGE_FSTYPES += " wksbuild"
 
 EXTRA_IMAGE_FEATURES = ""
-CORE_IMAGE_EXTRA_INSTALL_append = " packagegroup-core-ssh-dropbear"
+CORE_IMAGE_EXTRA_INSTALL_append = " packagegroup-core-ssh-openssh"
 IMAGE_FEATURES += "package-management debug-tweaks"
 IMAGE_LINGUAS = "en-us"
 
