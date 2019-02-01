@@ -11,9 +11,18 @@ SENSORS_PKGS = " \
 
 # Standard packages
 STANDARD_PKGS = " \
+    tar \
+    bash \
+    merge-files \
+    wget \
+    allwinner-performance \
+    procps \
+    udev-automount \
+    usbreset \
     udev \
     dfu-util \
     pkgconfig \
+    u-boot-fw-utils \
 "
 
 # Extra debug packages

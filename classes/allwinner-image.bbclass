@@ -1,6 +1,6 @@
 SUMMARY = "Allwinner console image"
+AUTHOR = "Dimitris Tassopoulos <dimtass@gmail.com>"
 LICENSE = "MIT"
-AUTHOR = "Dimitris Tassopoulos"
 
 inherit core-image
 inherit allwinner-create-wks
@@ -21,14 +21,7 @@ EXTRA_PKGS = " \
 "
 
 IMAGE_INSTALL += " \
+    ${STANDARD_PKGS} \
     ${TEST_TOOLS} \
     ${EXTRA_PKGS} \
-    tar \
-    bash \
-    merge-files \
-    wget \
-    allwinner-performance \
-    procps \
-    udev-automount \
-    usbreset \
 "
