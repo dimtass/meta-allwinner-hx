@@ -7,7 +7,7 @@ XSERVER = "xserver-xorg \
            xf86-input-keyboard"
 
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
-PREFERRED_VERSION_linux-stable ?= "4.14%"
+PREFERRED_VERSION_linux-stable ?= "4.19%"
 PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
 PREFERRED_VERSION_u-boot ?= "v2018.05%"
 
