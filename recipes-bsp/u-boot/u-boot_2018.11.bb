@@ -6,7 +6,7 @@ DEPENDS += " bc-native dtc-native swig-native python3-native "
 DEPENDS_append_sun50i = " atf-sunxi "
 
 LICENSE = "GPLv2+"
-LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
+LIC_FILES_CHKSUM = "file://Licenses/README;md5=7a79e19bba695f5caf90df9255c51495"
 
 COMPATIBLE_MACHINE = "(sun8i|sun50i)"
 
@@ -22,9 +22,9 @@ SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
             file://allwinnerEnv.txt \
 "
 
-SRCREV = "890e79f2b1c26c5ba1a86d179706348aec7feef7"
+SRCREV = "0157013f4a4945bbdb70bb4d98d680e0845fd784"
 
-PV = "v2018.05+git${SRCPV}"
+PV = "v2018.11+git${SRCPV}"
 PE = "2"
 
 S = "${WORKDIR}/git"

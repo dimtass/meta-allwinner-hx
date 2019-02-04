@@ -22,8 +22,8 @@ fdt resize 65536
 
 # Load environment file
 for overlay_file in ${overlays}; do
-	if load mmc 0:1 ${load_addr} overlay/${overlay_file}.dtbo; then
-		echo "Applying kernel provided DT overlay ${overlay_file}.dtbo"
+	if load mmc 0:1 ${load_addr} overlay/${overlay_prefix}-${overlay_file}.dtbo; then
+		echo "Applying kernel provided DT overlay ${overlay_prefix}-${overlay_file}.dtbo"
 		fdt apply ${load_addr} || setenv overlay_error "true"
 	fi
 done
