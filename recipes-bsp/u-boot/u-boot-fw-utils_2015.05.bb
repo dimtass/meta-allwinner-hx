@@ -3,6 +3,8 @@ DEPENDS = "mtd-utils"
 
 require u-boot-allwinner.inc
 
+LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
+
 UBOOT_VER = "2018.05"
 
 SRCREV_default_pn-u-boot-fw-utils = "0157013f4a4945bbdb70bb4d98d680e0845fd784"
