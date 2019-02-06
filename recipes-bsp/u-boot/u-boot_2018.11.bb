@@ -6,7 +6,7 @@ DEPENDS += " bc-native dtc-native swig-native python3-native "
 DEPENDS_append_sun50i = " atf-sunxi "
 
 LICENSE = "GPLv2+"
-LIC_FILES_CHKSUM = "file://Licenses/README;md5=7a79e19bba695f5caf90df9255c51495"
+LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
 
 COMPATIBLE_MACHINE = "(sun8i|sun50i)"
 
@@ -14,11 +14,10 @@ DEFAULT_PREFERENCE_sun8i="1"
 DEFAULT_PREFERENCE_sun50i="1"
 
 SRC_URI = "git://git.denx.de/u-boot.git;branch=master \
-            file://u-boot-pylibfdt-native-build.patch \
             file://${SOC_FAMILY}-boot/boot.cmd \
             file://${SOC_FAMILY}-boot/fixup.cmd \
             file://do_patch.sh \
-            file://patches \
+            file://patches-2018.11 \
             file://allwinnerEnv.txt \
 "
 
@@ -48,7 +47,7 @@ do_compile_append() {
 
 do_configure_prepend() {
     cd ${S}
-    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-2018.11
 }
 
 do_deploy_append() {
