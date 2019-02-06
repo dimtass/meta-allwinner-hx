@@ -98,7 +98,7 @@ In this case this will create a `.wic.bz2` image inside your `build/tmp/deploy/i
 This layer supports overlays for the allwinners boards. In order to use them you need
 to edit the `recipes-bsp/u-boot/files/allwinnerEnv.txt` file or even better create
 a new layer with your custom cofiguration and override the `allwinnerEnv.txt` file by
-pointing to your custom file in your `recipes-bsp/u-boot/u-boot_2018.05.bbappend`
+pointing to your custom file in your `recipes-bsp/u-boot/u-boot_2018.11.bbappend`
 with this line:
 
 ```sh
