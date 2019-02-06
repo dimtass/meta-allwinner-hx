@@ -5,7 +5,6 @@ DEPENDS += " bc-native dtc-native swig-native python3-native "
 DEPENDS_append_sun50i = " atf-sunxi "
 
 LICENSE = "GPLv2+"
-LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
 
 COMPATIBLE_MACHINE = "(sun8i|su]n50i)"
 

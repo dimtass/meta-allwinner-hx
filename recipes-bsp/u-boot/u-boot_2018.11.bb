@@ -4,6 +4,8 @@ AUTHOR = "Dimitris Tassopoulos <dimtass@gmail.com>"
 require recipes-bsp/u-boot/u-boot.inc
 require u-boot-allwinner.inc
 
+LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
+
 SRCREV = "0157013f4a4945bbdb70bb4d98d680e0845fd784"
 PV = "v2018.11+git${SRCPV}"
 
