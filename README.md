@@ -152,6 +152,23 @@ sudo bmaptool copy <.wic.bz2_image_path> /dev/sdX
 
 Of course you need to change `/dev/sdX` with you actuall SD card dev path.
 
+## Why bmap-tools and wic images?
+Well, wic images are a no-brainer. You can create a 50GB image, but this image
+probably won't be that large really. Most of the times, the real data bytes in
+the image will be from a few hundreds MB, to maybe 1-2 GB. The rest will be
+empty space. Therefore, if you build a binary image then this image will be
+filled with zeros. You will also have to use `dd` to flash the image to the SD
+card. That means that for a few MBs of real data, you'll wait maybe more than
+an hour to be written in the SD. Wic creates a map of the data and creates an
+image with the real binary data and a bmap file that has the map data. Then,
+bmaptool will use this bmap file and create the partitions and only write the
+real binary data. This will take a few seconds or minutes, even for images that
+are a lot of GBs.
+
+For example the default image size for this repo is 13.8GB but the real data
+are ~62MB. Therefore, with a random SD card I have here the flashing takes
+~14 secs and you get a 14GB image.
+
 ## Notes
 You can also build the `core-image-minimal` using this meta layer. But for some
 reason when you'll get the login prompt, then the `root` account doesn't work.
