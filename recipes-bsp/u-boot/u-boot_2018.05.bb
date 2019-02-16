@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
 
 SRC_URI += "file://patches-2018.05 \
             file://fw_env.config \
-            file://u-boot-pylibfdt-native-build.patch \
 "
 
 SRCREV = "890e79f2b1c26c5ba1a86d179706348aec7feef7"
