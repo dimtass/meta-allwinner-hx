@@ -15,7 +15,7 @@ KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"
 LINUX_VERSION = "4.14"
 LINUX_VERSION_EXTENSION = "-allwinner"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/linux-stable-rt:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/linux-stable-rt_4.14:"
 
 S = "${WORKDIR}/git"
 

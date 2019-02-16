@@ -11,3 +11,5 @@ UBOOT_BINARY ?= "u-boot.itb"
 SPL_BINARY ?= "spl/sunxi-spl.bin"
 
 KERNEL_DEVICETREE ?= "${SUN50I_OVERLAYS} ${SUNXI_KERNEL_DEVICETREE}"
+
+OVERLAY_PREFIX ?= "sun50i-h5"

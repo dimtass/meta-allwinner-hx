@@ -41,6 +41,14 @@ Maybe at some point this will be converted in a `bbclass`.
 > Note: Not all of the above boards are tested, because I don't have them.
 I've only tested `nanopi-k1-plus` and `nanopi-neo2`.
 
+## Updates:
+* `17.2.2019`
+    * Added kernel 4.19.21 for SMP
+    * Added kernel 4.19.15 for PREEMPT-RT
+    * Updated u-boot to 2018.11
+    * Knowing issues:
+        * For PREEMPT-RT kernels the `CONFIG_DEBUG_SUNXI_UART0` is missing, so no debug output during boot
+
 ## How to use the layer
 Create a folder for your project, then create a folder inside and name it
 `sources`. You _have_ to use that name.
@@ -74,12 +82,8 @@ source ./setup-environment.sh build
 ```
 
 Now in your `build/conf/local.conf` file you can choose which kernel you want to build.
-By default the `linux-stable` 4.14 version is build. In case you want to build the RT
-kernel then un-comment these two lines in the file:
-```
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable-rt"
-PREFERRED_VERSION_linux-stable-rt ?= "4.14%"
-```
+By default the `linux-stable` 4.19 version is build. In case you want to build the RT
+kernel then see next section.
 
 This will result in error, but it will also print the supported boards. Therefore,
 for `nanopi-k1-plus`, you can run:
@@ -94,11 +98,41 @@ bitbake allwinner-image
 
 In this case this will create a `.wic.bz2` image inside your `build/tmp/deploy/images/nanopi-k1-plus`.
 
+## Kernels
+By default the linux-stable 4.19 kernel is used but this layer also supports the
+4.14 kernel and also the PREEMPT-RT patches for both kernels. As you can imagine,
+I haven't tested all the kernels with all the boards, so there might be some cases
+that something doesn't work properly.
+
+To enable another kernel you need to edit your `build/conf/local.conf` and select
+the kernel you want. The available options are:
+
+* linux-stable 4.19
+```
+PREFERRED_PROVIDER_virtual/kernel = "linux-stable"
+PREFERRED_VERSION_linux-stable = "4.19%"
+```
+* linux-stable-rt 4.19
+```
+PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
+PREFERRED_VERSION_linux-stable-rt = "4.19%"
+```
+* linux-stable 4.14
+```
+PREFERRED_PROVIDER_virtual/kernel = "linux-stable"
+PREFERRED_VERSION_linux-stable = "4.14%"
+```
+* linux-stable-rt 4.14
+```
+PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
+PREFERRED_VERSION_linux-stable-rt = "4.14%"
+```
+
 ## Overlays
 This layer supports overlays for the allwinners boards. In order to use them you need
 to edit the `recipes-bsp/u-boot/files/allwinnerEnv.txt` file or even better create
 a new layer with your custom cofiguration and override the `allwinnerEnv.txt` file by
-pointing to your custom file in your `recipes-bsp/u-boot/u-boot_2018.05.bbappend`
+pointing to your custom file in your `recipes-bsp/u-boot/u-boot_2018.11.bbappend`
 with this line:
 
 ```sh
@@ -151,6 +185,23 @@ sudo bmaptool copy <.wic.bz2_image_path> /dev/sdX
 ```
 
 Of course you need to change `/dev/sdX` with you actuall SD card dev path.
+
+## Why bmap-tools and wic images?
+Well, wic images are a no-brainer. You can create a 50GB image, but this image
+probably won't be that large really. Most of the times, the real data bytes in
+the image will be from a few hundreds MB, to maybe 1-2 GB. The rest will be
+empty space. Therefore, if you build a binary image then this image will be
+filled with zeros. You will also have to use `dd` to flash the image to the SD
+card. That means that for a few MBs of real data, you'll wait maybe more than
+an hour to be written in the SD. Wic creates a map of the data and creates an
+image with the real binary data and a bmap file that has the map data. Then,
+bmaptool will use this bmap file and create the partitions and only write the
+real binary data. This will take a few seconds or minutes, even for images that
+are a lot of GBs.
+
+For example the default image size for this repo is 13.8GB but the real data
+are ~62MB. Therefore, with a random SD card I have here the flashing takes
+~14 secs and you get a 14GB image.
 
 ## Notes
 You can also build the `core-image-minimal` using this meta layer. But for some

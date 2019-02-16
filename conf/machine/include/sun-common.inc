@@ -6,11 +6,6 @@ XSERVER = "xserver-xorg \
            xf86-input-mouse \
            xf86-input-keyboard"
 
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
-PREFERRED_VERSION_linux-stable ?= "4.14%"
-PREFERRED_PROVIDER_virtual/bootloader ?= "u-boot"
-PREFERRED_VERSION_u-boot ?= "v2018.05%"
-
 IMAGE_CLASSES += "sdcard_image-sunxi"
 IMAGE_FSTYPES += "ext4 tar.gz sunxi-sdimg wic.bz2 wic.bmap"
 
