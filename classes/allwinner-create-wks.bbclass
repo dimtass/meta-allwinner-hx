@@ -34,7 +34,7 @@ EOF
 
 #### Common for all images
     cat >> "$wks" <<EOF
-part boot --source rawcopy --sourceparams="file=${SUNXI_BOOT_IMAGE}" --ondisk ${SUNXI_STORAGE_DEVICE} --fstype=vfat --label boot --align 2048 --active
+part /boot --source rawcopy --sourceparams="file=${SUNXI_BOOT_IMAGE}" --ondisk ${SUNXI_STORAGE_DEVICE} --fstype=vfat --label boot --align 2048 --active
 part / --source rootfs --ondisk ${SUNXI_STORAGE_DEVICE} --fstype=ext4 --label root --align 1024 --extra-space ${ROOT_EXTRA_SPACE}
 EOF
 
