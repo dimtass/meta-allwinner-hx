@@ -41,6 +41,14 @@ Maybe at some point this will be converted in a `bbclass`.
 > Note: Not all of the above boards are tested, because I don't have them.
 I've only tested `nanopi-k1-plus` and `nanopi-neo2`.
 
+## Updates:
+* `17.2.2019`
+    * Added kernel 4.19.21 for SMP
+    * Added kernel 4.19.15 for PREEMPT-RT
+    * Updated u-boot to 2018.11
+    * Knowing issues:
+        * For PREEMPT-RT kernels the `CONFIG_DEBUG_SUNXI_UART0` is missing, so no debug output during boot
+
 ## How to use the layer
 Create a folder for your project, then create a folder inside and name it
 `sources`. You _have_ to use that name.
@@ -74,12 +82,8 @@ source ./setup-environment.sh build
 ```
 
 Now in your `build/conf/local.conf` file you can choose which kernel you want to build.
-By default the `linux-stable` 4.14 version is build. In case you want to build the RT
-kernel then un-comment these two lines in the file:
-```
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable-rt"
-PREFERRED_VERSION_linux-stable-rt ?= "4.14%"
-```
+By default the `linux-stable` 4.19 version is build. In case you want to build the RT
+kernel then see next section.
 
 This will result in error, but it will also print the supported boards. Therefore,
 for `nanopi-k1-plus`, you can run:
@@ -93,6 +97,36 @@ bitbake allwinner-image
 ```
 
 In this case this will create a `.wic.bz2` image inside your `build/tmp/deploy/images/nanopi-k1-plus`.
+
+## Kernels
+By default the linux-stable 4.19 kernel is used but this layer also supports the
+4.14 kernel and also the PREEMPT-RT patches for both kernels. As you can imagine,
+I haven't tested all the kernels with all the boards, so there might be some cases
+that something doesn't work properly.
+
+To enable another kernel you need to edit your `build/conf/local.conf` and select
+the kernel you want. The available options are:
+
+* linux-stable 4.19
+```
+PREFERRED_PROVIDER_virtual/kernel = "linux-stable"
+PREFERRED_VERSION_linux-stable = "4.19%"
+```
+* linux-stable-rt 4.19
+```
+PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
+PREFERRED_VERSION_linux-stable-rt = "4.19%"
+```
+* linux-stable 4.14
+```
+PREFERRED_PROVIDER_virtual/kernel = "linux-stable"
+PREFERRED_VERSION_linux-stable = "4.14%"
+```
+* linux-stable-rt 4.14
+```
+PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
+PREFERRED_VERSION_linux-stable-rt = "4.14%"
+```
 
 ## Overlays
 This layer supports overlays for the allwinners boards. In order to use them you need
