@@ -25,8 +25,9 @@ SRCREV = "79bf89b88a87f2ebf147f76d8c40183283b49b51"
 SRC_URI = " \
         git://github.com/megous/linux.git;branch=orange-pi-${LINUX_VERSION} \
         file://do_patch.sh \
-        file://patches \
-        file://patch-4.19.13-rt10 \
+        file://patches-4.19-rt \
+        file://patch-4.19.15-rt12 \
+        file://enable_uart0_on_linux_boot.cfg \
         file://${SOC_FAMILY}-rt-defconfig/defconfig \
 "
 
@@ -34,8 +35,8 @@ do_patch_append() {
     bbinfo "Will use ${SOC_FAMILY}-rt-defconfig for the kernel"
     cp ${WORKDIR}/${SOC_FAMILY}-rt-defconfig/defconfig ${WORKDIR}/defconfig
     cd ${WORKDIR}/git
-    ${WORKDIR}/do_patch.sh ${WORKDIR}/patch-4.19.13-rt10
-    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-4.19-rt
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/patch-4.19.15-rt12
 }
 
 python() {

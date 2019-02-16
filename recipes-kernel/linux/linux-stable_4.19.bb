@@ -25,14 +25,15 @@ SRCREV = "79bf89b88a87f2ebf147f76d8c40183283b49b51"
 SRC_URI = " \
         git://github.com/megous/linux.git;branch=orange-pi-${LINUX_VERSION} \
         file://do_patch.sh \
-        file://patches \
+        file://patches-4.19 \
+        file://enable_uart0_on_linux_boot.cfg \
         file://${SOC_FAMILY}-defconfig/defconfig \
 "
 
 do_patch_append() {
     cp ${WORKDIR}/${SOC_FAMILY}-defconfig/defconfig ${WORKDIR}/defconfig
     cd ${WORKDIR}/git
-    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-4.19
 }
 
 python() {
