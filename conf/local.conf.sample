@@ -31,8 +31,8 @@ PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
 PREFERRED_VERSION_linux-stable ?= "4.19%"
 
 # In case you need the rt-kernel uncomment the two lines below
-#PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable-rt"
-#PREFERRED_VERSION_linux-stable-rt ?= "4.19%"
+#PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
+#PREFERRED_VERSION_linux-stable-rt = "4.19%"
 
 #SSID = "YOUR_SSID"
 #PSK = YOUR_SSID_PASSWORD"
