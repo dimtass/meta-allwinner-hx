@@ -3,6 +3,10 @@ meta-allwinner-hx
 
 This meta layer is mainly a mix of `meta-sunxi` and `armbian`.
 
+> Note: The master version always points to the latest Yocto version.
+If you want to use a specific version then `git checkout` to that
+specific version.
+
 This meta layer supports only boards with the allwinner H2, H3 and H5 cpus.
 The boards that are supported are the same ones that supported in
 [armbian](https://www.armbian.com/download/). The current supported list is
@@ -42,6 +46,11 @@ Maybe at some point this will be converted in a `bbclass`.
 I've only tested `nanopi-k1-plus` and `nanopi-neo2`.
 
 ## Updates:
+* `21.5.2019`
+    * Added support for `warrior` version (2.7)
+    * Created branches for `sumo` and `thud`
+    * Now master branch will always point to the latest supported version
+
 * `17.2.2019`
     * Added kernel 4.19.21 for SMP
     * Added kernel 4.19.15 for PREEMPT-RT
