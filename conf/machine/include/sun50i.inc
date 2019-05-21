@@ -1,4 +1,4 @@
-require conf/machine/include/arm/arch-armv8.inc
+require conf/machine/include/arm/arch-armv8a.inc
 require conf/machine/include/soc-family.inc
 require allwinner-overlays.inc
 require sun-common.inc
