@@ -8,13 +8,13 @@ LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
 SRC_URI += "file://patches-2018.11 \
 "
 
-
 SRCREV = "0157013f4a4945bbdb70bb4d98d680e0845fd784"
 PV = "v2018.11+git${SRCPV}"
 
-do_configure_prepend() {
+do_configure() {
     cd ${S}
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-2018.11
+    oe_runmake -C ${S} O=${B} ${UBOOT_MACHINE}
 }
 
 do_compile_append() {

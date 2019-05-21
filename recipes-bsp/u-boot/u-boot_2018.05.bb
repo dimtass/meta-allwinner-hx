@@ -5,6 +5,8 @@ require u-boot-allwinner.inc
 
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=a2c678cfd4a4d97135585cad908541c6"
 
+DEPENDS += "bison-native"
+
 SRC_URI += "file://patches-2018.05 \
             file://fw_env.config \
 "
@@ -15,9 +17,10 @@ PV = "v2018.05+git${SRCPV}"
 INSANE_SKIP_${PN} = "already-stripped"
 EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" V=1'
 
-do_configure_prepend() {
+do_configure() {
     cd ${S}
-    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-2018.05
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-2018.11
+    oe_runmake -C ${S} O=${B} ${UBOOT_MACHINE}
 }
 
 do_compile_append() {

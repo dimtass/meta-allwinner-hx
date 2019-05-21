@@ -2,7 +2,7 @@ DESCRIPTION="Upstream's U-boot configured for allwinner devices"
 AUTHOR = "Dimitris Tassopoulos <dimtass@gmail.com>"
 
 require recipes-bsp/u-boot/u-boot.inc
-DEPENDS += " bc-native dtc-native swig-native python3-native "
+DEPENDS += "bc-native dtc-native swig-native python3-native bison-native flex-native"
 DEPENDS_append_sun50i = " atf-arm "
 
 LICENSE = "GPLv2+"
