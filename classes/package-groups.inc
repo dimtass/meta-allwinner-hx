@@ -74,7 +74,6 @@ BMAPTOOL = " \
 WIFI_SUPPORT = " \
     crda \
     iw \
-    wireless-tools \
     wpa-supplicant \
     dnsmasq \
     hostapd \
