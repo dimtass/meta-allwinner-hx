@@ -11,7 +11,7 @@ fi
 if [ -z "${MACHINE}" ]; then
     cat <<EOF
 You need to set which MACHINE image to flash to the SD. eg.:
-$ sudo MACHINE=nanopi-k1-plus ./flash_sd.sh
+$ sudo MACHINE=nanopi-k1-plus ./flash_sd.sh /dev/sdX
 EOF
     exit 1
 fi
