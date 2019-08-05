@@ -69,15 +69,21 @@ IMAGE_CMD_sunxi-sdimg () {
 			fi
 			if [ -e ${DEPLOY_DIR_IMAGE}/"${DTS_BASE_NAME}.dtb" ]; then
 
+				bbwarn "DTS_BASE_NAME: ${DTS_BASE_NAME}"
+				bbwarn "DTS_FILE: ${DTS_FILE}"
+				bbwarn "DTS_DIR_NAME: ${DTS_DIR_NAME}"
 				if [ ${DTS_FILE} != ${DTS_BASE_NAME}.dtb ]; then
 					mmd -i ${WORKDIR}/boot.img ::/${DTS_DIR_NAME}
 				fi
+				mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtb ::/${DTS_FILE}
 
-				kernel_bin="`readlink ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${MACHINE}.bin`"
-				kernel_bin_for_dtb="`readlink ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtb | sed "s,$DTS_BASE_NAME,${MACHINE},g;s,\.dtb$,.bin,g"`"
-				if [ $kernel_bin = $kernel_bin_for_dtb ]; then
-					mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtb ::/${DTS_FILE}
-				fi
+				# kernel_bin="`readlink ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${MACHINE}.bin`"
+				# kernel_bin_for_dtb="`readlink ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtb | sed "s,$DTS_BASE_NAME,${MACHINE},g;s,\.dtb$,.bin,g"`"
+				# bbwarn "kernel_bin: ${kernel_bin}"
+				# bbwarn "kernel_bin_for_dtb: ${kernel_bin_for_dtb}"
+				# if [ $kernel_bin = $kernel_bin_for_dtb ]; then
+				# 	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtb ::/${DTS_FILE}
+				# fi
 			fi
 		done
 	fi
