@@ -25,7 +25,7 @@ SDKMACHINE = "x86_64"
 
 WKS_FILE ?= "${IMGDEPLOYDIR}/${IMAGE_BASENAME}.wks"
 
-PREFERRED_VERSION_u-boot ?= "v2018.11%"
+PREFERRED_VERSION_u-boot ?= "v2019.04%"
 
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
 PREFERRED_VERSION_linux-stable ?= "4.19%"
