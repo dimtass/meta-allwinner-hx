@@ -56,7 +56,7 @@ IMAGE_CMD_sunxi-sdimg () {
 	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${MACHINE}.bin ::${KERNEL_IMAGETYPE}
 	# Create folder for overlays
 	mmd -i ${WORKDIR}/boot.img ::/overlay
-
+	
 	# Copy device tree file
 	if test -n "${KERNEL_DEVICETREE}"; then
 		for DTS_FILE in ${KERNEL_DEVICETREE}; do
@@ -116,6 +116,6 @@ IMAGE_CMD_sunxi-sdimg () {
 		dd if=${SDIMG_ROOTFS} of=${SDIMG} conv=notrunc seek=1 bs=$(expr 1024 \* ${BOOT_SPACE_ALIGNED} + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && sync && sync
 	fi
 
-    mkdir -p ${DEPLOYDIR}
+	mkdir -p ${DEPLOYDIR}
 	cp ${WORKDIR}/boot.img ${DEPLOYDIR}/boot.img
 }
