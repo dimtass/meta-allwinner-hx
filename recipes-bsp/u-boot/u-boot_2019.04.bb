@@ -28,14 +28,32 @@ do_compile_append() {
 
     cp ${WORKDIR}/${SOC_FAMILY}-boot/fixup.cmd ${WORKDIR}/fixup.cmd
     ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/fixup.cmd ${WORKDIR}/${UBOOT_FIXUP_BINARY}
+
+    # Add the soc specific parameters in the environment
+    echo "overlay_prefix=${OVERLAY_PREFIX}" >> ${WORKDIR}/allwinnerEnv.txt
+    echo "overlays=${DEFAULT_OVERLAYS}" >> ${WORKDIR}/allwinnerEnv.txt
+}
+
+do_install_append() {
+    # Install files to rootfs/boot/
+    install -m 644 ${WORKDIR}/${UBOOT_FIXUP_BINARY} ${D}/boot/${UBOOT_FIXUP_BINARY}
+    install -m 644 ${WORKDIR}/allwinnerEnv.txt ${D}/boot/allwinnerEnv.txt
+
+    # Fix broken device tree reference build into u-boot
+    for dtb in ${KERNEL_DEVICETREE}; do
+        dtb_base_name=`basename $dtb`
+        dtb_dir_name=`dirname $dtb`
+        install -d ${D}/boot/$dtb_dir_name
+        ln -rsf ${D}/boot/$dtb_base_name ${D}/boot/$dtb
+    done
+
+    # Cleanup u-boot rootfs files
+    rm -rf ${D}/boot/${SPL_BINARYNAME} ${D}/boot/${SPL_IMAGE} ${D}/boot/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
 }
 
 do_deploy_append() {
     # Copy also the fixup script to the deploy dir
     install -m 644 ${WORKDIR}/${UBOOT_FIXUP_BINARY} ${DEPLOYDIR}/${UBOOT_FIXUP_BINARY}
 
-    # Add the soc specific parameters in the environment
-    echo "overlay_prefix=${OVERLAY_PREFIX}" >> ${WORKDIR}/allwinnerEnv.txt
-    echo "overlays=${DEFAULT_OVERLAYS}" >> ${WORKDIR}/allwinnerEnv.txt
     install -m 644 ${WORKDIR}/allwinnerEnv.txt ${DEPLOYDIR}/allwinnerEnv.txt
 }
