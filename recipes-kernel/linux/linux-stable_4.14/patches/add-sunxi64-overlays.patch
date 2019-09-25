@@ -4,7 +4,7 @@ index 108f12ce6..c01e6d7e7 100644
 +++ b/arch/arm64/boot/dts/allwinner/Makefile
 @@ -8,5 +8,7 @@ dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-orangepi-zero-plus2.dtb
  dtb-$(CONFIG_ARCH_SUNXI) += sun50i-h5-nanopi-neo2.dtb
- 
+
  always		:= $(dtb-y)
 -subdir-y	:= $(dts-dirs)
 +subdir-y	:= $(dts-dirs) overlay
@@ -31,6 +31,7 @@ index 000000000..379d8527f
 +	sun50i-a64-w1-gpio.dtbo \
 +	sun50i-h5-analog-codec.dtbo \
 +	sun50i-h5-cir.dtbo \
++	sun50i-h5-ds1307.dtbo \
 +	sun50i-h5-i2c0.dtbo \
 +	sun50i-h5-i2c1.dtbo \
 +	sun50i-h5-i2c2.dtbo \
@@ -1086,6 +1087,36 @@ index 000000000..74569cbfd
 +			status = "okay";
 +		};
 +	};
++};
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-ds1307.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-ds1307.dts
+new file mode 100644
+index 0000000..f4d806b
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-ds1307.dts
+@@ -0,0 +1,24 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++       compatible = "allwinner,sun50i-h5";
++
++       fragment@0 {
++               target-path = "/aliases";
++               __overlay__ {
++                       i2c0 = "/soc/i2c@01c2ac00";
++               };
++       };
++
++       fragment@1 {
++               target = <&i2c0>;
++               __overlay__ {
++                       ds1307@68 {
++                               compatible = "dallas,ds1307";
++                               reg = <0x68>;
++                               status = "okay";
++                       };
++               };
++       };
 +};
 diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-fixup.scr-cmd b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-fixup.scr-cmd
 new file mode 100644
