@@ -1,4 +1,4 @@
-inherit image_types
+inherit image_types deploy
 
 #
 # Create an image that can by written onto a SD card using dd.
@@ -116,5 +116,6 @@ IMAGE_CMD_sunxi-sdimg () {
 		dd if=${SDIMG_ROOTFS} of=${SDIMG} conv=notrunc seek=1 bs=$(expr 1024 \* ${BOOT_SPACE_ALIGNED} + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && sync && sync
 	fi
 
-	cp ${WORKDIR}/boot.img ${DEPLOY_DIR_IMAGE}/boot.img
+	mkdir -p ${DEPLOYDIR}
+	cp ${WORKDIR}/boot.img ${DEPLOYDIR}/boot.img
 }

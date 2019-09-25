@@ -1,3 +1,5 @@
+inherit deploy
+
 DESCRIPTION = "ARM Trusted Firmware"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://license.rst;md5=c709b197e22b81ede21109dbffd5f363"
@@ -22,6 +24,8 @@ do_compile() {
       all
 }
 
-do_install() {
-    install -D -p -m 0644 ${B}/${PLATFORM}/release/bl31.bin ${DEPLOY_DIR_IMAGE}/bl31.bin
+do_deploy() {
+    install -D -p -m 0644 ${B}/${PLATFORM}/release/bl31.bin ${DEPLOYDIR}/bl31.bin
 }
+
+addtask deploy after do_compile
