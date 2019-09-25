@@ -4,7 +4,7 @@ index 4b17f35dc..ff6b68e26 100644
 +++ b/arch/arm/boot/dts/Makefile
 @@ -1062,4 +1062,7 @@ dtstree		:= $(srctree)/$(src)
  dtb-$(CONFIG_OF_ALL_DTBS) := $(patsubst $(dtstree)/%.dts,%.dtb, $(wildcard $(dtstree)/*.dts))
- 
+
  always		:= $(dtb-y)
 +subdir-y	:= overlay
  clean-files	:= *.dtb
@@ -21,6 +21,7 @@ index 000000000..f83b4bbe3
 +dtbo-$(CONFIG_MACH_SUN4I) += \
 +	sun4i-a10-analog-codec.dtbo \
 +	sun4i-a10-can.dtbo \
++   sun4i-a10-ds1307.dtbo \
 +	sun4i-a10-i2c1.dtbo \
 +	sun4i-a10-i2c2.dtbo \
 +	sun4i-a10-nand.dtbo \
@@ -43,6 +44,7 @@ index 000000000..f83b4bbe3
 +dtbo-$(CONFIG_MACH_SUN7I) += \
 +	sun7i-a20-analog-codec.dtbo \
 +	sun7i-a20-can.dtbo \
++   sun7i-a20-ds1307.dtbo \
 +	sun7i-a20-i2c1.dtbo \
 +	sun7i-a20-i2c2.dtbo \
 +	sun7i-a20-i2c3.dtbo \
@@ -71,6 +73,7 @@ index 000000000..f83b4bbe3
 +dtbo-$(CONFIG_MACH_SUN8I) += \
 +	sun8i-h3-analog-codec.dtbo \
 +	sun8i-h3-cir.dtbo \
++   sun8i-h3-ds1307.dtbo \
 +	sun8i-h3-i2c0.dtbo \
 +	sun8i-h3-i2c1.dtbo \
 +	sun8i-h3-i2c2.dtbo \
@@ -1037,6 +1040,36 @@ index 000000000..4be3a38b9
 +		};
 +	};
 +};
+diff --git a/arch/arm/boot/dts/overlay/sun4i-a10-ds1307.dts b/arch/arm/boot/dts/overlay/sun4i-a10-ds1307.dts
+new file mode 100644
+index 0000000..f4d806b
+--- /dev/null
++++ b/arch/arm/boot/dts/overlay/sun4i-a10-ds1307.dts
+@@ -0,0 +1,24 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++       compatible = "allwinner,sun4i-a10";
++
++       fragment@0 {
++               target-path = "/aliases";
++               __overlay__ {
++                       i2c1 = "/soc@1c00000/i2c@1c2b000";
++               };
++       };
++
++       fragment@1 {
++               target = <&i2c1>;
++               __overlay__ {
++                       ds1307@68 {
++                               compatible = "dallas,ds1307";
++                               reg = <0x68>;
++                               status = "okay";
++                       };
++               };
++       };
++};
 diff --git a/arch/arm/boot/dts/overlay/sun4i-a10-fixup.scr-cmd b/arch/arm/boot/dts/overlay/sun4i-a10-fixup.scr-cmd
 new file mode 100644
 index 000000000..8dd3eeb85
@@ -1971,6 +2004,36 @@ index 000000000..65aebcd41
 +			status = "okay";
 +		};
 +	};
++};
+diff --git a/arch/arm/boot/dts/overlay/sun7i-a20-ds1307.dts b/arch/arm/boot/dts/overlay/sun7i-a20-ds1307.dts
+new file mode 100644
+index 0000000..f4d806b
+--- /dev/null
++++ b/arch/arm/boot/dts/overlay/sun7i-a20-ds1307.dts
+@@ -0,0 +1,24 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++       compatible = "allwinner,sun7i-a20";
++
++       fragment@0 {
++               target-path = "/aliases";
++               __overlay__ {
++                       i2c1 = "/soc@1c00000/i2c@1c2b000";
++               };
++       };
++
++       fragment@1 {
++               target = <&i2c1>;
++               __overlay__ {
++                       ds1307@68 {
++                               compatible = "dallas,ds1307";
++                               reg = <0x68>;
++                               status = "okay";
++                       };
++               };
++       };
 +};
 diff --git a/arch/arm/boot/dts/overlay/sun7i-a20-fixup.scr-cmd b/arch/arm/boot/dts/overlay/sun7i-a20-fixup.scr-cmd
 new file mode 100644
@@ -3048,6 +3111,36 @@ index 000000000..9b62fd2b8
 +			status = "okay";
 +		};
 +	};
++};
+diff --git a/arch/arm/boot/dts/overlay/sun8i-h3-ds1307.dts b/arch/arm/boot/dts/overlay/sun8i-h3-ds1307.dts
+new file mode 100644
+index 0000000..f4d806b
+--- /dev/null
++++ b/arch/arm/boot/dts/overlay/sun8i-h3-ds1307.dts
+@@ -0,0 +1,24 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++       compatible = "allwinner,sun8i-h3";
++
++       fragment@0 {
++               target-path = "/aliases";
++               __overlay__ {
++                       i2c0 = "/soc/i2c@01c2ac00";
++               };
++       };
++
++       fragment@1 {
++               target = <&i2c0>;
++               __overlay__ {
++                       ds1307@68 {
++                               compatible = "dallas,ds1307";
++                               reg = <0x68>;
++                               status = "okay";
++                       };
++               };
++       };
 +};
 diff --git a/arch/arm/boot/dts/overlay/sun8i-h3-fixup.scr-cmd b/arch/arm/boot/dts/overlay/sun8i-h3-fixup.scr-cmd
 new file mode 100644
