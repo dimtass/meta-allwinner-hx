@@ -65,9 +65,6 @@ do_deploy_append() {
     install -m 644 ${WORKDIR}/${UBOOT_FIXUP_BINARY} ${DEPLOYDIR}/${UBOOT_FIXUP_BINARY}
 
     install -m 644 ${WORKDIR}/allwinnerEnv.txt ${DEPLOYDIR}/allwinnerEnv.txt
-
-    # Cleanup u-boot rootfs files
-    rm -rf ${D}/boot/${SPL_IMAGE} ${D}/boot/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
 }
 
 FILES_${PN} += " \
