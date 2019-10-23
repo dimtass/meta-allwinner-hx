@@ -30,6 +30,11 @@ fi
 
 echo "Boot script loaded from ${devtype}"
 
+if test -e ${devtype} ${devnum}:1 /sbin/init; then
+  echo "Combined boot and rootfs partition detected"
+  setenv rootdev "/dev/mmcblk${mmc_bootdev}p1"
+fi
+
 if test -e ${devtype} ${devnum} ${prefix}allwinnerEnv.txt; then
 	load ${devtype} ${devnum} ${load_addr} ${prefix}allwinnerEnv.txt
 	env import -t ${load_addr} ${filesize}
