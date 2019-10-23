@@ -30,7 +30,7 @@ fi
 
 echo "Boot script loaded from ${devtype}"
 
-if test -e ${devtype} ${devnum} /sbin/init; then
+if test -e ${devtype} ${devnum}:1 /sbin/init; then
   echo "Combined boot and rootfs partition detected"
   setenv rootdev "/dev/mmcblk${mmc_bootdev}p1"
 fi
