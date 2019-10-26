@@ -4,7 +4,12 @@ DESCRIPTION = "ARM Trusted Firmware"
 LICENSE = "BSD"
 LIC_FILES_CHKSUM = "file://license.rst;md5=c709b197e22b81ede21109dbffd5f363"
 
-SRC_URI = "git://github.com/ARM-software/arm-trusted-firmware.git;nobranch=1"
+FILESEXTRAPATHS_append := "${THISDIR}/${PN}:"
+
+SRC_URI = " \
+        git://github.com/ARM-software/arm-trusted-firmware.git;nobranch=1 \
+        file://0001-Fix-reset-issue-on-H6-by-using-R_WDOG.patch \
+        "
 SRCREV = "eaea119ea12d20837d3ada880621ac0a895f98eb"
 
 S = "${WORKDIR}/git"
