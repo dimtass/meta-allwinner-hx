@@ -9,6 +9,7 @@ SPL_NAME_sun8i ?= "u-boot-sunxi-with-spl.bin"
 SPL_NAME_sun50i ?= "sunxi-spl.bin"
 UBOOT_IMAGE_sun50i ?= "u-boot.itb"
 
+# name of boot partition image, empty value combines the boot and rootfs partitions
 SUNXI_BOOT_IMAGE ?= "boot.img"
 
 # device will be used in u-boot and /etc/fstab

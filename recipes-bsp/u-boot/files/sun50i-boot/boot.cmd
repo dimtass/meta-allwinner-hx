@@ -5,11 +5,12 @@
 
 # default values
 setenv load_addr "0x44000000"
-setenv rootdev "/dev/mmcblk0p2"
 setenv verbosity "1"
 setenv rootfstype "ext4"
 setenv console "both"
 setenv docker_optimizations "on"
+setenv devnum "0"
+setenv rootdev "/dev/mmcblk${devnum}p2"
 
 # Print boot source
 itest.b *0x10028 == 0x00 && echo "U-boot loaded from SD"
@@ -25,6 +26,11 @@ if test "${devtype}" = "mmc"; then
 fi
 
 echo "Boot script loaded from ${devtype}"
+
+if test -e ${devtype} ${devnum}:1 /sbin/init; then
+  echo "Combined boot and rootfs partition detected"
+  setenv rootdev "/dev/mmcblk${mmc_bootdev}p1"
+fi
 
 if test -e ${devtype} ${devnum} ${prefix}allwinnerEnv.txt; then
 	echo "Loading ${prefix}allwinnerEnv.txt..."
@@ -49,7 +55,7 @@ fdt addr ${fdt_addr_r}
 fdt resize 65536
 # Load environment file
 for overlay_file in ${overlays}; do
-	if load ${devtype} ${devnum} ${load_addr} overlay/${overlay_prefix}-${overlay_file}.dtbo; then
+	if load ${devtype} ${devnum} ${load_addr} ${prefix}overlay/${overlay_prefix}-${overlay_file}.dtbo; then
 		echo "Applying kernel provided DT overlay ${overlay_prefix}-${overlay_file}.dtbo"
 		fdt apply ${load_addr} || setenv overlay_error "true"
 	fi
@@ -57,10 +63,10 @@ done
 
 if test "${overlay_error}" = "true"; then
 	echo "Error applying DT overlays, restoring original DT"
-	load ${devtype} ${devnum} ${fdt_addr_r} ${fdtfile}
+	load ${devtype} ${devnum} ${fdt_addr_r} ${prefix}${fdtfile}
 else
-	if test -e ${devtype} ${devnum} fixup.scr; then
-		load ${devtype} ${devnum} ${load_addr} fixup.scr
+	if test -e ${devtype} ${devnum} ${prefix}fixup.scr; then
+		load ${devtype} ${devnum} ${load_addr} ${prefix}fixup.scr
 		echo "Applying user provided fixup script (fixup.scr)"
 		source ${load_addr}
 	fi

@@ -32,12 +32,17 @@ part u-boot --source rawcopy --sourceparams="file=${UBOOT_IMAGE}" --ondisk ${SUN
 EOF
     fi
 
-#### Common for all images
+#### Add boot partition and separate rootfs partition if SUNXI_BOOT_IMAGE is set in allwinner-wks-defs.inc
+if [ ! -z "${SUNXI_BOOT_IMAGE}" ]; then
     cat >> "$wks" <<EOF
 part /boot --source rawcopy --sourceparams="file=${SUNXI_BOOT_IMAGE}" --ondisk ${SUNXI_STORAGE_DEVICE} --fstype=vfat --label boot --align 2048 --active
 part / --source rootfs --ondisk ${SUNXI_STORAGE_DEVICE} --fstype=ext4 --label root --align 1024 --extra-space ${ROOT_EXTRA_SPACE}
 EOF
-
+else
+    cat >> "$wks" <<EOF
+part / --source rootfs --ondisk ${SUNXI_STORAGE_DEVICE} --fstype=ext4 --label root --align 1024 --extra-space ${ROOT_EXTRA_SPACE} --active
+EOF
+fi
 #### Add swap file if SUNXI_SWAP_SIZE is set in allwinner-wks-defs.inc
     if [ ! -z "${SUNXI_SWAP_SIZE}" ]; then
     cat >> "$wks" <<EOF
