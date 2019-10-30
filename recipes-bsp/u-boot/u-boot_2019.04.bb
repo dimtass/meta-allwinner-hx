@@ -20,7 +20,7 @@ do_configure() {
 do_compile_append() {
 
     if [ ! -f "${DEPLOY_DIR_IMAGE}/bl31.bin" ]; then
-        bbwarn "Could not find ${DEPLOY_DIR_IMAGE}/bl31.bin. You need to build the atf-arm package first"
+        bberror "Could not find ${DEPLOY_DIR_IMAGE}/bl31.bin. You need to build the atf-arm package first"
     fi
 
     cp ${WORKDIR}/${SOC_FAMILY}-boot/boot.cmd ${WORKDIR}/boot.cmd
