@@ -7,8 +7,8 @@ require recipes-kernel/linux/linux-yocto.inc
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 
-# Pull in the devicetree files into the rootfs
-RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
+# Pull in the devicetree files and u-boot config files into the rootfs
+RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree u-boot"
 
 KERNEL_EXTRA_ARGS += "LOADADDR=${UBOOT_ENTRYPOINT}"
 

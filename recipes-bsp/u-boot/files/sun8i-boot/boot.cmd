@@ -30,6 +30,11 @@ fi
 
 echo "Boot script loaded from ${devtype}"
 
+if test -e ${devtype} ${devnum}:1 /sbin/init; then
+  echo "Combined boot and rootfs partition detected"
+  setenv rootdev "/dev/mmcblk${mmc_bootdev}p1"
+fi
+
 if test -e ${devtype} ${devnum} ${prefix}allwinnerEnv.txt; then
 	load ${devtype} ${devnum} ${load_addr} ${prefix}allwinnerEnv.txt
 	env import -t ${load_addr} ${filesize}
@@ -46,15 +51,15 @@ if test "${disp_mem_reserves}" = "off"; then setenv bootargs "${bootargs} sunxi_
 if test "${docker_optimizations}" = "on"; then setenv bootargs "${bootargs} cgroup_enable=memory swapaccount=1"; fi
 
 # Load kernel
-load ${devtype} ${devnum} ${kernel_addr_r} zImage || load ${devtype} ${devnum} ${kernel_addr_r} uImage
+load ${devtype} ${devnum} ${kernel_addr_r} ${prefix}zImage || load ${devtype} ${devnum} ${kernel_addr_r} ${prefix}uImage
 # Load device tree
-load ${devtype} ${devnum} ${fdt_addr_r} ${fdtfile}
+load ${devtype} ${devnum} ${fdt_addr_r} ${prefix}${fdtfile}
 fdt addr ${fdt_addr_r}
 fdt resize 65536
 
 # Load overlays
 for overlay_file in ${overlays}; do
-	if load ${devtype} ${devnum} ${load_addr} overlay/${overlay_prefix}-${overlay_file}.dtbo; then
+	if load ${devtype} ${devnum} ${load_addr} ${prefix}overlay/${overlay_prefix}-${overlay_file}.dtbo; then
 		echo "Applying kernel provided DT overlay ${overlay_prefix}-${overlay_file}.dtbo"
 		fdt apply ${load_addr} || setenv overlay_error "true"
 	fi
@@ -62,10 +67,10 @@ done
 
 if test "${overlay_error}" = "true"; then
 	echo "Error applying DT overlays, restoring original DT"
-	load ${devtype} ${devnum} ${fdt_addr_r} ${fdtfile}
+	load ${devtype} ${devnum} ${fdt_addr_r} ${prefix}${fdtfile}
 else
-	if test -e ${devtype} ${devnum} fixup.scr; then
-		load ${devtype} ${devnum} ${load_addr} fixup.scr
+	if test -e ${devtype} ${devnum} ${prefix}fixup.scr; then
+		load ${devtype} ${devnum} ${load_addr} ${prefix}fixup.scr
 		echo "Applying user provided fixup script (fixup.scr)"
 		source ${load_addr}
 	fi
