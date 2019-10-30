@@ -25,15 +25,15 @@ SRCREV = "c3038e718a19fc596f7b1baba0f83d5146dc7784"
 SRC_URI = " \
         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=linux-${LINUX_VERSION}.y \
         file://do_patch.sh \
-        file://patches-4.19 \
-        file://enable_uart0_on_linux_boot.cfg \
+        file://patches-${LINUX_VERSION} \
         file://${SOC_FAMILY}-defconfig/defconfig \
 "
 
+# Apply the armbian patches and defconfig
 do_patch_append() {
     cp ${WORKDIR}/${SOC_FAMILY}-defconfig/defconfig ${WORKDIR}/defconfig
     cd ${WORKDIR}/git
-    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-4.19
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-${LINUX_VERSION}
 }
 
 python() {
