@@ -1,4 +1,4 @@
-inherit image_types deploy
+inherit image_types
 
 #
 # Create an image that can by written onto a SD card using dd.
@@ -69,21 +69,13 @@ IMAGE_CMD_sunxi-sdimg () {
 			fi
 			if [ -e ${DEPLOY_DIR_IMAGE}/"${DTS_BASE_NAME}.dtb" ]; then
 
-				bbwarn "DTS_BASE_NAME: ${DTS_BASE_NAME}"
-				bbwarn "DTS_FILE: ${DTS_FILE}"
-				bbwarn "DTS_DIR_NAME: ${DTS_DIR_NAME}"
+				bbnote "DTS_BASE_NAME: ${DTS_BASE_NAME}"
+				bbnote "DTS_FILE: ${DTS_FILE}"
+				bbnote "DTS_DIR_NAME: ${DTS_DIR_NAME}"
 				if [ ${DTS_FILE} != ${DTS_BASE_NAME}.dtb ]; then
 					mmd -i ${WORKDIR}/boot.img ::/${DTS_DIR_NAME}
 				fi
 				mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtb ::/${DTS_FILE}
-
-				# kernel_bin="`readlink ${DEPLOY_DIR_IMAGE}/${KERNEL_IMAGETYPE}-${MACHINE}.bin`"
-				# kernel_bin_for_dtb="`readlink ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtb | sed "s,$DTS_BASE_NAME,${MACHINE},g;s,\.dtb$,.bin,g"`"
-				# bbwarn "kernel_bin: ${kernel_bin}"
-				# bbwarn "kernel_bin_for_dtb: ${kernel_bin_for_dtb}"
-				# if [ $kernel_bin = $kernel_bin_for_dtb ]; then
-				# 	mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtb ::/${DTS_FILE}
-				# fi
 			fi
 		done
 	fi
@@ -101,7 +93,6 @@ IMAGE_CMD_sunxi-sdimg () {
 		mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/allwinnerEnv.txt ::allwinnerEnv.txt
 	fi
 
-
 	# Add stamp file
 	echo "${IMAGE_NAME}" > ${WORKDIR}/image-version-info
 	mcopy -i ${WORKDIR}/boot.img -v ${WORKDIR}/image-version-info ::
@@ -116,6 +107,5 @@ IMAGE_CMD_sunxi-sdimg () {
 		dd if=${SDIMG_ROOTFS} of=${SDIMG} conv=notrunc seek=1 bs=$(expr 1024 \* ${BOOT_SPACE_ALIGNED} + ${IMAGE_ROOTFS_ALIGNMENT} \* 1024) && sync && sync
 	fi
 
-	mkdir -p ${DEPLOYDIR}
-	cp ${WORKDIR}/boot.img ${DEPLOYDIR}/boot.img
+	cp ${WORKDIR}/boot.img ${DEPLOY_DIR_IMAGE}/boot.img
 }

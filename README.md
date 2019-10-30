@@ -13,6 +13,7 @@ The boards that are supported are the same ones that supported in
 the following ones:
 
 - nanopi-duo
+- nanopi-duo2
 - nanopi-k1-plus
 - nanopi-m1
 - nanopi-m1-plus
@@ -40,23 +41,9 @@ and the kernel, but it's in two places now:
 * `u-boot`: recipes-bsp/u-boot/files/do_patch.sh
 * `kernel`: recipes-kernel/linux/linux-stable/do_patch.sh
 
-Maybe at some point this will be converted in a `bbclass`.
-
 > Note: Not all of the above boards are tested, because I don't have them.
-I've only tested `nanopi-k1-plus` and `nanopi-neo2`.
-
-## Updates:
-* `21.5.2019`
-    * Added support for `warrior` version (2.7)
-    * Created branches for `sumo` and `thud`
-    * Now master branch will always point to the latest supported version
-
-* `17.2.2019`
-    * Added kernel 4.19.21 for SMP
-    * Added kernel 4.19.15 for PREEMPT-RT
-    * Updated u-boot to 2018.11
-    * Knowing issues:
-        * For PREEMPT-RT kernels the `CONFIG_DEBUG_SUNXI_UART0` is missing, so no debug output during boot
+I'm only testing with `nanopi-k1-plus` and occasionally `nanopi-neo`, 
+`nanopi-neo2` and `nanopi-duo`.
 
 ## How to use the layer
 Create a folder for your project, then create a folder inside and name it
@@ -107,11 +94,14 @@ bitbake allwinner-image
 
 In this case this will create a `.wic.bz2` image inside your `build/tmp/deploy/images/nanopi-k1-plus`.
 
-## Kernels
-By default the linux-stable 4.19 kernel is used but this layer also supports the
-4.14 kernel and also the PREEMPT-RT patches for both kernels. As you can imagine,
-I haven't tested all the kernels with all the boards, so there might be some cases
-that something doesn't work properly.
+## Supported Kernels
+The default kernel version for this version is 4.19. Also the PREEMPT-RT kernel
+is supported, but it might be a slight different version compared to the PREEMPT,
+depending the current rt release.
+
+*Note/Warning:* There are also recipes for the 4.14 kernel (including PREEMPT), but those are
+not tested by me, so I can't guarantee that they are working. I'm only testing
+the latest version (4.19). _Also 4.14 versions are not updated anymore_
 
 To enable another kernel you need to edit your `build/conf/local.conf` and select
 the kernel you want. The available options are:
@@ -136,6 +126,12 @@ PREFERRED_VERSION_linux-stable = "4.14%"
 PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
 PREFERRED_VERSION_linux-stable-rt = "4.14%"
 ```
+
+#### Current versions
+* 4.19.80
+* 4.19.72-rt26
+* 4.14.87
+* 4.14.78
 
 ## Overlays
 This layer supports overlays for the allwinners boards. In order to use them you need
