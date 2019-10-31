@@ -3,16 +3,17 @@ AUTHOR = "Dimitris Tassopoulos <dimtass@gmail.com>"
 
 require u-boot-allwinner.inc
 
-PROVIDES = "u-boot-fw-tools"
+PROVIDES = "u-boot-fw-utils"
+RPROVIDES_${PN} = "u-boot-fw-utils"
 
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
 
-SRC_URI += "file://patches-2018.11 \
+SRC_URI += "file://patches-2019.04 \
             file://fw_env.config \
 "
 
-SRCREV = "0157013f4a4945bbdb70bb4d98d680e0845fd784"
-PV = "v2018.11+git${SRCPV}"
+SRCREV = "3c99166441bf3ea325af2da83cfe65430b49c066"
+PV = "v2019.04+git${SRCPV}"
 
 INSANE_SKIP_${PN} = "already-stripped"
 EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" V=1'
@@ -20,7 +21,7 @@ EXTRA_OEMAKE_class-cross = 'HOSTCC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
 
 do_configure() {
     cd ${S}
-    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-2018.11
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-2019.04
 }
 
 do_compile() {

@@ -22,7 +22,7 @@ STANDARD_PKGS = " \
     udev \
     dfu-util \
     pkgconfig \
-    u-boot-fw-tools \
+    u-boot-fw-utils \
 "
 
 # Extra debug packages

@@ -54,8 +54,8 @@ Then `git clone` this repo inside with `poky` and `meta-openembedded`.
 ```sh
 cd sources
 git clone git@bitbucket.org:dimtass/meta-allwinner-hx.git
-git clone --depth 1 -b sumo git://git.yoctoproject.org/poky
-git clone --depth 1 -b sumo git@github.com:openembedded/meta-openembedded.git
+git clone --depth 1 -b warrior git://git.yoctoproject.org/poky
+git clone --depth 1 -b warrior git@github.com:openembedded/meta-openembedded.git
 ```
 
 Then from the `top` directory that includes the sources run this command:
