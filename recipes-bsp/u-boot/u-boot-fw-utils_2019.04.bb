@@ -3,8 +3,8 @@ AUTHOR = "Dimitris Tassopoulos <dimtass@gmail.com>"
 
 require u-boot-allwinner.inc
 
-PROVIDES += "u-boot-fw-utils"
-RPROVIDES_${PN} += "u-boot-fw-utils"
+PROVIDES = "u-boot-fw-utils"
+RPROVIDES_${PN} = "u-boot-fw-utils"
 
 LIC_FILES_CHKSUM = "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
 
