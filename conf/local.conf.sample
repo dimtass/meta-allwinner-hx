@@ -1,7 +1,7 @@
 # Common configuration for all Machine types
 AUTHOR = "Dimitris Tassopoulos"
 MACHINE ?= "allwinner"
-DISTRO = "poky"
+DISTRO ?= "poky"
 
 PACKAGE_CLASSES ?= " package_deb"
 USER_CLASSES = "buildstats image-mklibs image-prelink"
