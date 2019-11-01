@@ -15,12 +15,16 @@ CORE_IMAGE_EXTRA_INSTALL_append = " packagegroup-core-ssh-openssh"
 IMAGE_FEATURES += "package-management debug-tweaks"
 IMAGE_LINGUAS = "en-us"
 
-EXTRA_PKGS = " \
-    ${WIFI_SUPPORT} \
+# Packages specific to allwinner
+SUNXI_PKGS = " \
+    allwinner-performance \
+    default-modules \
 "
 
+# Most of the package groups are located in the classes/package-groups.inc
 IMAGE_INSTALL += " \
     ${STANDARD_PKGS} \
     ${TEST_TOOLS} \
-    ${EXTRA_PKGS} \
+    ${WIFI_SUPPORT} \
+    ${SUNXI_PKGS} \
 "
