@@ -38,6 +38,10 @@ PREFERRED_VERSION_linux-stable ?= "4.19%"
 #PSK = YOUR_SSID_PASSWORD"
 
 # For debugging u-boot and kernel
-#RM_WORK_EXCLUDE += " linux-stable u-boot"
+#RM_WORK_EXCLUDE += " linux-stable u-boot
+
+# Since adding the /lib/firmware blob in the image is not
+# always wanted, you can comment out this line if not needed
+IMAGE_INSTALL += "armbian-firmware"
 
 # Add your custom config under this line
