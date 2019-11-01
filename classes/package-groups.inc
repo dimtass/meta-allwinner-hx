@@ -15,7 +15,6 @@ STANDARD_PKGS = " \
     bash \
     merge-files \
     wget \
-    allwinner-performance \
     procps \
     udev-automount \
     usbreset \
