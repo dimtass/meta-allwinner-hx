@@ -17,7 +17,6 @@ IMAGE_LINGUAS = "en-us"
 
 EXTRA_PKGS = " \
     ${WIFI_SUPPORT} \
-    xr819 \
 "
 
 IMAGE_INSTALL += " \

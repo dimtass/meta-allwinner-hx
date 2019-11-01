@@ -9,27 +9,11 @@ specific version.
 
 This meta layer supports only boards with the allwinner H2, H3 and H5 cpus.
 The boards that are supported are the same ones that supported in
-[armbian](https://www.armbian.com/download/). The current supported list is
-the following ones:
+[armbian](https://www.armbian.com/download/).
 
-- nanopi-duo
-- nanopi-duo2
-- nanopi-k1-plus
-- nanopi-m1
-- nanopi-m1-plus
-- nanopi-neo
-- nanopi-neo2
-- nanopi-neo-air
-- nanopi-neo-core2
-- nanopi-neo-plus2
-- orange-pi-one
-- orange-pi-pc
-- orange-pi-pc-plus
-- orange-pi-prime
-- orange-pi-win
-- orange-pi-zero
-- orange-pi-zero-plus
-- orange-pi-zero-plus2
+To view the list of the supported boards run this command see below
+in the "How to use the layer".
+
 
 The way this meta layer works is that it uses the u-boot and kernel patches
 from the armbian distro. The patches are located in:
@@ -62,24 +46,34 @@ Then from the `top` directory that includes the sources run this command:
 ```sh
 cp sources/meta-allwinner-hx/scripts/setup-environment.sh .
 cp sources/meta-allwinner-hx/scripts/flash_sd.sh .
+cp sources/meta-allwinner-hx/scripts/list-machines.sh .
 ```
 
 Then your top dir contects should look like this:
 ```sh
 flash_sd.sh
+list-machines.sh
 setup-environment.sh
 sources
 ```
 
-Then depending on the board you have, you need to set the `MACHINE` variable to the
-correct name. To list the names of supported boards you can the script like this:
-```sh
-source ./setup-environment.sh build
-```
-
 Now in your `build/conf/local.conf` file you can choose which kernel you want to build.
 By default the `linux-stable` 4.19 version is build. In case you want to build the RT
-kernel then see next section.
+kernel then see next section. Also, by default in this image all the Linux firmware
+files are added in the image. If you want to save ~500MB then you can comment out the next
+line, but then you need to add the specific firmware for your `MACHINE` with your own
+recipe:
+```sh
+IMAGE_INSTALL += "armbian-firmware"
+```
+
+To view the list of the supported boards run this command:
+```sh
+./list-machines.sh
+```
+
+Then depending on the board you have, you need to set the `MACHINE` variable to one
+from the support list.
 
 This will result in error, but it will also print the supported boards. Therefore,
 for `nanopi-k1-plus`, you can run:
