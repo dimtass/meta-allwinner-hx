@@ -9,8 +9,12 @@ SENSORS_PKGS = " \
     lmsensors-libsensors \
 "
 
+BUSYBOX_SPLIT_SUID = "0"
+
 # Standard packages
 STANDARD_PKGS = " \
+    busybox \
+    systemd \
     tar \
     bash \
     merge-files \
@@ -22,6 +26,7 @@ STANDARD_PKGS = " \
     dfu-util \
     pkgconfig \
     u-boot-fw-utils \
+    kernel-base \
 "
 
 # Extra debug packages
@@ -88,7 +93,6 @@ ALSA_PKGS = " \
 
 # Kernel packages
 KERNEL_EXTRA_INSTALL = " \
-    kernel-modules \
     kernel-dev \
     kernel-devsrc \
 "

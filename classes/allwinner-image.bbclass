@@ -8,12 +8,17 @@ require package-groups.inc
 
 # Add the wks creation class. This will enable the custom
 # wks file creation per image
-IMAGE_FSTYPES += " wksbuild"
+IMAGE_CLASSES += "sdcard_image-sunxi"
+IMAGE_FSTYPES += "ext4 tar.gz sunxi-sdimg wic.bz2 wic.bmap wksbuild"
 
-EXTRA_IMAGE_FEATURES = ""
 CORE_IMAGE_EXTRA_INSTALL_append = " packagegroup-core-ssh-openssh"
-IMAGE_FEATURES += "package-management debug-tweaks"
+IMAGE_FEATURES += "package-management \
+            debug-tweaks \
+            hwcodecs \
+            ssh-server-openssh \
+            "
 IMAGE_LINGUAS = "en-us"
+
 
 # Packages specific to allwinner
 SUNXI_PKGS = " \
