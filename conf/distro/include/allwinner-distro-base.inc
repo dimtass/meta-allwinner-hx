@@ -10,8 +10,6 @@ TARGET_VENDOR = "-allwinner"
 
 # Allwinner BSP default settings
 
-VIRTUAL-RUNTIME_init_manager = "systemd"
-
 XSERVER ?= "xserver-xorg \
 		   xf86-input-libinput \
 		   xf86-video-modesetting"
@@ -21,7 +19,11 @@ DISTRO_FEATURES += " \
 		usbgadget \
 		usbhost \
 		bluez5 \
-		systemd \
 		x11 \
 		wayland \
 		"
+
+DISTRO_FEATURES_append = " systemd"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
+VIRTUAL-RUNTIME_initscripts = ""
