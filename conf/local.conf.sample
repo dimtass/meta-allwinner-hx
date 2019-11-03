@@ -5,7 +5,6 @@ DISTRO ?= "poky"
 
 PACKAGE_CLASSES ?= " package_deb"
 USER_CLASSES = "buildstats image-mklibs image-prelink"
-RM_OLD_IMAGE = "1"
 CONF_VERSION = "1"
 
 INHERIT += " rm_work"
@@ -14,14 +13,12 @@ DISTRO_FEATURES_append = " systemd"
 VIRTUAL-RUNTIME_init_manager = "systemd"
 DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
 
-BB_GENERATE_MIRROR_TARBALLS = "1"
+# BB_GENERATE_MIRROR_TARBALLS = "1"
 
 DL_DIR ?= "${BSPDIR}/downloads/"
-TMPDIR = "${TOPDIR}/tmp"
+TMPDIR ?= "${TOPDIR}/tmp"
 
-GCCVERSION = "8.3%"
-
-SDKMACHINE = "x86_64"
+SDKMACHINE ?= "x86_64"
 
 WKS_FILE ?= "${IMGDEPLOYDIR}/${IMAGE_BASENAME}.wks"
 
