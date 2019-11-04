@@ -20,3 +20,6 @@ UBOOT_LOADADDRESS ?= "0x400080OB00"
 
 SERIAL_CONSOLE ?= "115200 ttyS0"
 MACHINE_FEATURES ?= "alsa apm keyboard rtc serial screen usbgadget usbhost vfat"
+
+# By default allwinner supports video output, unless specific machine conf disables it
+BUILD_DESKTOP ?= "yes"

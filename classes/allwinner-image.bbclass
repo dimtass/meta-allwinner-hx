@@ -37,3 +37,13 @@ IMAGE_INSTALL += " \
 	${@bb.utils.contains("DISTRO_FEATURES", "x11 wayland", "xserver-xorg-xwayland weston-xwayland matchbox-terminal", "", d)} \
 	${@bb.utils.contains("DISTRO_FEATURES", "wayland", "weston weston-init weston-examples gtk+3-demo clutter-1.0-examples", "", d)} \
 "
+
+python() {
+    bb.warn('DISTRO_FEATURES: %s' % d.getVar('DISTRO_FEATURES'))
+    bb.warn('%s' % bb.utils.contains("DISTRO_FEATURES", "x11", True, False, d))
+    bb.warn('%s' % bb.utils.contains("DISTRO_FEATURES", "wayland", True, False, d))
+    is_desktop_distro = bb.utils.contains("DISTRO_FEATURES", "x11", True, False, d) or bb.utils.contains("DISTRO_FEATURES", "wayland", True, False, d)
+    bb.fatal("is_desktop_distro: %s" % is_desktop_distro)
+    if d.getVar('BUILD_DESKTOP') == 'no' and is_desktop_distro:
+        bb.fatal("%s doesn't support video output. Please try to build the allwinner-distro-console." % d.getVar('MACHINE'))
+}
