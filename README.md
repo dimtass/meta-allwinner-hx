@@ -33,15 +33,22 @@ I'm only testing with `nanopi-k1-plus` and occasionally `nanopi-neo`,
 Create a folder for your project, then create a folder inside and name it
 `sources`. You _have_ to use that name.
 
+#### Cloning the needed layers
 Then `git clone` this repo inside with `poky` and `meta-openembedded`.
 
 ```sh
 cd sources
 git clone git@bitbucket.org:dimtass/meta-allwinner-hx.git
-git clone --depth 1 -b warrior git://git.yoctoproject.org/poky
-git clone --depth 1 -b warrior git@github.com:openembedded/meta-openembedded.git
+git clone --depth 1 -b zeus git://git.yoctoproject.org/poky
+git clone --depth 1 -b zeus git@github.com:openembedded/meta-openembedded.git
 ```
 
+> Note: This layer has been updated to `zeus` in order to support the new
+mesa 19.1.x version that supports the Lima drm. Therefore, it's preferable
+to use `zeus` if you need graphics supports. In case that you need to use
+`warrior` then only the console distro is supported.
+
+#### Setting the environment
 Then from the `top` directory that includes the sources run this command:
 ```sh
 cp sources/meta-allwinner-hx/scripts/setup-environment.sh .
@@ -67,6 +74,7 @@ recipe:
 IMAGE_INSTALL += "armbian-firmware"
 ```
 
+#### Supported machines/boards
 To view the list of the supported boards run this command:
 ```sh
 ./list-machines.sh
@@ -75,13 +83,55 @@ To view the list of the supported boards run this command:
 Then depending on the board you have, you need to set the `MACHINE` variable to one
 from the support list.
 
-This will result in error, but it will also print the supported boards. Therefore,
-for `nanopi-k1-plus`, you can run:
+#### Supported DISTROs
+Since the `zeus` yocto version the mesa is updated to version 19.1.x which supports
+the Lima DRM. Also the Armbian patches have support for Lima, therefore you can
+build X11/Wayland images with graphic acceleration from Lima.
+
+Currently, this layer supports the following DISTROs:
+* `allwinner-distro-console`: only console, no GUI.
+* `allwinner-distro-wayland`: Supports Wyland with Weston as composer
+* `allwinner-distro-x11`: Supports xserver-xorg
+* `allwinner-distro-xwayland`: Supports Wayland with Weston as composer and X11.
+
+To build an image you need to select one of the above distros when setting the
+environment. By default, the `local.conf` file is set to
 ```sh
-MACHINE=nanopi-k1-plus source ./setup-environment.sh build
+DISTRO ?= "poky"
 ```
 
-Then to start building the image run as prompted:
+This is will be override when setting the environment with the `setup-environment.sh`
+script. But this requires you to select one of the above distros by prepending this:
+```sh
+DISTRO=allwinner-distro-wayland
+```
+
+> Note: there's an example in the next section
+
+#### Setting the environment
+To set the build environment you need to source the `setup-environment.sh` script
+and set the `DISTRO` and `MACHINE` variables. As mentioned above you can use the
+`list-machines.sh` script to list the supported machines. Also the supported `DISTRO`s
+are listed above.
+
+There are a few examples to build various distros for the `nanopi-k1-plus`:
+
+Build an image with only console support
+```sh
+DISTRO=allwinner-distro-console MACHINE=nanopi-k1-plus source ./setup-environment.sh build
+```
+
+Build an image with Wayland
+```sh
+DISTRO=allwinner-distro-wayland MACHINE=nanopi-k1-plus source ./setup-environment.sh build
+```
+
+Build an image with X11
+```sh
+DISTRO=allwinner-distro-x11 MACHINE=nanopi-k1-plus source ./setup-environment.sh build
+```
+
+After the environment is set you can start building the image:
 ```sh
 bitbake allwinner-image
 ```
@@ -90,12 +140,8 @@ In this case this will create a `.wic.bz2` image inside your `build/tmp/deploy/i
 
 ## Supported Kernels
 The default kernel version for this version is 4.19. Also the PREEMPT-RT kernel
-is supported, but it might be a slight different version compared to the PREEMPT,
+is supported, but it might be a slight different version compared to the SMP,
 depending the current rt release.
-
-*Note/Warning:* There are also recipes for the 4.14 kernel (including PREEMPT), but those are
-not tested by me, so I can't guarantee that they are working. I'm only testing
-the latest version (4.19). _Also 4.14 versions are not updated anymore_
 
 To enable another kernel you need to edit your `build/conf/local.conf` and select
 the kernel you want. The available options are:
@@ -110,22 +156,12 @@ PREFERRED_VERSION_linux-stable = "4.19%"
 PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
 PREFERRED_VERSION_linux-stable-rt = "4.19%"
 ```
-* linux-stable 4.14
-```
-PREFERRED_PROVIDER_virtual/kernel = "linux-stable"
-PREFERRED_VERSION_linux-stable = "4.14%"
-```
-* linux-stable-rt 4.14
-```
-PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
-PREFERRED_VERSION_linux-stable-rt = "4.14%"
-```
+
+> Note: From now on the 4.14 kernel support is removed, since is obsolete.
 
 #### Current versions
 * 4.19.80
 * 4.19.72-rt26
-* 4.14.87
-* 4.14.78
 
 ## Overlays
 This layer supports overlays for the allwinners boards. In order to use them you need
