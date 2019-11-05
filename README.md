@@ -108,6 +108,31 @@ DISTRO=allwinner-distro-wayland
 
 > Note: there's an example in the next section
 
+#### Supported images
+Currently there are a few images in this repo, but I can only verify that the console
+image is working properly. The rest of the images are for supporting GUI (Wayland and
+X11). This is a list of the images:
+* `allwinner-console-image`: Image with only debug console support (no GUI)
+* `allwinner-multimedia-image`: This image supports both X11 and Wayland and installs
+also `gstreamer1.0` with all plugins 
+* `allwineer-testing-image`: An image that installs various testing tools.
+
+
+#### Lima DRM support
+Wayland seems to be working, but I can verify that there are some issues, like keyboard
+is not working properly and that Weston seems to consume the 100% of the CPU every
+2-3 secs, which makes GUI unusable.
+
+This kernel supports the Lima DRM. The module is loaded when the kernel boots, but
+I wasn't able to verify that works as `kmscube` returns an error when running from
+the debug port. I can't tell if this issue is because the command is not running
+from the Weston terminal, but this is the error that I get.
+```sh
+kmscube -d -D /dev/dri/renderD128
+  could not open drm device
+  failed to initialize legacy DRM
+```
+
 #### Setting the environment
 To set the build environment you need to source the `setup-environment.sh` script
 and set the `DISTRO` and `MACHINE` variables. As mentioned above you can use the
@@ -133,7 +158,7 @@ DISTRO=allwinner-distro-x11 MACHINE=nanopi-k1-plus source ./setup-environment.sh
 
 After the environment is set you can start building the image:
 ```sh
-bitbake allwinner-image
+bitbake allwinner-multimedia-image
 ```
 
 In this case this will create a `.wic.bz2` image inside your `build/tmp/deploy/images/nanopi-k1-plus`.
@@ -243,9 +268,9 @@ You can also build the `core-image-minimal` using this meta layer. But for some
 reason when you'll get the login prompt, then the `root` account doesn't work.
 This problem seems to be quite common, though.
 
-The `allwinner-image` will install a service that forces the `perfomance` governor
+The `allwinner-*-image` will install a service that forces the `perfomance` governor
 for all the cores by default. If you want to disable this, then you can remove
-the `allwinner-performance` entry from the `meta-allwinner-hx/recipes-images/images/allwinner-image.bb`
+the `allwinner-performance` entry from the `meta-allwinner-hx/recipes-images/images/allwinner-*-image.bb`
 image file. Or you can disable the service after you boot with
 ```sh
 systemctl disable allwinner-performance
