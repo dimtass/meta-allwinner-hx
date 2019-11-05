@@ -9,8 +9,12 @@ SENSORS_PKGS = " \
     lmsensors-libsensors \
 "
 
+BUSYBOX_SPLIT_SUID = "0"
+
 # Standard packages
 STANDARD_PKGS = " \
+    busybox \
+    systemd \
     tar \
     bash \
     merge-files \
@@ -22,6 +26,15 @@ STANDARD_PKGS = " \
     dfu-util \
     pkgconfig \
     u-boot-fw-utils \
+    kernel-base \
+"
+
+MULTIMEDIA_PKGS = " \
+    gstreamer1.0 \
+	gstreamer1.0-plugins-base \
+	gstreamer1.0-plugins-good \
+	gstreamer1.0-plugins-bad \
+	v4l-utils \
 "
 
 # Extra debug packages
@@ -88,7 +101,6 @@ ALSA_PKGS = " \
 
 # Kernel packages
 KERNEL_EXTRA_INSTALL = " \
-    kernel-modules \
     kernel-dev \
     kernel-devsrc \
 "
@@ -121,4 +133,12 @@ TEST_TOOLS = " \
     perf \
     memtester \
     iperf3 \
+	cpufrequtils \
+	usbutils \
+"
+
+GRAPHICS_TEST_TOOLS = " \
+    kmscube \
+    glmark2 \
+	${@bb.utils.contains("DISTRO_FEATURES", "x11", "mesa-demos", "", d)} \
 "
