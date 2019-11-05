@@ -1,7 +1,11 @@
+# Temporary disable these dts until I figure out how to integrate them easily
+# 
+# allwinner/overlay/sun50i-h5-ds1307.dtbo
+# overlay/sun8i-h3-ds1307.dtbo
+
 SUN50I_OVERLAYS = " \
         allwinner/overlay/sun50i-h5-analog-codec.dtbo \
         allwinner/overlay/sun50i-h5-cir.dtbo \
-        allwinner/overlay/sun50i-h5-ds1307.dtbo \
         allwinner/overlay/sun50i-h5-i2c0.dtbo \
         allwinner/overlay/sun50i-h5-i2c1.dtbo \
         allwinner/overlay/sun50i-h5-i2c2.dtbo \
@@ -24,7 +28,6 @@ SUN50I_OVERLAYS = " \
 SUN8I_OVERLAYS = " \
         overlay/sun8i-h3-analog-codec.dtbo \
         overlay/sun8i-h3-cir.dtbo \
-        overlay/sun8i-h3-ds1307.dtbo \
         overlay/sun8i-h3-i2c0.dtbo \
         overlay/sun8i-h3-i2c1.dtbo \
         overlay/sun8i-h3-i2c2.dtbo \
