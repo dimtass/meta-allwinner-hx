@@ -29,6 +29,14 @@ STANDARD_PKGS = " \
     kernel-base \
 "
 
+MULTIMEDIA_PKGS = " \
+    gstreamer1.0 \
+	gstreamer1.0-plugins-base \
+	gstreamer1.0-plugins-good \
+	gstreamer1.0-plugins-bad \
+	v4l-utils \
+"
+
 # Extra debug packages
 EXTRA_DEBUG_PKGS = " \
     bc \
@@ -125,4 +133,12 @@ TEST_TOOLS = " \
     perf \
     memtester \
     iperf3 \
+	cpufrequtils \
+	usbutils \
+"
+
+GRAPHICS_TEST_TOOLS = " \
+    kmscube \
+    glmark2 \
+	${@bb.utils.contains("DISTRO_FEATURES", "x11", "mesa-demos", "", d)} \
 "
