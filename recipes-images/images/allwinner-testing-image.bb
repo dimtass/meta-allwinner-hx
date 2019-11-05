@@ -16,8 +16,4 @@ IMAGE_INSTALL += " \
 	packagegroup-core-tools-profile \
 	packagegroup-core-tools-debug \
 	packagegroup-core-buildessential \
-    packagegroup-extra-base \
-    packagegroup-extra-buildessential \
-    packagegroup-extra-debug \
-    packagegroup-extra-testing \
 "
