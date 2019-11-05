@@ -21,6 +21,7 @@ DISTRO_FEATURES += " \
 		bluez5 \
 		x11 \
 		wayland \
+		opengl \
 		systemd \
 		"
 
