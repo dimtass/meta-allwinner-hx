@@ -54,6 +54,7 @@ Then from the `top` directory that includes the sources run this command:
 cp sources/meta-allwinner-hx/scripts/setup-environment.sh .
 cp sources/meta-allwinner-hx/scripts/flash_sd.sh .
 cp sources/meta-allwinner-hx/scripts/list-machines.sh .
+cp sources/meta-allwinner-hx/Dockerfile.sh .
 ```
 
 Then your top dir contects should look like this:
@@ -262,6 +263,81 @@ are a lot of GBs.
 For example the default image size for this repo is 13.8GB but the real data
 are ~62MB. Therefore, with a random SD card I have here the flashing takes
 ~14 secs and you get a 14GB image.
+
+## Using Docker to build the image
+For consistency reasons and also to keep your main OS clean of the bloat that
+Yocto needs, you can use docker to build this repo. I've provided a Dockerfile
+which you can use to build the image and I'm also listing some tips how to use
+it properly, in case you have several different docker containers that need to
+share the download or sstate-cache folder.
+
+> Important: To build the docker image don't copy the `Dockerfile` from
+`meta-allwinner-hx/Dockerfile` to the parent folder (where `sources` folder is).
+Always build the image inside `meta-allwinner-hx/Docker/`, because this will save
+you from sending the build context.
+
+To build the docker image run this command:
+
+```sh
+docker build --build-arg userid=$(id -u) --build-arg groupid=$(id -g) -t allwinner-yocto-image .
+```
+
+This will create a new image named `allwinner-yocto-image` and you can run this
+to verify that it exists.
+```sh
+docker images
+```
+
+Which returns:
+```sh
+REPOSITORY              TAG                 IMAGE ID            CREATED             SIZE
+allwinner-yocto-image   latest              4e89467d537a        3 minutes ago       917MB
+```
+
+Now you can create a container and run (=attach) to it. You need to run this command
+in the parent folder where you can see the `sources` folder that contains all the
+meta-layers.
+```sh
+docker run -it --name allwinner-builder -v $(pwd):/docker -w /docker allwinner-yocto-image bash
+```
+
+Then you can follow the standard procedure to build images. In case that you exit
+the container, then you can just run it again and attach to it like this:
+```sh
+docker start allwinner-builder
+docker attach allwinner-builder
+```
+
+#### Sharing download folder between several different builds
+In case that you have several different yocto builds, it doens't make sense to
+have a download folder for each build, because this means that you need much more
+space and most of the files will be duplicated. To avoid this you can create a
+`download` folder somewhere in your hard drive which can be shared from all
+builds. If you don't use docker, then you just need to create this folder and
+then create symlinks to every yocto build.
+
+The problem with docker though, is that those symlinks don't work. Therefore, you
+need to virtually mount the `external` folder to the docker container. To do that,
+you need to create the container the first time with the correct options.
+
+Let's assume that your shared download folder is this `/opt/yocto-downloads`.
+
+First on the normal OS run this command:
+```sh
+ln -s /opt/yocto-downloads downloads
+```
+
+This is will create a symlink to the shared downloads folder.
+Then to mount this folder to the docker container you need to run:
+```sh
+docker run -it --name allwinner-builder -v $(pwd):/docker -v /opt/yocto-downloads:/docker/downloads -w /docker allwinner-yocto-image bash
+```
+
+Then you can build the yocto image inside the container as usual, e.g.:
+```sh
+yoctouser@dcca27f70336:/docker$ DISTRO=allwinner-distro-wayland MACHINE=nanopi-k1-plus source ./setup-environment.sh build
+yoctouser@dcca27f70336:/docker$ bitbake allwinner-multimedia-image
+```
 
 ## Notes
 You can also build the `core-image-minimal` using this meta layer. But for some
