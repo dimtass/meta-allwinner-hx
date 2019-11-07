@@ -27,6 +27,7 @@ STANDARD_PKGS = " \
     pkgconfig \
     u-boot-fw-utils \
     kernel-base \
+    kernel-modules \
 "
 
 MULTIMEDIA_PKGS = " \

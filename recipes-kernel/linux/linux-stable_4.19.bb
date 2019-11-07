@@ -3,6 +3,7 @@ SECTION = "kernel"
 LICENSE = "GPLv2"
 COMPATIBLE_MACHINE = "(sun8i|sun50i)"
 
+inherit kernel
 require recipes-kernel/linux/linux-yocto.inc
 
 LIC_FILES_CHKSUM = "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
@@ -36,31 +37,9 @@ do_patch_append() {
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-${LINUX_VERSION}
 }
 
-do_install_append() {
-    # Install kernel-modules
-	install -d ${D}${nonarch_base_libdir}/modules
-    # oe_runmake INSTALL_MOD_PATH=${D} modules_install
-	oe_runmake DEPMOD=echo MODLIB=${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=${D}${nonarch_base_libdir}/firmware modules_install
-    rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
-    rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
-    # If the kernel/ directory is empty remove it to prevent QA issues
-    rmdir --ignore-fail-on-non-empty "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel"
-}
-
 python() {
     if not d.getVar('SOC_FAMILY'):
         bb.fatal("You need to set 'SOC_FAMILY' in your local.conf file to 'sunxi' or 'sunxi64' depending your board.")
     else:
         bb.note("%s-defconfig/defconfig will be used for the kernel." % (d.getVar('SOC_FAMILY')))
-}
-
-FILES_${KERNEL_PACKAGE_NAME}-base += "${nonarch_base_libdir}/*"
-# pkg_postinst_ontarget_${PN} () {
-# 		depmod -a ${KERNEL_VERSION}
-# }
-
-# FILES_${KERNEL_PACKAGE_NAME}-base = "${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.order ${nonarch_base_libdir}/modules/${KERNEL_VERSION}/modules.builtin"
-
-pkg_postinst_${PN}() {
-    depmod -a ${KERNEL_VERSION}
 }

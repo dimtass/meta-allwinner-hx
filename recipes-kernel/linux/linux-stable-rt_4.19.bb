@@ -42,17 +42,6 @@ do_patch_append() {
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patch-${PREEMPT_RT_VERSION}   # apply preempt-rt patches
 }
 
-do_install_append() {
-    # Install kernel-modules
-	install -d ${D}${nonarch_base_libdir}/modules
-    # oe_runmake INSTALL_MOD_PATH=${D} modules_install
-	oe_runmake DEPMOD=echo MODLIB=${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION} INSTALL_FW_PATH=${D}${nonarch_base_libdir}/firmware modules_install
-    rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
-    rm "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
-    # If the kernel/ directory is empty remove it to prevent QA issues
-    rmdir --ignore-fail-on-non-empty "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/kernel"
-}
-
 python() {
     if not d.getVar('SOC_FAMILY'):
         bb.fatal("You need to set 'SOC_FAMILY' in your local.conf file to 'sunxi' or 'sunxi64' depending your board.")
