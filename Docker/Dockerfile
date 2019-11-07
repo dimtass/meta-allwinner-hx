@@ -79,6 +79,9 @@ RUN apt-get update && \
 
 RUN apt-get clean
 
+RUN pip install --upgrade pip
+RUN pip3 install --upgrade pip
+
 # For Yocto bitbake -c testimage XML reporting
 RUN pip3 install unittest-xml-reporting
 
