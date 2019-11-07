@@ -60,7 +60,7 @@ RUN apt-get update && \
         python3-jinja2 \
         python3-pexpect \
         python3-pip \
-        pbzip \
+        pbzip2 \
         qemu-user \
         repo \
         rsync \
