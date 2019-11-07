@@ -97,7 +97,7 @@ echo -e "These are the default supported images:\n${LIST_IMAGES}"
 echo -e "\nThese are the supported distros:\n${LIST_DISTROS}"
 cat <<EOF
 
-You can now build your image. To build the allwinner-image then run this:
-$ bitbake allwinner-image
+You can now build your image. To build the allwinner-console-image then run this:
+$ bitbake allwinner-console-image
 
 EOF
