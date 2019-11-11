@@ -1,0 +1,258 @@
+diff --git a/arch/arm/boot/dts/overlay/Makefile b/arch/arm/boot/dts/overlay/Makefile
+index 39d6a27f5..abd30c672 100644
+--- a/arch/arm/boot/dts/overlay/Makefile
++++ b/arch/arm/boot/dts/overlay/Makefile
+@@ -1,5 +1,6 @@
+ # SPDX-License-Identifier: GPL-2.0
+ dtbo-$(CONFIG_MACH_SUN4I) += \
++	sun4i-a10-ds1307.dtbo \
+ 	sun4i-a10-analog-codec.dtbo \
+ 	sun4i-a10-can.dtbo \
+ 	sun4i-a10-i2c1.dtbo \
+@@ -19,6 +20,7 @@ dtbo-$(CONFIG_MACH_SUN4I) += \
+ 	sun4i-a10-w1-gpio.dtbo
+ 
+ dtbo-$(CONFIG_MACH_SUN5I) += \
++	sun5i-a13-ds1307.dtbo \
+ 	sun5i-a13-analog-codec.dtbo \
+ 	sun5i-a13-i2c1.dtbo \
+ 	sun5i-a13-i2c2.dtbo \
+@@ -35,6 +37,7 @@ dtbo-$(CONFIG_MACH_SUN5I) += \
+ 	sun5i-a13-uart3.dtbo
+ 
+ dtbo-$(CONFIG_MACH_SUN7I) += \
++	sun7i-a20-ds1307.dtbo \
+ 	sun7i-a20-analog-codec.dtbo \
+ 	sun7i-a20-can.dtbo \
+ 	sun7i-a20-i2c1.dtbo \
+@@ -58,6 +61,7 @@ dtbo-$(CONFIG_MACH_SUN7I) += \
+ 	sun7i-a20-w1-gpio.dtbo
+ 
+ dtbo-$(CONFIG_MACH_SUN8I) += \
++	sun8i-h3-ds1307.dtbo \
+ 	sun8i-h3-analog-codec.dtbo \
+ 	sun8i-h3-cir.dtbo \
+ 	sun8i-h3-i2c0.dtbo \
+diff --git a/arch/arm/boot/dts/overlay/sun4i-a10-ds1307.dts b/arch/arm/boot/dts/overlay/sun4i-a10-ds1307.dts
+new file mode 100644
+index 000000000..7f8ff80e1
+--- /dev/null
++++ b/arch/arm/boot/dts/overlay/sun4i-a10-ds1307.dts
+@@ -0,0 +1,24 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++       compatible = "allwinner,sun4i-a10";
++
++       fragment@0 {
++               target-path = "/aliases";
++               __overlay__ {
++                       i2c1 = "/soc@1c00000/i2c@1c2b000";
++               };
++       };
++
++       fragment@1 {
++               target = <&i2c1>;
++               __overlay__ {
++                       ds1307@68 {
++                               compatible = "dallas,ds1307";
++                               reg = <0x68>;
++                               status = "okay";
++                       };
++               };
++       };
++};
+diff --git a/arch/arm/boot/dts/overlay/sun5i-a13-ds1307.dts b/arch/arm/boot/dts/overlay/sun5i-a13-ds1307.dts
+new file mode 100644
+index 000000000..971b8bb78
+--- /dev/null
++++ b/arch/arm/boot/dts/overlay/sun5i-a13-ds1307.dts
+@@ -0,0 +1,24 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++       compatible = "allwinner,sun5i-a13";
++
++       fragment@0 {
++               target-path = "/aliases";
++               __overlay__ {
++                       i2c1 = "/soc@1c00000/i2c@1c2b000";
++               };
++       };
++
++       fragment@1 {
++               target = <&i2c1>;
++               __overlay__ {
++                       ds1307@68 {
++                               compatible = "dallas,ds1307";
++                               reg = <0x68>;
++                               status = "okay";
++                       };
++               };
++       };
++};
+diff --git a/arch/arm/boot/dts/overlay/sun7i-a20-ds1307.dts b/arch/arm/boot/dts/overlay/sun7i-a20-ds1307.dts
+new file mode 100644
+index 000000000..ffbe02861
+--- /dev/null
++++ b/arch/arm/boot/dts/overlay/sun7i-a20-ds1307.dts
+@@ -0,0 +1,24 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++       compatible = "allwinner,sun7i-a20";
++
++       fragment@0 {
++               target-path = "/aliases";
++               __overlay__ {
++                       i2c1 = "/soc@1c00000/i2c@1c2b000";
++               };
++       };
++
++       fragment@1 {
++               target = <&i2c1>;
++               __overlay__ {
++                       ds1307@68 {
++                               compatible = "dallas,ds1307";
++                               reg = <0x68>;
++                               status = "okay";
++                       };
++               };
++       };
++};
+diff --git a/arch/arm/boot/dts/overlay/sun8i-h3-ds1307.dts b/arch/arm/boot/dts/overlay/sun8i-h3-ds1307.dts
+new file mode 100644
+index 000000000..a1d3850c7
+--- /dev/null
++++ b/arch/arm/boot/dts/overlay/sun8i-h3-ds1307.dts
+@@ -0,0 +1,24 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++       compatible = "allwinner,sun8i-h3";
++
++       fragment@0 {
++               target-path = "/aliases";
++               __overlay__ {
++                       i2c0 = "/soc/i2c@01c2ac00";
++               };
++       };
++
++       fragment@1 {
++               target = <&i2c0>;
++               __overlay__ {
++                       ds1307@68 {
++                               compatible = "dallas,ds1307";
++                               reg = <0x68>;
++                               status = "okay";
++                       };
++               };
++       };
++};
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/Makefile b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+index fb6bee993..c52d5ee4f 100644
+--- a/arch/arm64/boot/dts/allwinner/overlay/Makefile
++++ b/arch/arm64/boot/dts/allwinner/overlay/Makefile
+@@ -1,5 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0
+ dtbo-$(CONFIG_ARCH_SUNXI) += \
++	sun50i-a64-ds1307.dtbo \
++	sun50i-h5-ds1307.dtbo \
++	sun50i-h6-ds1307.dtbo \
+ 	sun50i-a64-i2c0.dtbo \
+ 	sun50i-a64-i2c1.dtbo \
+ 	sun50i-a64-pps-gpio.dtbo \
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-a64-ds1307.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-a64-ds1307.dts
+new file mode 100644
+index 000000000..7feb09dac
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-a64-ds1307.dts
+@@ -0,0 +1,24 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++       compatible = "allwinner,sun50i-a64";
++
++       fragment@0 {
++               target-path = "/aliases";
++               __overlay__ {
++                       i2c0 = "/soc/i2c@01c2ac00";
++               };
++       };
++
++       fragment@1 {
++               target = <&i2c0>;
++               __overlay__ {
++                       ds1307@68 {
++                               compatible = "dallas,ds1307";
++                               reg = <0x68>;
++                               status = "okay";
++                       };
++               };
++       };
++};
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-ds1307.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-ds1307.dts
+new file mode 100644
+index 000000000..f4d806b47
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h5-ds1307.dts
+@@ -0,0 +1,24 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++       compatible = "allwinner,sun50i-h5";
++
++       fragment@0 {
++               target-path = "/aliases";
++               __overlay__ {
++                       i2c0 = "/soc/i2c@01c2ac00";
++               };
++       };
++
++       fragment@1 {
++               target = <&i2c0>;
++               __overlay__ {
++                       ds1307@68 {
++                               compatible = "dallas,ds1307";
++                               reg = <0x68>;
++                               status = "okay";
++                       };
++               };
++       };
++};
+diff --git a/arch/arm64/boot/dts/allwinner/overlay/sun50i-h6-ds1307.dts b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h6-ds1307.dts
+new file mode 100644
+index 000000000..6747d6656
+--- /dev/null
++++ b/arch/arm64/boot/dts/allwinner/overlay/sun50i-h6-ds1307.dts
+@@ -0,0 +1,24 @@
++/dts-v1/;
++/plugin/;
++
++/ {
++       compatible = "allwinner,sun50i-h6";
++
++       fragment@0 {
++               target-path = "/aliases";
++               __overlay__ {
++                       i2c0 = "/soc/i2c@5002000";
++               };
++       };
++
++       fragment@1 {
++               target = <&i2c0>;
++               __overlay__ {
++                       ds1307@68 {
++                               compatible = "dallas,ds1307";
++                               reg = <0x68>;
++                               status = "okay";
++                       };
++               };
++       };
++};
