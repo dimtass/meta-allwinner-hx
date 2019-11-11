@@ -27,6 +27,7 @@ SRC_URI = " \
         git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable.git;branch=linux-${LINUX_VERSION}.y \
         file://do_patch.sh \
         file://patches-${LINUX_VERSION} \
+        file://custom-patches-${LINUX_VERSION} \
         file://${SOC_FAMILY}-defconfig/defconfig \
 "
 
@@ -35,6 +36,7 @@ do_patch_append() {
     cp ${WORKDIR}/${SOC_FAMILY}-defconfig/defconfig ${WORKDIR}/defconfig
     cd ${WORKDIR}/git
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-${LINUX_VERSION}
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/custom-patches-${LINUX_VERSION}
 }
 
 python() {

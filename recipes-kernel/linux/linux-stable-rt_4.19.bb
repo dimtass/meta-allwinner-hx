@@ -28,6 +28,7 @@ SRC_URI = " \
         file://do_patch.sh \
         file://patches-${LINUX_VERSION} \
         file://patch-${PREEMPT_RT_VERSION} \
+        file://custom-patches-${LINUX_VERSION} \
         file://${SOC_FAMILY}-rt-defconfig/defconfig \
 "
 
@@ -40,6 +41,7 @@ do_patch_append() {
     cd ${WORKDIR}/git
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-${LINUX_VERSION}      # apply kernel patches
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patch-${PREEMPT_RT_VERSION}   # apply preempt-rt patches
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/custom-patches-${LINUX_VERSION}
 }
 
 python() {
