@@ -35,12 +35,13 @@ SRC_URI = " \
 # For preempt-rt kernels, we need first to use the do_patch.sh tool
 # to apply the armbian patches and then apply the preempt-rt patches
 # for the proper kernel version
-do_patch_prepend() {
+do_patch_append() {
     bbinfo "Will use ${SOC_FAMILY}-rt-defconfig for the kernel"
     cp ${WORKDIR}/${SOC_FAMILY}-rt-defconfig/defconfig ${WORKDIR}/defconfig
     cd ${WORKDIR}/git
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patches-${LINUX_VERSION}      # apply kernel patches
     ${WORKDIR}/do_patch.sh ${WORKDIR}/patch-${PREEMPT_RT_VERSION}   # apply preempt-rt patches
+    ${WORKDIR}/do_patch.sh ${WORKDIR}/custom-patches-${LINUX_VERSION}
 }
 
 python() {
