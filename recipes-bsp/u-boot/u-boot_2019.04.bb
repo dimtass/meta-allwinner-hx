@@ -39,14 +39,15 @@ do_install_append() {
     install -m 644 ${WORKDIR}/${UBOOT_FIXUP_BINARY} ${D}/boot/${UBOOT_FIXUP_BINARY}
     install -m 644 ${WORKDIR}/allwinnerEnv.txt ${D}/boot/allwinnerEnv.txt
 
-    ## Commented out as for some reason it breaks the sun8i builds. To be investigated
     # Fix broken device tree reference build into u-boot
-    # for dtb in ${KERNEL_DEVICETREE}; do
-    #     dtb_base_name=`basename $dtb`
-    #     dtb_dir_name=`dirname $dtb`
-    #     install -d ${D}/boot/$dtb_dir_name
-    #     ln -rsf ${D}/boot/$dtb_base_name ${D}/boot/$dtb
-    # done
+    for dtb in ${KERNEL_DEVICETREE}; do
+        dtb_base_name=`basename $dtb`
+        dtb_dir_name=`dirname $dtb`
+        if [ ! "${dtb_dir_name}" == "." ]; then
+            install -d ${D}/boot/$dtb_dir_name
+            ln -rsf ${D}/boot/$dtb_base_name ${D}/boot/$dtb
+        fi
+    done
 
     # Cleanup u-boot rootfs files
     rm -rf ${D}/boot/${SPL_BINARYNAME} ${D}/boot/${SPL_IMAGE} ${D}/boot/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
