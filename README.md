@@ -65,6 +65,10 @@ setup-environment.sh
 sources
 ```
 
+> Note: at this point you need to source the `setup-environment.sh` and set the build
+folder. To do this read a bit further down in `Supported DISTRO(s) and MACHINE(s)` on
+how to do this, before proceed to the next paragraph.
+
 Now in your `build/conf/local.conf` file you can choose which kernel you want to build.
 By default the `linux-stable` 4.19 version is build. In case you want to build the RT
 kernel then see next section. Also, by default in this image all the Linux firmware
@@ -134,7 +138,7 @@ kmscube -d -D /dev/dri/renderD128
   failed to initialize legacy DRM
 ```
 
-#### Setting the environment
+#### Supported DISTRO(s) and MACHINE(s)
 To set the build environment you need to source the `setup-environment.sh` script
 and set the `DISTRO` and `MACHINE` variables. As mentioned above you can use the
 `list-machines.sh` script to list the supported machines. Also the supported `DISTRO`s
