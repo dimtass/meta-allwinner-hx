@@ -54,7 +54,7 @@ Then from the `top` directory that includes the sources run this command:
 cp sources/meta-allwinner-hx/scripts/setup-environment.sh .
 cp sources/meta-allwinner-hx/scripts/flash_sd.sh .
 cp sources/meta-allwinner-hx/scripts/list-machines.sh .
-cp sources/meta-allwinner-hx/Dockerfile.sh .
+cp sources/meta-allwinner-hx/Docker/Dockerfile .
 ```
 
 Then your top dir contects should look like this:
