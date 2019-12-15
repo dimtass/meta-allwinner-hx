@@ -9,8 +9,8 @@ LIC_FILES_CHKSUM ?= "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree u-boot"
 
 # We need mkimage for the overlays
-DEPENDS += "u-boot-tools-native"
-do_compile[depends] += "u-boot-tools-native:do_populate_sysroot"
+DEPENDS += "u-boot-mkimage"
+do_compile[depends] += "u-boot-mkimage:do_populate_sysroot"
 
 inherit deploy
 require recipes-kernel/linux/linux-yocto.inc
