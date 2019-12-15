@@ -1,5 +1,4 @@
 require conf/machine/include/soc-family.inc
-require allwinner-overlays.inc
 require sun-common.inc
 require conf/machine/include/tune-cortexa7.inc
 
@@ -13,6 +12,6 @@ KERNEL_IMAGETYPE ?= "zImage"
 
 SPL_BINARY ?= "u-boot-sunxi-with-spl.bin"
 
-KERNEL_DEVICETREE ?= "${SUN8I_OVERLAYS} ${SUNXI_KERNEL_DEVICETREE}"
+KERNEL_DEVICETREE ?= "${SUNXI_KERNEL_DEVICETREE}"
 
 OVERLAY_PREFIX ?= "sun8i-h3"
