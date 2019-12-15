@@ -50,6 +50,7 @@ RUN apt-get update && \
         locales \
         m4 \
         openssh-server \
+        patchutils \
         python \
         python-dev \
         python-pip \
