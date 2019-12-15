@@ -32,8 +32,15 @@ WKS_FILE ?= "${IMGDEPLOYDIR}/${IMAGE_BASENAME}.wks"
 # Extra host tools that are used in this BSP
 HOSTTOOLS += "lsdiff"
 
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
-PREFERRED_VERSION_linux-stable ?= "4.19%"
+PREFERRED_VERSION_u-boot ?= "v2019.10%"
+PREFERRED_VERSION_u-boot-fw-utils ?= "v2019.10%"
+
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-megous"
+PREFERRED_VERSION_linux-megous ?= "5.3%"
+
+# In case you need the 4.19 mainline kernel uncomment the two lines below
+#PREFERRED_PROVIDER_virtual/kernel = "linux-stable"
+#PREFERRED_VERSION_linux-stable = "4.19%"
 
 # In case you need the rt-kernel uncomment the two lines below
 #PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
