@@ -3,20 +3,24 @@
 # want to enable them then add them in the
 # IMAGE_INSTALL in allwinner-image.bb
 
+BUSYBOX_SPLIT_SUID = "0"
+
 # Sensors
 SENSORS_PKGS = " \
     lmsensors-sensors \
     lmsensors-libsensors \
 "
 
-BUSYBOX_SPLIT_SUID = "0"
+SDK_CONFLICT_PACKAGES = " \
+    busybox \
+    bash \
+    pkgconfig \
+"
 
 # Standard packages
 STANDARD_PKGS = " \
-    busybox \
     systemd \
     tar \
-    bash \
     merge-files \
     wget \
     procps \
@@ -24,7 +28,6 @@ STANDARD_PKGS = " \
     usbreset \
     udev \
     dfu-util \
-    pkgconfig \
     u-boot-fw-utils \
     kernel-base \
     kernel-modules \
@@ -121,7 +124,6 @@ DEV_SDK_INSTALL = " \
     ldd \
     libtool \
     make \
-    pkgconfig \
     ninja \
     valgrind \
 "
@@ -141,5 +143,5 @@ TEST_TOOLS = " \
 GRAPHICS_TEST_TOOLS = " \
     kmscube \
     glmark2 \
-	${@bb.utils.contains("DISTRO_FEATURES", "x11", "mesa-demos", "", d)} \
+	${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'mesa-demos', '', d)} \
 "
