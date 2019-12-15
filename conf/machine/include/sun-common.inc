@@ -15,7 +15,8 @@ do_image_wic[recrdeptask] += " do_image_sunxi_sdimg"
 UBOOT_LOCALVERSION = "-g${@d.getVar('SRCPV', True).partition('+')[2][0:7]}"
 
 UBOOT_ENTRYPOINT ?= "0x40008000"
-UBOOT_LOADADDRESS ?= "0x400080OB00"
+
+LINUX_VERSION_EXTENSION ?= "-allwinner"
 
 SERIAL_CONSOLE ?= "115200 ttyS0"
 MACHINE_FEATURES ?= "alsa apm keyboard rtc serial screen usbgadget usbhost vfat"
