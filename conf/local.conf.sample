@@ -8,6 +8,8 @@ USER_CLASSES = "buildstats image-mklibs image-prelink"
 CONF_VERSION = "1"
 
 INHERIT += " rm_work"
+# For debugging u-boot and kernel
+#RM_WORK_EXCLUDE += " linux-stable u-boot"
 
 DISTRO_FEATURES_append = " systemd"
 VIRTUAL-RUNTIME_init_manager = "systemd"
@@ -19,10 +21,16 @@ DL_DIR ?= "${BSPDIR}/downloads/"
 TMPDIR ?= "${TOPDIR}/tmp"
 
 SDKMACHINE = "x86_64"
+## It's a known issue that when you build the SDK using `-c populate_sdk`
+# then there are a few packages that conflict with recipes like:
+# poky/meta/recipes-core/meta/target-sdk-provides-dummy.bb
+# Therefore, in this case we need to remove those packages from out image build.
+REMOVE_SDK_CONFLICT_PKGS = "0"
 
 WKS_FILE ?= "${IMGDEPLOYDIR}/${IMAGE_BASENAME}.wks"
 
-PREFERRED_VERSION_u-boot ?= "v2019.04%"
+# Extra host tools that are used in this BSP
+HOSTTOOLS += "lsdiff"
 
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
 PREFERRED_VERSION_linux-stable ?= "4.19%"
@@ -33,9 +41,6 @@ PREFERRED_VERSION_linux-stable ?= "4.19%"
 
 #SSID = "YOUR_SSID"
 #PSK = YOUR_SSID_PASSWORD"
-
-# For debugging u-boot and kernel
-#RM_WORK_EXCLUDE += " linux-stable u-boot
 
 # Since adding the /lib/firmware blob in the image is not
 # always wanted, you can comment out this line if not needed

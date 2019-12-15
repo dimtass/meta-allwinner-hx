@@ -14,16 +14,13 @@ The boards that are supported are the same ones that supported in
 To view the list of the supported boards run this command see below
 in the "How to use the layer".
 
-
 The way this meta layer works is that it uses the u-boot and kernel patches
 from the armbian distro. The patches are located in:
 * `u-boot`: recipes-bsp/u-boot/files/patches
 * `kernel`: recipes-kernel/linux/linux-stable/patches
 
 Also the patcher is ported from armbian and actually is the same for u-boot
-and the kernel, but it's in two places now:
-* `u-boot`: recipes-bsp/u-boot/files/do_patch.sh
-* `kernel`: recipes-kernel/linux/linux-stable/do_patch.sh
+and the kernel and is lcated in `scripts/armbian-patcher.sh`.
 
 > Note: Not all of the above boards are tested, because I don't have them.
 I'm only testing with `nanopi-k1-plus` and occasionally `nanopi-neo`, 
@@ -190,8 +187,25 @@ PREFERRED_VERSION_linux-stable-rt = "4.19%"
 > Note: From now on the 4.14 kernel support is removed, since is obsolete.
 
 #### Current versions
-* 4.19.80
-* 4.19.72-rt26
+* 4.19.89
+* 4.19.82-rt30
+
+## Build the SDK
+There's a known issue that some bb recipes that are used while the SDK is built
+conflict with some packages. In this BSP the packages that are conflict are the
+listed in the `SDK_CONFLICT_PACKAGES` variable, which is located in `meta-allwinner-hx/classes/package-groups.inc`.
+Therefore, in case you add more packages in the image and the SDK is failing, then
+you can add them in the `SDK_CONFLICT_PACKAGES`.
+
+Then, when you setup the environment to build the image using the `meta-allwinner-hx/scripts/setup-environment.sh`
+script, you can control if those packages will be added with the `REMOVE_SDK_CONFLICT_PKGS`
+variable in the `local.conf`. By default this is set to `0`, but when you build the
+SDK you need to set that to `1`.
+
+To bulid the SDK run this command (after the environment is set)
+```sh
+bitbake -c populate_sdk allwinner-console-image
+```
 
 ## Overlays
 This layer supports overlays for the allwinners boards. In order to use them you need
