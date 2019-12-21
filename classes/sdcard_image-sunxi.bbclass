@@ -57,10 +57,14 @@ IMAGE_CMD_sunxi-sdimg () {
 	# Create folder for overlays
 	mmd -i ${WORKDIR}/boot.img ::/overlay
 	
+	# Get the dtbo overlays
+	overlays=$(find ${DEPLOY_DIR_IMAGE}/ | grep -F ".dtbo" )
+	# Add also the dtb with dtbo
+	dtbs="${KERNEL_DEVICETREE} \n${overlays}"
 	# Copy device tree file
-	if test -n "${KERNEL_DEVICETREE}"; then
-		for DTS_FILE in ${KERNEL_DEVICETREE}; do
-			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F "." '{print $1}'`
+	if test -n "${dtbs}"; then
+		for DTS_FILE in ${dtbs}; do
+			DTS_BASE_NAME=`basename ${DTS_FILE} | awk -F ".dtb" '{print $1}'`
 			DTS_DIR_NAME=`dirname ${DTS_FILE}`
 			# Copy all the dtbo files
 			if [ "${DTS_FILE##*.}" = "dtbo" ]; then
@@ -68,7 +72,6 @@ IMAGE_CMD_sunxi-sdimg () {
 				mcopy -i ${WORKDIR}/boot.img -s ${DEPLOY_DIR_IMAGE}/${DTS_BASE_NAME}.dtbo ::/overlay/${DTS_BASE_NAME}.dtbo
 			fi
 			if [ -e ${DEPLOY_DIR_IMAGE}/"${DTS_BASE_NAME}.dtb" ]; then
-
 				bbnote "DTS_BASE_NAME: ${DTS_BASE_NAME}"
 				bbnote "DTS_FILE: ${DTS_FILE}"
 				bbnote "DTS_DIR_NAME: ${DTS_DIR_NAME}"
