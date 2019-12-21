@@ -118,9 +118,11 @@ DEV_SDK_INSTALL = " \
     gdb \
     gdbserver \
     diffutils \
+    findutils \
     file \
     gettext \
     git \
+    git-perltools \
     ldd \
     libtool \
     make \
