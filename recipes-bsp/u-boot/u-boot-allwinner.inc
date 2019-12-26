@@ -52,8 +52,12 @@ do_compile_append() {
     ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/fixup.cmd ${WORKDIR}/${UBOOT_FIXUP_BINARY}
 
     # Add the soc specific parameters in the environment
-    echo "overlay_prefix=${OVERLAY_PREFIX}" >> ${WORKDIR}/allwinnerEnv.txt
-    echo "overlays=${DEFAULT_OVERLAYS}" >> ${WORKDIR}/allwinnerEnv.txt
+    sed -e "s,overlay_prefix=,overlay_prefix=${OVERLAY_PREFIX},g" \
+        -i ${WORKDIR}/allwinnerEnv.txt
+    sed -e "s,overlays=,overlays=${DEFAULT_OVERLAYS} ,g" \
+        -i ${WORKDIR}/allwinnerEnv.txt
+    # echo "overlay_prefix=${OVERLAY_PREFIX}" >> ${WORKDIR}/allwinnerEnv.txt
+    # echo "overlays=${DEFAULT_OVERLAYS}" >> ${WORKDIR}/allwinnerEnv.txt
 }
 
 do_install_append() {
