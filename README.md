@@ -241,7 +241,11 @@ extra_bootargs=
 rootfstype=ext4
 verbosity=d
 overlays=sun8i-h3-i2c0 sun8i-h3-spi-spidev
+param_spidev_spi_bus=0
 ```
+
+Some overlays (like the `spi-spidev`) get parameters as shown above. For more details
+on the allwinner overlays always refer to the decumentation [here](https://docs.armbian.com/Hardware_Allwinner_overlays/)
 
 ## WiFi networking
 If your board has only a wifi network then you can add the `SSID` and the `PSK` password
