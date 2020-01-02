@@ -1,4 +1,4 @@
-SUMMARY = "Extra maschine specific configuration files"
+SUMMARY = "udev rule for automount devices"
 HOMEPAGE = "https://wiki.gentoo.org/wiki/Eudev"
 DESCRIPTION = "Extra machine specific configuration files for udev, specifically blacklist information."
 LICENSE = "MIT"

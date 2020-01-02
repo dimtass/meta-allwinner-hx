@@ -1,0 +1,13 @@
+KERNEL=="spidev*", GROUP="gpio", MODE="0660"
+KERNEL=="gpio*", MODE:="0660", GROUP:="gpio"
+SUBSYSTEM=="gpio*", PROGRAM="/bin/sh -c '\
+ chown -R root:gpio /sys/class/gpio ; \
+ chmod -R 777 /sys/class/gpio ;\
+ chown -R root:gpio /sys/devices/virtual/gpio ;\
+ chmod -R 777 /sys/devices/virtual/gpio; \
+ chown -R root:gpio /sys/devices/platform/soc/*.gpio/gpio ;\
+ chmod -R 777 /sys/devices/platform/soc/*.gpio/gpio; \
+ chmod -R 777 /sys/class/gpio/gpio1/* ;\
+ chgrp gpio /sys/class/gpio/gpio1/* ;\
+ chgrp -R gpio /sys/devices/platform/sunxi-pinctrl/gpio ;\
+ chmod -R ug+rw /sys/devices/platform/sunxi-pinctrl/gpio ' "

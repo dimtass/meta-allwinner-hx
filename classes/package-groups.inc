@@ -24,9 +24,10 @@ STANDARD_PKGS = " \
     merge-files \
     wget \
     procps \
-    udev-automount \
     usbreset \
     udev \
+    udev-automount \
+    udev-python-gpio \
     dfu-util \
     u-boot-fw-utils \
     kernel-base \
@@ -111,21 +112,17 @@ KERNEL_EXTRA_INSTALL = " \
 
 # Dev and SDK packages
 DEV_SDK_INSTALL = " \
-    cmake \
-    binutils \
-    binutils-symlinks \
-    coreutils \
+    packagegroup-core-buildessential \
     gdb \
     gdbserver \
+    cmake \
+    coreutils \
     diffutils \
     findutils \
     file \
-    gettext \
     git \
     git-perltools \
     ldd \
-    libtool \
-    make \
     ninja \
     valgrind \
 "
