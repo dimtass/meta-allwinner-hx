@@ -60,13 +60,13 @@ do_patch_append() {
 
     cp ${WORKDIR}/${DEFCONFIG_PATH}/defconfig ${WORKDIR}/defconfig
     cd ${S}
+    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/custom-patches
     if [ -d "patch-${PREEMPT_RT_VERSION}" ]; then
         ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patches-${LINUX_VERSION}
         ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patch-${PREEMPT_RT_VERSION}
     else
         ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patches-${LINUX_VERSION}
     fi
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/custom-patches
 }
 
 # Compile overlays. This is for compatibility since from version 4.20
