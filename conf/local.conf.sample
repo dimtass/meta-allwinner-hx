@@ -9,7 +9,7 @@ CONF_VERSION = "1"
 
 INHERIT += " rm_work"
 # For debugging u-boot and kernel
-#RM_WORK_EXCLUDE += " linux-stable u-boot"
+RM_WORK_EXCLUDE += " linux-stable u-boot"
 
 DISTRO_FEATURES_append = " systemd"
 VIRTUAL-RUNTIME_init_manager = "systemd"
@@ -36,15 +36,11 @@ PREFERRED_VERSION_u-boot ?= "v2019.10%"
 PREFERRED_VERSION_u-boot-fw-utils ?= "v2019.10%"
 
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-megous"
-PREFERRED_VERSION_linux-megous ?= "5.3%"
-
-# In case you need the 4.19 mainline kernel uncomment the two lines below
-#PREFERRED_PROVIDER_virtual/kernel = "linux-stable"
-#PREFERRED_VERSION_linux-stable = "4.19%"
+PREFERRED_VERSION_linux-megous ?= "5.4%"
 
 # In case you need the rt-kernel uncomment the two lines below
-#PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
-#PREFERRED_VERSION_linux-stable-rt = "4.19%"
+#PREFERRED_PROVIDER_virtual/kernel = "linux-megous-rt"
+#PREFERRED_VERSION_linux-megous-rt = "5.4%"
 
 #SSID = "YOUR_SSID"
 #PSK = YOUR_SSID_PASSWORD"

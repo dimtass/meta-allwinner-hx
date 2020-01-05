@@ -166,44 +166,33 @@ bitbake allwinner-multimedia-image
 In this case this will create a `.wic.bz2` image inside your `build/tmp/deploy/images/nanopi-k1-plus`.
 
 ## Supported Kernels
-The default kernel version for this version is 5.3.13. Also the PREEMPT-RT kernel
+The default kernel version for this version is 5.4.y. Also the PREEMPT-RT kernel
 is supported, but it might be a slight different version compared to the SMP,
 depending the current rt release.
 
 To enable another kernel you need to edit your `build/conf/local.conf` and select
 the kernel you want. The available options are:
 
-* orange-pi megous 5.3.y
+* orange-pi megous 5.4.y
 ```
 PREFERRED_PROVIDER_virtual/kernel = "linux-megous"
-PREFERRED_VERSION_linux-stable = "5.3%"
+PREFERRED_VERSION_linux-stable = "5.4%"
 ```
 
-* linux-stable-rt 4.19
+* linux-stable-rt 5.4.y
 ```
-PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
-PREFERRED_VERSION_linux-stable-rt = "4.19%"
-```
-
-* linux-stable 4.19
-```
-PREFERRED_PROVIDER_virtual/kernel = "linux-stable"
-PREFERRED_VERSION_linux-stable = "4.19%"
-```
-* linux-stable-rt 4.19
-```
-PREFERRED_PROVIDER_virtual/kernel = "linux-stable-rt"
-PREFERRED_VERSION_linux-stable-rt = "4.19%"
+PREFERRED_PROVIDER_virtual/kernel = "linux-megous-rt"
+PREFERRED_VERSION_linux-megous-rt = "5.4%"
 ```
 
 > Notes:
 * The 4.14 kernel support has been removed, since is obsolete.
-* The 4.19 kernel should also been consider as obsolete as no new updates will be made for this kernel. This krnel will remain for some time, though as there's no support for preempt-rt for 5.x and will be removed in the future.
+* The 4.19 kernel support has been removed, since is obsolete.
+* The 5.3 kernel support has been removed, since is obsolete.
 
 #### Current versions
-* 5.3.13
-* 4.19.89
-* 4.19.82-rt30
+* 5.4.8
+* 5.4.5-rt3
 
 ## Build the SDK
 There's a known issue that some bb recipes that are used while the SDK is built
