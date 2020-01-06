@@ -76,6 +76,16 @@ recipe:
 IMAGE_INSTALL += "armbian-firmware"
 ```
 
+By default this repo is applying all the extra patches that armbian applies
+in its images. Those are the `aufs`, `wireguard` and a few extra wifi drivers.
+This is enabled by default in the `local.conf` file and you can disable this
+by setting the following variables to `no` instead of `yes`, which is the default.
+```py
+EXTRAWIFI = "yes"
+WIREGUARD = "yes"
+AUFS = "yes"
+```
+
 #### Supported machines/boards
 To view the list of the supported boards run this command:
 ```sh
