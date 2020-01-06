@@ -49,4 +49,12 @@ PREFERRED_VERSION_linux-megous ?= "5.4%"
 # always wanted, you can comment out this line if not needed
 IMAGE_INSTALL += "armbian-firmware"
 
+# In armbian those flags are enabled by default.
+# These are used in meta-allwinner-hx/recipes-kernel/linux/linux-stable.inc
+# in order to add extra functionality into the kernel. To disable them
+# just set it to `no`
+EXTRAWIFI = "yes"
+WIREGUARD = "yes"
+AUFS = "yes"
+
 # Add your custom config under this line

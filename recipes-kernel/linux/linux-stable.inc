@@ -50,18 +50,27 @@ SRCREV_rtl88x2bu = "eece0638c546cd303da518c505cbe93513595030"
 do_patch_append() {
     set -x
     set -e
-    patch_aufs5
-    patch_wireguard
-    patch_rtl8812au
-    patch_xradio
-    patch_rtl8811cu
-    patch_rtl8188eu
-    patch_rtl88x2bu
-
+    # Add extra armbian modules in the kernel?
+    if [ "${AUFS}" = "yes" ]; then
+        patch_aufs5
+    fi
+    if [ "${WIREGUARD}" = "yes" ]; then
+        patch_wireguard
+    fi
+    if [ "${EXTRAWIFI}" = "yes" ]; then
+        patch_rtl8812au
+        patch_xradio
+        patch_rtl8811cu
+        patch_rtl8188eu
+        patch_rtl88x2bu
+    fi
+    # Copy defconfig
     cp ${WORKDIR}/${DEFCONFIG_PATH}/defconfig ${WORKDIR}/defconfig
     cd ${S}
+    # Apply patches
     ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/custom-patches
-    if [ -d "patch-${PREEMPT_RT_VERSION}" ]; then
+    if [ -d "${WORKDIR}/patch-${PREEMPT_RT_VERSION}" ]; then
+        echo "Applying preempt-rt patches"
         ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patches-${LINUX_VERSION}
         ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patch-${PREEMPT_RT_VERSION}
     else
@@ -107,7 +116,7 @@ patch_aufs5() {
 }
 
 patch_wireguard() {
-	bbnote "Adding WireGuard"
+    bbnote "Adding WireGuard"
 
     cd ${S}
     rm -rf ${S}/net/wireguard

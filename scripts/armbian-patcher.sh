@@ -1,38 +1,5 @@
 #!/bin/bash
 EXIT_PATCHING_ERROR=yes
-# An ugly way to detect is script is running in bitbake or in host bash
-BB=0
-echo ${PATH} | grep recipe-sysroot-native
-if [ $? -eq 0 ]; then
-	echo "Running inside bitbake..."
-	BB=1
-fi
-
-
-display_info() {
-	if [ ${BB} -eq 1 ]; then
-		bbinfo $1
-	else
-		echo $1
-	fi
-}
-
-
-display_warn() {
-	if [ ${BB} -eq 1 ]; then
-		bbwarn $1
-	else
-		echo $1
-	fi
-}
-
-display_error() {
-	if [ ${BB} -eq 1 ]; then
-		bberror $1
-	else
-		echo $1
-	fi
-}
 
 patch()
 {
@@ -60,7 +27,7 @@ patch()
 				if [[ -s ${dir%%:*}/$name ]]; then
 					process_patch_file "${dir%%:*}/$name"
 				else
-					display_info "* ${dir##*:} $name" "skipped"
+					echo "* ${dir##*:} $name" "skipped"
 				fi
 				break # next name
 			fi
@@ -79,11 +46,11 @@ process_patch_file()
 	/usr/bin/patch --batch --silent -p1 -N < $patch
 
 	if [[ $? -ne 0 ]]; then
-		display_warn "* $(basename $patch)" "failed" "wrn"
-		[[ $EXIT_PATCHING_ERROR == yes ]] && display_error "Aborting due to EXIT_PATCHING_ERROR=${EXIT_PATCHING_ERROR}"
+		echo "* $(basename $patch)" "failed" "wrn"
+		[[ $EXIT_PATCHING_ERROR == yes ]] && echo "Aborting due to EXIT_PATCHING_ERROR=${EXIT_PATCHING_ERROR}"
 		return 1
 	else
-		display_info "$(basename $patch)" "" "info"
+		echo "$(basename $patch)" "" "info"
 	fi
 }
 
