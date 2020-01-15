@@ -2,7 +2,7 @@ require linux-stable.inc
 
 LINUX_VERSION = "5.4"
 
-PV = "5.4.2"
+PV = "5.4.11"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/linux-megous_${LINUX_VERSION}:${THISDIR}/../../scripts:"
 
@@ -10,7 +10,7 @@ SRC_URI += " \
         git://github.com/megous/linux.git;branch=orange-pi-${LINUX_VERSION} \
         ${ARMBIAN_URI} \
 "
-SRCREV = "ceccf37ed85ac44de5b0a1d51cce88b2b13afbab"
+SRCREV = "8886889807f3e913d3c57a7e7e615e7918533796"
 
 # If I don't do this then do_compile_kernelmodules fails with an
 # error that <drv_types.h> is missing, while building the net/wireless

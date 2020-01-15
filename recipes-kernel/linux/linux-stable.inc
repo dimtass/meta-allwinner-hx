@@ -38,12 +38,12 @@ ARMBIAN_URI = " \
         git://github.com/aircrack-ng/rtl8188eus.git;branch=v5.3.9;name=rtl8188eu;destsuffix=extras/rtl8188eu \
         git://github.com/cilynx/rtl88x2BU_WiFi_linux_v5.3.1_27678.20180430_COEX20180427-5959.git;name=rtl88x2bu;destsuffix=extras/rtl88x2bu \
 "
-SRCREV_aufs5 = "7b384fc17f1b0bfe3c5e89b4fc9cc0706b0e92a7"
+SRCREV_aufs5 = "60dce05c8ecef4a493d490795a50a69e84554f97"
 SRCREV_wireguard = "edad0d6e99e5133b1e8e865d727a25fff6399cb4"
 SRCREV_rtl8812au = "c7e1ce2ed3ce18927eb9c45a85e812c3ba4e51d2"
-SRCREV_xradio = "db444a5c9f5bef8e492ef367ba16bc12570e9cf2"
+SRCREV_xradio = "d0e5b313a4cdebf7cbff66fe8a33ff9c8ef89bb9"
 SRCREV_rtl8811cu = "8d20f831802fc83d9f6e9a0d916ba7d099905f44"
-SRCREV_rtl8188eu = "5562c10761dc1b47f839f6ccf0f1e0591a4335b9"
+SRCREV_rtl8188eu = "31127cea4a0efb96c496ac67b72c3271027e14f4"
 SRCREV_rtl88x2bu = "eece0638c546cd303da518c505cbe93513595030"
 
 # Apply the armbian patches and defconfig
