@@ -20,8 +20,6 @@ DEFAULT_PREFERENCE = "1"
 EXTRA_OEMAKE += ' HOSTLDSHARED="${BUILD_CC} -shared ${BUILD_LDFLAGS} ${BUILD_CFLAGS}" '
 EXTRA_OEMAKE_append_sun50iw2 = " BL31=${DEPLOY_DIR_IMAGE}/bl31.bin "
 EXTRA_OEMAKE_append_sun50iw6 = " BL31=${DEPLOY_DIR_IMAGE}/bl31.bin "
-EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" V=1'
-EXTRA_OEMAKE_class-cross = 'HOSTCC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
 
 SRC_URI = " \
         git://gitlab.denx.de/u-boot.git;branch=master \

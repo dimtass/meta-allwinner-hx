@@ -23,7 +23,7 @@ do_configure() {
 
 do_compile_append() {
 
-    if [ "${SOC_FAMILY}" == "sun50iw2" || "${SOC_FAMILY}" == "sun50iw6" && ! -f "${DEPLOY_DIR_IMAGE}/bl31.bin" ]; then
+    if [ "${SOC_FAMILY}" == "sun50iw2" -o "${SOC_FAMILY}" == "sun50iw6" ] && [ ! -f "${DEPLOY_DIR_IMAGE}/bl31.bin" ]; then
         bberror "Could not find ${DEPLOY_DIR_IMAGE}/bl31.bin. You need to build the atf-arm package first"
     fi
 
