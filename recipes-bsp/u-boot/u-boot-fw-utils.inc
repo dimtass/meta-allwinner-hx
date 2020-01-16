@@ -1,32 +1,18 @@
 DESCRIPTION="Upstream's U-boot fw utils configured for allwinner devices"
 AUTHOR = "Dimitris Tassopoulos <dimtass@gmail.com>"
-LICENSE = "GPLv2+"
 
-require recipes-bsp/u-boot/u-boot.inc
+require u-boot-common.inc
 
-COMPATIBLE_MACHINE = "(sun8i|sun50i)"
-
-DEPENDS += "bc-native dtc-native swig-native python3-native bison-native flex-native"
-DEPENDS_append_sun50i = " atf-arm "
+LIC_FILES_CHKSUM ?= "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
 
 PROVIDES = "u-boot-fw-utils"
 RPROVIDES_${PN} = "u-boot-fw-utils"
 
-DEFAULT_PREFERENCE_sun8i="1"
-DEFAULT_PREFERENCE_sun50i="1"
-
-SRC_URI = " \
-        git://gitlab.denx.de/u-boot.git;branch=master \
-        file://armbian-patcher.sh \
-        file://patches-${UBOOT_VERSION} \
+SRC_URI += " \
         file://fw_env.config \
     "
 
-S = "${WORKDIR}/git"
-
 INSANE_SKIP_${PN} = "already-stripped"
-EXTRA_OEMAKE_class-target = 'CROSS_COMPILE=${TARGET_PREFIX} CC="${CC} ${CFLAGS} ${LDFLAGS}" HOSTCC="${BUILD_CC} ${BUILD_CFLAGS} ${BUILD_LDFLAGS}" V=1'
-EXTRA_OEMAKE_class-cross = 'HOSTCC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
 
 do_configure() {
     cd ${S}
