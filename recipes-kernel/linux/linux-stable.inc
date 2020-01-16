@@ -1,7 +1,7 @@
 AUTHOR = "Dimitris Tassopoulos <dimtass@gmail.com>"
 SECTION = "kernel"
 LICENSE = "GPLv2"
-COMPATIBLE_MACHINE = "(sun8i|sun50i)"
+COMPATIBLE_MACHINE = "(sun8i|sun50iw2|sun50iw6)"
 
 LIC_FILES_CHKSUM ?= "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 
