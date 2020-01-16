@@ -6,8 +6,10 @@
 SPL_NAME_sun8i ?= "u-boot-sunxi-with-spl.bin"
 
 # sun50i builds an SPL and a u-boot image
-SPL_NAME_sun50i ?= "sunxi-spl.bin"
-UBOOT_IMAGE_sun50i ?= "u-boot.itb"
+SPL_NAME_sun50iw2 ?= "sunxi-spl.bin"
+UBOOT_IMAGE_sun50iw2 ?= "u-boot.itb"
+SPL_NAME_sun50iw6 ?= "sunxi-spl.bin"
+UBOOT_IMAGE_sun50iw6 ?= "u-boot.itb"
 
 # name of boot partition image, empty value combines the boot and rootfs partitions
 SUNXI_BOOT_IMAGE ?= "boot.img"

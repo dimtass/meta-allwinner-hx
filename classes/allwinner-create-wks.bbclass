@@ -24,7 +24,7 @@ part SPL --source rawcopy --sourceparams="file=${SPL_NAME}" --ondisk ${SUNXI_STO
 EOF
 
 #### Partitions specific to sunxi64 images
-    elif [ "${SOC_FAMILY}" = "sun50i" ]; then
+    elif [ "${SOC_FAMILY}" = "sun50iw2" || "${SOC_FAMILY}" = "sun50iw6" ]; then
         bbnote "Creating a wks file for sunxi64..."
         cat >> "$wks" <<EOF
 part SPL --source rawcopy --sourceparams="file=${SPL_NAME}" --ondisk ${SUNXI_STORAGE_DEVICE} --no-table --align 8

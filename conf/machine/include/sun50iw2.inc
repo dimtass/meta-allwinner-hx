@@ -2,7 +2,7 @@ require conf/machine/include/arm/arch-armv8a.inc
 require conf/machine/include/soc-family.inc
 require sun-common.inc
 
-SOC_FAMILY = "sun50i"
+SOC_FAMILY = "sun50iw2"
 
 KERNEL_IMAGETYPE ?= "Image"
 
@@ -12,3 +12,5 @@ SPL_BINARY ?= "spl/sunxi-spl.bin"
 KERNEL_DEVICETREE ?= "${SUNXI_KERNEL_DEVICETREE}"
 
 OVERLAY_PREFIX ?= "sun50i-h5"
+
+UBOOT_PATCHES ?= "sun50iw2"

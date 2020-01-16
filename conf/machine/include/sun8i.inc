@@ -15,3 +15,5 @@ SPL_BINARY ?= "u-boot-sunxi-with-spl.bin"
 KERNEL_DEVICETREE ?= "${SUNXI_KERNEL_DEVICETREE}"
 
 OVERLAY_PREFIX ?= "sun8i-h3"
+
+UBOOT_PATCHES ?= "sunxi"
