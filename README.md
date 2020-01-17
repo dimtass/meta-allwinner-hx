@@ -129,6 +129,10 @@ X11). This is a list of the images:
 also `gstreamer1.0` with all plugins 
 * `allwineer-testing-image`: An image that installs various testing tools.
 
+#### Control image extra space
+Currently the extra free space for the image is set to 4GB. You can control the size
+with the `ROOT_EXTRA_SPACE` variable in `meta-allwinner-hx/classes/allwinner-wks-defs.inc`.
+If you want to remove all additional space then set it to `0`.
 
 #### Lima DRM support
 Wayland seems to be working, but I can verify that there are some issues, like keyboard
