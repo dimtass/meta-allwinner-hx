@@ -18,7 +18,7 @@ SUNXI_BOOT_IMAGE ?= "boot.img"
 SUNXI_STORAGE_DEVICE ?= "mmcblk0"
 
 # This is the extra space for the rootfs
-ROOT_EXTRA_SPACE ?= "10240"
+ROOT_EXTRA_SPACE ?= "4096"
 
 # if you need swap file then add here the size of it
 SUNXI_SWAP_SIZE ?= "512"
