@@ -16,7 +16,7 @@ INSANE_SKIP_${PN} = "already-stripped"
 
 do_configure() {
     cd ${S}
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patches-${UBOOT_VERSION}
+    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patches-${SOC_FAMILY}-${UBOOT_VERSION}
 }
 
 do_compile() {
