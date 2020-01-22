@@ -13,4 +13,4 @@ EXTRA_OEMAKE_class-cross = 'HOSTCC="${CC} ${CFLAGS} ${LDFLAGS}" V=1'
 SRCREV = "61ba1244b548463dbfb3c5285b6b22e7c772c5bd"
 PV = "v${UBOOT_VERSION}+git${SRCPV}"
 
-FILESEXTRAPATHS_prepend := "${THISDIR}/linux_${LINUX_VERSION}:${THISDIR}/../../scripts:"
+FILESEXTRAPATHS_prepend := "${THISDIR}/files:${THISDIR}/../../scripts:"

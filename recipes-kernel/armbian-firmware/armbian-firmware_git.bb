@@ -64,5 +64,3 @@ FILES_${PN} += "${nonarch_base_libdir}/firmware"
 # Firmware files are generally not ran on the CPU, so they can be
 # allarch despite being architecture specific
 INSANE_SKIP = "arch file-rdeps"
-
-COMPATIBLE_MACHINE = "(sun8i|sun50i)"
