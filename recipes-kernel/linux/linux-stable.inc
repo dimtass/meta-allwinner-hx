@@ -38,13 +38,13 @@ ARMBIAN_URI = " \
         git://github.com/aircrack-ng/rtl8188eus.git;branch=v5.3.9;name=rtl8188eu;destsuffix=extras/rtl8188eu \
         git://github.com/cilynx/rtl88x2BU_WiFi_linux_v5.3.1_27678.20180430_COEX20180427-5959.git;name=rtl88x2bu;destsuffix=extras/rtl88x2bu \
 "
-SRCREV_aufs5 = "117f04f49af2d3f7bbbc2784ef555007ba82cdf4"
-SRCREV_wireguard = "edad0d6e99e5133b1e8e865d727a25fff6399cb4"
-SRCREV_rtl8812au = "c7e1ce2ed3ce18927eb9c45a85e812c3ba4e51d2"
-SRCREV_xradio = "02ab4569f957a75260210eb337656a97883d74f3"
-SRCREV_rtl8811cu = "fa09e8076ec37a44757be099e4d81d28b0d066fa"
-SRCREV_rtl8188eu = "2c778d03e4244aead290fb5829dfd8a0809e4350"
-SRCREV_rtl88x2bu = "eece0638c546cd303da518c505cbe93513595030"
+SRCREV_aufs5 =          "117f04f49af2d3f7bbbc2784ef555007ba82cdf4"
+SRCREV_wireguard =      "edad0d6e99e5133b1e8e865d727a25fff6399cb4"
+SRCREV_xradio =         "f5f5e61af3bca045dd5e08e51f0d965ad429aa68"
+SRCREV_rtl8812au =      "c7e1ce2ed3ce18927eb9c45a85e812c3ba4e51d2"
+SRCREV_rtl8811cu =      "fa09e8076ec37a44757be099e4d81d28b0d066fa"
+SRCREV_rtl8188eu =      "2c778d03e4244aead290fb5829dfd8a0809e4350"
+SRCREV_rtl88x2bu =      "eece0638c546cd303da518c505cbe93513595030"
 
 # Apply the armbian patches and defconfig
 do_patch_append() {
