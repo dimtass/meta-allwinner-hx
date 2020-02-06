@@ -48,10 +48,10 @@ to use `zeus` if you need graphics supports. In case that you need to use
 #### Setting the environment
 Then from the `top` directory that includes the sources run this command:
 ```sh
-cp sources/meta-allwinner-hx/scripts/setup-environment.sh .
-cp sources/meta-allwinner-hx/scripts/flash_sd.sh .
-cp sources/meta-allwinner-hx/scripts/list-machines.sh .
-cp sources/meta-allwinner-hx/Docker/Dockerfile .
+ln -s sources/meta-allwinner-hx/scripts/setup-environment.sh .
+ln -s sources/meta-allwinner-hx/scripts/flash_sd.sh .
+ln -s sources/meta-allwinner-hx/scripts/list-machines.sh .
+ln -s sources/meta-allwinner-hx/Docker/Dockerfile .
 ```
 
 Then your top dir contects should look like this:
@@ -205,7 +205,7 @@ PREFERRED_VERSION_linux-megous-rt = "5.4%"
 * The 5.3 kernel support has been removed, since is obsolete.
 
 #### Current versions
-* 5.4.16
+* 5.4.18
 * 5.4.13-rt7
 
 ## Build the SDK

@@ -40,10 +40,10 @@ ARMBIAN_URI = " \
 "
 SRCREV_aufs5 =          "117f04f49af2d3f7bbbc2784ef555007ba82cdf4"
 SRCREV_wireguard =      "edad0d6e99e5133b1e8e865d727a25fff6399cb4"
-SRCREV_xradio =         "f5f5e61af3bca045dd5e08e51f0d965ad429aa68"
+SRCREV_xradio =         "4cec4dca2c376b392e7a4c6b2835895aebdbce2c"
 SRCREV_rtl8812au =      "c7e1ce2ed3ce18927eb9c45a85e812c3ba4e51d2"
 SRCREV_rtl8811cu =      "fa09e8076ec37a44757be099e4d81d28b0d066fa"
-SRCREV_rtl8188eu =      "2c778d03e4244aead290fb5829dfd8a0809e4350"
+SRCREV_rtl8188eu =      "ede09706b622f546685cd54b19643f0ebb35f0d1"
 SRCREV_rtl88x2bu =      "eece0638c546cd303da518c505cbe93513595030"
 
 # Apply the armbian patches and defconfig
