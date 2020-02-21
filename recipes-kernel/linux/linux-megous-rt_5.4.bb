@@ -1,8 +1,8 @@
 require linux-stable.inc
 
 LINUX_VERSION = "5.4"
-PREEMPT_RT_VERSION = "5.4.13-rt7"
-PV = "5.4.13"
+PREEMPT_RT_VERSION = "5.4.19-rt11"
+PV = "5.4.18"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/linux-megous-rt_${LINUX_VERSION}:${THISDIR}/../../scripts:"
 
@@ -11,7 +11,7 @@ SRC_URI += " \
         ${ARMBIAN_URI} \
         file://patch-${PREEMPT_RT_VERSION} \
 "
-SRCREV = "0e4781297ee8963c86c68a496045fef36ebfe4bb"
+SRCREV = "db5ec55d5a9448c472568a39a895dc89fb7ade20"
 
 # If I don't do this then do_compile_kernelmodules fails with an
 # error that <drv_types.h> is missing, while building the net/wireless
