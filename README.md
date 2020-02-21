@@ -206,7 +206,7 @@ PREFERRED_VERSION_linux-megous-rt = "5.4%"
 
 #### Current versions
 * 5.4.21
-* 5.4.13-rt7
+* 5.4.19-rt11
 
 ## Build the SDK
 There's a known issue that some bb recipes that are used while the SDK is built
