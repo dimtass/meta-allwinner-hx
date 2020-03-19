@@ -42,9 +42,9 @@ SRCREV_aufs5 =          "117f04f49af2d3f7bbbc2784ef555007ba82cdf4"
 SRCREV_wireguard =      "edad0d6e99e5133b1e8e865d727a25fff6399cb4"
 SRCREV_xradio =         "4cec4dca2c376b392e7a4c6b2835895aebdbce2c"
 SRCREV_rtl8812au =      "c7e1ce2ed3ce18927eb9c45a85e812c3ba4e51d2"
-SRCREV_rtl8811cu =      "fa09e8076ec37a44757be099e4d81d28b0d066fa"
+SRCREV_rtl8811cu =      "ca0bcba405f8865e6acd6a6d3cacf93f7e1b8a2c"
 SRCREV_rtl8188eu =      "ede09706b622f546685cd54b19643f0ebb35f0d1"
-SRCREV_rtl88x2bu =      "eece0638c546cd303da518c505cbe93513595030"
+SRCREV_rtl88x2bu =      "c1a5dab571c8d909957f48e1b6a5cc7097ae9f8c"
 
 # Apply the armbian patches and defconfig
 do_patch_append() {

@@ -205,7 +205,7 @@ PREFERRED_VERSION_linux-megous-rt = "5.4%"
 * The 5.3 kernel support has been removed, since is obsolete.
 
 #### Current versions
-* 5.4.21
+* 5.4.26
 * 5.4.19-rt11
 
 ## Build the SDK
