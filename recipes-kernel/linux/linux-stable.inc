@@ -30,21 +30,25 @@ ARMBIAN_URI = " \
         file://patches-${LINUX_VERSION} \
         file://custom-patches \
         file://${DEFCONFIG_PATH}/defconfig \
-        git://github.com/sfjro/aufs5-standalone.git;name=aufs5;branch=aufs5.4;destsuffix=extras/aufs5 \
-        git://git.zx2c4.com/wireguard-monolithic-historical.git;name=wireguard;destsuffix=extras/wireguard \
-        git://github.com/aircrack-ng/rtl8812au.git;branch=v5.2.20;name=rtl8812au;destsuffix=extras/rtl8812au \
+        git://github.com/sfjro/aufs5-standalone.git;name=aufs5;branch=aufs5.4.3;destsuffix=extras/aufs5 \
+        git://git.zx2c4.com/wireguard-linux-compat.git;name=wireguard;destsuffix=extras/wireguard \
+        git://github.com/jwrdegoede/rtl8189ES_linux.git;name=rtl8189es;destsuffix=extras/rtl8189es \
+        git://github.com/jwrdegoede/rtl8189ES_linux.git;name=rtl8189fs;destsuffix=extras/rtl8189fs \
+        git://github.com/aircrack-ng/rtl8812au.git;branch=v5.6.4.2;name=rtl8812au;destsuffix=extras/rtl8812au \
         git://github.com/karabek/xradio.git;name=xradio;destsuffix=extras/xradio \
         git://github.com/brektrou/rtl8821CU.git;name=rtl8811cu;destsuffix=extras/rtl8811cu \
-        git://github.com/aircrack-ng/rtl8188eus.git;branch=v5.3.9;name=rtl8188eu;destsuffix=extras/rtl8188eu \
-        git://github.com/cilynx/rtl88x2BU_WiFi_linux_v5.3.1_27678.20180430_COEX20180427-5959.git;name=rtl88x2bu;destsuffix=extras/rtl88x2bu \
+        git://github.com/aircrack-ng/rtl8188eus.git;branch=v5.7.6.1;name=rtl8188eu;destsuffix=extras/rtl8188eu \
+        git://github.com/cilynx/rtl88x2bu.git;branch=5.6.1_30362.20181109_COEX20180928-6a6a;name=rtl88x2bu;destsuffix=extras/rtl88x2bu \
 "
-SRCREV_aufs5 =          "117f04f49af2d3f7bbbc2784ef555007ba82cdf4"
-SRCREV_wireguard =      "edad0d6e99e5133b1e8e865d727a25fff6399cb4"
+SRCREV_aufs5 =          "e7a55d2cf765eb18b870bf6a9baf955d8b7e3863"
+SRCREV_wireguard =      "70193c4950b998a841c27a2245522f7fe696e968"
 SRCREV_xradio =         "4cec4dca2c376b392e7a4c6b2835895aebdbce2c"
-SRCREV_rtl8812au =      "c7e1ce2ed3ce18927eb9c45a85e812c3ba4e51d2"
+SRCREV_rtl8189es =      "2c8d44ae26485052f39d933a3a132b3ff395803a"
+SRCREV_rtl8189fs =      "2c8d44ae26485052f39d933a3a132b3ff395803a"
+SRCREV_rtl8812au =      "8b29c11f9ba6cc56045e0fbedc144241ef179598"
 SRCREV_rtl8811cu =      "ca0bcba405f8865e6acd6a6d3cacf93f7e1b8a2c"
-SRCREV_rtl8188eu =      "ede09706b622f546685cd54b19643f0ebb35f0d1"
-SRCREV_rtl88x2bu =      "c1a5dab571c8d909957f48e1b6a5cc7097ae9f8c"
+SRCREV_rtl8188eu =      "9315815f5a446ba87e5965fde71094b10a00fac7"
+SRCREV_rtl88x2bu =      "e8040efe1f17d360b36cded30a9dff3f283a2b93"
 
 # Apply the armbian patches and defconfig
 do_patch_append() {
@@ -58,6 +62,7 @@ do_patch_append() {
         patch_wireguard
     fi
     if [ "${EXTRAWIFI}" = "yes" ]; then
+        patch_rtl8189es
         patch_rtl8812au
         patch_xradio
         patch_rtl8811cu
@@ -135,6 +140,64 @@ patch_wireguard() {
     sed -i '/mkdir -p "$destdir"/a mkdir -p "$destdir"/net/wireguard; \
     touch "$destdir"/net/wireguard/{Kconfig,Makefile} # workaround for Wireguard' \
             ${S}/scripts/package/builddeb
+}
+
+
+patch_rtl8189es() {
+    bbnote "Adding Wireless drivers for Realtek 8189ES chipsets"
+    cd ${S}
+    rm -rf ${S}/drivers/net/wireless/rtl8189es
+    mkdir -p ${S}/drivers/net/wireless/rtl8189es/
+    cp -R ${WORKDIR}/extras/rtl8189es/core \
+        ${S}/drivers/net/wireless/rtl8189es
+    cp -R ${WORKDIR}/extras/rtl8189es/hal \
+        ${S}/drivers/net/wireless/rtl8189es
+    cp -R ${WORKDIR}/extras/rtl8189es/include \
+        ${S}/drivers/net/wireless/rtl8189es
+    cp -R ${WORKDIR}/extras/rtl8189es/os_dep \
+        ${S}/drivers/net/wireless/rtl8189es
+    cp -R ${WORKDIR}/extras/rtl8189es/platform \
+        ${S}/drivers/net/wireless/rtl8189es
+
+    # Makefile
+    cp ${WORKDIR}/extras/rtl8189fs/Makefile \
+        ${S}/drivers/net/wireless/rtl8189es/Makefile
+    cp ${WORKDIR}/extras/rtl8189fs/Kconfig \
+        ${S}/drivers/net/wireless/rtl8189es/Kconfig
+
+    # Add to section Makefile
+    echo "obj-\$(CONFIG_RTL8189ES) += rtl8189es/" >> ${S}/drivers/net/wireless/Makefile
+    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8189es\/Kconfig"' \
+        ${S}/drivers/net/wireless/Kconfig
+}
+
+
+patch_rtl8189fs() {
+    bbnote "Adding Wireless drivers for Realtek 8189FS chipsets"
+    cd ${S}
+    rm -rf ${S}/drivers/net/wireless/rtl8189fs
+    mkdir -p ${S}/drivers/net/wireless/rtl8189fs/
+    cp -R ${WORKDIR}/extras/rtl8189fs/core \
+        ${S}/drivers/net/wireless/rtl8189fs
+    cp -R ${WORKDIR}/extras/rtl8189fs/hal \
+        ${S}/drivers/net/wireless/rtl8189fs
+    cp -R ${WORKDIR}/extras/rtl8189fs/include \
+        ${S}/drivers/net/wireless/rtl8189fs
+    cp -R ${WORKDIR}/extras/rtl8189fs/os_dep \
+        ${S}/drivers/net/wireless/rtl8189fs
+    cp -R ${WORKDIR}/extras/rtl8189fs/platform \
+        ${S}/drivers/net/wireless/rtl8189fs
+
+    # Makefile
+    cp ${WORKDIR}/extras/rtl8189fs/Makefile \
+        ${S}/drivers/net/wireless/rtl8189fs/Makefile
+    cp ${WORKDIR}/extras/rtl8189fs/Kconfig \
+        ${S}/drivers/net/wireless/rtl8189fs/Kconfig
+
+    # Add to section Makefile
+    echo "obj-\$(CONFIG_RTL8189FS) += rtl8189fs/" >> ${S}/drivers/net/wireless/Makefile
+    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8189fs\/Kconfig"' \
+        ${S}/drivers/net/wireless/Kconfig
 }
 
 patch_rtl8812au() {
@@ -274,6 +337,8 @@ patch_rtl88x2bu() {
     cp -R ${WORKDIR}/extras/rtl88x2bu/os_dep \
             ${S}/drivers/net/wireless/rtl88x2bu
     cp -R ${WORKDIR}/extras/rtl88x2bu/platform \
+            ${S}/drivers/net/wireless/rtl88x2bu
+    cp -R ${WORKDIR}/extras/rtl88x2bu/halmac.mk \
             ${S}/drivers/net/wireless/rtl88x2bu
     cp -R ${WORKDIR}/extras/rtl88x2bu/rtl8822b.mk \
             ${S}/drivers/net/wireless/rtl88x2bu

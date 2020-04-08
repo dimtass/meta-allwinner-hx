@@ -15,13 +15,14 @@ SOURCES=${ARMBIAN}/cache/sources
 UBOOT_PATH=${SOURCES}/u-boot/v2019.10
 KERNEL_PATH=${SOURCES}/linux-mainline/orange-pi-5.4
 
-AUF5_PATH=${SOURCES}/aufs5/aufs5.4
-WIREGUARD_PATH=${SOURCES}/wireguard/0.0.20191219
+AUF5_PATH=${SOURCES}/aufs5/aufs5.4.3
+WIREGUARD_PATH=${SOURCES}/wireguard/master
 XRADIO_PATH=${SOURCES}/xradio/master
-RTL8812AU_PATH=${SOURCES}/rtl8812au/v5.2.20
+RTL8189ES_PATH=${SOURCES}/rtl8189es/master
+RTL8812AU_PATH=${SOURCES}/rtl8812au/v5.6.4.2
 RTL8811CU_PATH=${SOURCES}/rtl8811cu/master
-RTL8188EU_PATH=${SOURCES}/rtl8188eu/v5.3.9
-RTL88X2BU_PATH=${SOURCES}/rtl88x2bu/master
+RTL8188EU_PATH=${SOURCES}/rtl8188eu/v5.7.6.1
+RTL88X2BU_PATH=${SOURCES}/rtl88x2bu/5.6.1_30362.20181109_COEX20180928-6a6a/
 
 ARMBIAN_UBOOT_PATCHES_PATH=${ARMBIAN}/patch/u-boot/u-boot-sunxi/
 ALLWINNER_UBOOT_PATCHES_PATH=${ALLWINNER}/recipes-bsp/u-boot/files/patches-sun8i-2019.10/
@@ -51,6 +52,7 @@ echo "Checking for changes in hashes..."
 check_hash "${AUF5_PATH}"       "aufs5.4"   "${LINUX_INC_PATH}"
 check_hash "${WIREGUARD_PATH}"  "wireguard" "${LINUX_INC_PATH}"
 check_hash "${XRADIO_PATH}"     "xradio"    "${LINUX_INC_PATH}"
+check_hash "${RTL8189ES_PATH}"  "rtl8189es" "${LINUX_INC_PATH}"
 check_hash "${RTL8812AU_PATH}"  "rtl8812au" "${LINUX_INC_PATH}"
 check_hash "${RTL8811CU_PATH}"  "rtl8811cu" "${LINUX_INC_PATH}"
 check_hash "${RTL8188EU_PATH}"  "rtl8188eu" "${LINUX_INC_PATH}"
