@@ -199,14 +199,11 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-megous-rt"
 PREFERRED_VERSION_linux-megous-rt = "5.4%"
 ```
 
-> Notes:
-* The 4.14 kernel support has been removed, since is obsolete.
-* The 4.19 kernel support has been removed, since is obsolete.
-* The 5.3 kernel support has been removed, since is obsolete.
+> Note: You can now go back to previous kernel versions using git tags
 
 #### Current versions
 * 5.4.30
-* 5.4.19-rt11
+* 5.4.28-rt19
 
 ## Build the SDK
 There's a known issue that some bb recipes that are used while the SDK is built
