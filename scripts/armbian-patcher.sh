@@ -47,6 +47,7 @@ process_patch_file()
 
 	if [[ $? -ne 0 ]]; then
 		echo "* $(basename $patch)" "failed" "wrn"
+		bbwarn "* $(basename $patch) failed wrn"
 		[[ $EXIT_PATCHING_ERROR == yes ]] && echo "Aborting due to EXIT_PATCHING_ERROR=${EXIT_PATCHING_ERROR}"
 		return 1
 	else
