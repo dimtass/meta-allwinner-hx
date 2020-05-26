@@ -40,15 +40,15 @@ ARMBIAN_URI = " \
         git://github.com/aircrack-ng/rtl8188eus.git;branch=v5.7.6.1;name=rtl8188eu;destsuffix=extras/rtl8188eu \
         git://github.com/cilynx/rtl88x2bu.git;branch=5.6.1_30362.20181109_COEX20180928-6a6a;name=rtl88x2bu;destsuffix=extras/rtl88x2bu \
 "
-SRCREV_aufs5 =          "e7a55d2cf765eb18b870bf6a9baf955d8b7e3863"
-SRCREV_wireguard =      "70193c4950b998a841c27a2245522f7fe696e968"
-SRCREV_xradio =         "4cec4dca2c376b392e7a4c6b2835895aebdbce2c"
+SRCREV_aufs5 =          "11887377b825f6d534bbd496dbba8e47d1b22d6c"
+SRCREV_wireguard =      "10b8e74e9be86ad9cc8a5fb2d89d2593f7becdda"
+SRCREV_xradio =         "354e8c32e7948d46a63796d0ca266b1f702999b0"
 SRCREV_rtl8189es =      "2c8d44ae26485052f39d933a3a132b3ff395803a"
 SRCREV_rtl8189fs =      "2c8d44ae26485052f39d933a3a132b3ff395803a"
-SRCREV_rtl8812au =      "8b29c11f9ba6cc56045e0fbedc144241ef179598"
-SRCREV_rtl8811cu =      "ca0bcba405f8865e6acd6a6d3cacf93f7e1b8a2c"
+SRCREV_rtl8812au =      "fc0194c1d90453bf4943089ca237159ef19a7374"
+SRCREV_rtl8811cu =      "2bebdb9a35c1d9b6e6a928e371fa39d5fcec8a62"
 SRCREV_rtl8188eu =      "9315815f5a446ba87e5965fde71094b10a00fac7"
-SRCREV_rtl88x2bu =      "e8040efe1f17d360b36cded30a9dff3f283a2b93"
+SRCREV_rtl88x2bu =      "0f159d7cd937a12b818121cb1f1c4910bd1adc72"
 
 # Apply the armbian patches and defconfig
 do_patch_append() {
@@ -98,6 +98,8 @@ do_deploy_append() {
     for dtbo in $dtbos; do
         install -m 644 $dtbo ${DEPLOYDIR}/
     done
+    bbnote "Extract ${OVERLAY_PREFIX} fixup"
+    fixup=$(find . -name "*.scr-cmd" | grep ${OVERLAY_PREFIX})
 }
 
 python() {
