@@ -98,8 +98,11 @@ do_deploy_append() {
     for dtbo in $dtbos; do
         install -m 644 $dtbo ${DEPLOYDIR}/
     done
+
     bbnote "Extract ${OVERLAY_PREFIX} fixup"
     fixup=$(find . -name "*.scr-cmd" | grep ${OVERLAY_PREFIX})
+    mkimage -C none -A arm -T script -d $fixup ${WORKDIR}/fixup.scr
+    install -m 644 ${WORKDIR}/fixup.scr ${DEPLOYDIR}/
 }
 
 python() {

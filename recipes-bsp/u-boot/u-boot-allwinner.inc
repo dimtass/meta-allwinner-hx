@@ -7,13 +7,10 @@ LIC_FILES_CHKSUM ?= "file://Licenses/README;md5=30503fd321432fc713238f582193b78e
 
 SRC_URI += " \
             file://${SOC_FAMILY}-boot/boot.cmd \
-            file://${SOC_FAMILY}-boot/fixup.cmd \
             file://allwinnerEnv.txt \
 "
 
-UBOOT_ENV_SUFFIX = "scr"
 UBOOT_ENV = "boot"
-UBOOT_FIXUP_BINARY = "fixup.scr"
 
 do_configure() {
     cd ${S}
@@ -30,21 +27,15 @@ do_compile_append() {
     cp ${WORKDIR}/${SOC_FAMILY}-boot/boot.cmd ${WORKDIR}/boot.cmd
     ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/boot.cmd ${WORKDIR}/${UBOOT_ENV_BINARY}
 
-    cp ${WORKDIR}/${SOC_FAMILY}-boot/fixup.cmd ${WORKDIR}/fixup.cmd
-    ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/fixup.cmd ${WORKDIR}/${UBOOT_FIXUP_BINARY}
-
     # Add the soc specific parameters in the environment
     sed -e "s,overlay_prefix=,overlay_prefix=${OVERLAY_PREFIX},g" \
         -i ${WORKDIR}/allwinnerEnv.txt
     sed -e "s,overlays=,overlays=${DEFAULT_OVERLAYS} ,g" \
         -i ${WORKDIR}/allwinnerEnv.txt
-    # echo "overlay_prefix=${OVERLAY_PREFIX}" >> ${WORKDIR}/allwinnerEnv.txt
-    # echo "overlays=${DEFAULT_OVERLAYS}" >> ${WORKDIR}/allwinnerEnv.txt
 }
 
 do_install_append() {
     # Install files to rootfs/boot/
-    install -m 644 ${WORKDIR}/${UBOOT_FIXUP_BINARY} ${D}/boot/${UBOOT_FIXUP_BINARY}
     install -m 644 ${WORKDIR}/allwinnerEnv.txt ${D}/boot/allwinnerEnv.txt
 
     # Fix broken device tree reference build into u-boot
@@ -62,8 +53,5 @@ do_install_append() {
 }
 
 do_deploy_append() {
-    # Copy also the fixup script to the deploy dir
-    install -m 644 ${WORKDIR}/${UBOOT_FIXUP_BINARY} ${DEPLOYDIR}/${UBOOT_FIXUP_BINARY}
-
     install -m 644 ${WORKDIR}/allwinnerEnv.txt ${DEPLOYDIR}/allwinnerEnv.txt
 }
