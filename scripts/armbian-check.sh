@@ -2,6 +2,7 @@
 # This script is used to detect changes in the armbian repo and then
 # it tries to automate the update procedure by copying the necessary
 # files.
+# ./compile.sh  BOARD=nanopik1plus BRANCH=current KERNEL_ONLY=yes KERNEL_CONFIGURE=no
 
 : ${ARMBIAN:=/rnd2/armbian/build}
 : ${ALLWINNER:=/rnd/yocto/allwinner/sources/meta-allwinner-hx}
@@ -27,7 +28,7 @@ RTL88X2BU_PATH=${SOURCES}/rtl88x2bu/5.6.1_30362.20181109_COEX20180928-6a6a/
 ARMBIAN_UBOOT_PATCHES_PATH=${ARMBIAN}/patch/u-boot/u-boot-sunxi/
 ALLWINNER_UBOOT_PATCHES_PATH=${ALLWINNER}/recipes-bsp/u-boot/files/patches-sun8i-2019.10/
 
-ARMBIAN_UBOOT_SUN50IW6_PATCHES_PATH=${ARMBIAN}/patch/u-boot/u-boot-sun50iw6/
+ARMBIAN_UBOOT_SUN50IW6_PATCHES_PATH=${ARMBIAN}/patch/u-boot/u-boot-sunxi/
 ALLWINNER_UBOOT_SUN50IW6_PATCHES_PATH=${ALLWINNER}/recipes-bsp/u-boot/files/patches-sun50iw6-2019.10/
 
 ARMBIAN_KERNEL_PATCHES_PATH=${ARMBIAN}/patch/kernel/sunxi-current/

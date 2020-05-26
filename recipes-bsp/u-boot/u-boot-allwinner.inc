@@ -10,8 +10,6 @@ SRC_URI += " \
             file://allwinnerEnv.txt \
 "
 
-UBOOT_ENV = "boot"
-
 do_configure() {
     cd ${S}
     ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patches-${SOC_FAMILY}-${UBOOT_VERSION}
@@ -25,7 +23,7 @@ do_compile_append() {
     fi
 
     cp ${WORKDIR}/${SOC_FAMILY}-boot/boot.cmd ${WORKDIR}/boot.cmd
-    ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/boot.cmd ${WORKDIR}/${UBOOT_ENV_BINARY}
+    ${B}/tools/mkimage -C none -A arm -T script -d ${WORKDIR}/boot.cmd ${WORKDIR}/boot.scr
 
     # Add the soc specific parameters in the environment
     sed -e "s,overlay_prefix=,overlay_prefix=${OVERLAY_PREFIX},g" \
@@ -53,5 +51,6 @@ do_install_append() {
 }
 
 do_deploy_append() {
-    install -m 644 ${WORKDIR}/allwinnerEnv.txt ${DEPLOYDIR}/allwinnerEnv.txt
+    install -m 644 ${WORKDIR}/allwinnerEnv.txt ${DEPLOYDIR}/
+    install -m 644 ${WORKDIR}/boot.scr ${DEPLOYDIR}/
 }
