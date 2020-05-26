@@ -5,7 +5,11 @@
 
 # default values
 setenv load_addr "0x44000000"
+setenv overlay_error "false"
+# default values
 setenv verbosity "1"
+setenv disp_mem_reserves "off"
+setenv disp_mode "1920x1080p60"
 setenv rootfstype "ext4"
 setenv console "both"
 setenv docker_optimizations "on"
@@ -13,9 +17,9 @@ setenv devnum "0"
 setenv rootdev "/dev/mmcblk${devnum}p2"
 
 # Print boot source
-itest.b *0x10028 == 0x00 && echo "U-boot loaded from SD"
-itest.b *0x10028 == 0x02 && echo "U-boot loaded from eMMC or secondary SD"
-itest.b *0x10028 == 0x03 && echo "U-boot loaded from SPI"
+itest.b *0x28 == 0x00 && echo "U-boot loaded from SD"
+itest.b *0x28 == 0x02 && echo "U-boot loaded from eMMC or secondary SD"
+itest.b *0x28 == 0x03 && echo "U-boot loaded from SPI"
 
 # get PARTUUID of first partition on SD/eMMC it was loaded from
 # mmc 0 is always mapped to device u-boot (2016.09+) was loaded from
@@ -39,6 +43,8 @@ if test -e ${devtype} ${devnum} ${prefix}allwinnerEnv.txt; then
 	echo "New verbosity: ${verbosity}"
 fi
 
+if test "${logo}" = "disabled"; then setenv logo "logo.nologo"; fi
+
 if test "${console}" = "display" || test "${console}" = "both"; then setenv consoleargs "console=ttyS0,115200 console=tty1"; fi
 if test "${console}" = "serial"; then setenv consoleargs "console=ttyS0,115200"; fi
 
@@ -51,6 +57,8 @@ setenv bootargs "root=${rootdev} rootwait rootfstype=${rootfstype} ${consoleargs
 if test "${docker_optimizations}" = "on"; then setenv bootargs "${bootargs} cgroup_enable=memory swapaccount=1"; fi
 
 load ${devtype} ${devnum} ${fdt_addr_r} ${prefix}${fdtfile}
+load ${devtype} ${devnum} ${kernel_addr_r} ${prefix}Image
+
 fdt addr ${fdt_addr_r}
 fdt resize 65536
 # Load environment file
@@ -72,9 +80,8 @@ else
 	fi
 fi
 
-load ${devtype} ${devnum} ${kernel_addr_r} ${prefix}Image
-
 booti ${kernel_addr_r} - ${fdt_addr_r}
 
 # Recompile with:
-# mkimage -C none -A arm -T script -d /boot/boot.cmd /boot/boot.scr
+# mkimage -C none -A arm -T script -d boot/boot.cmd boot/boot.scr
+
