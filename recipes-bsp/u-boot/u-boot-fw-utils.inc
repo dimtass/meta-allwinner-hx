@@ -21,7 +21,7 @@ do_configure() {
 
 do_compile() {
 	cd ${S}
-	oe_runmake -C ${S} O=${B} ${UBOOT_MACHINE}
+	oe_runmake -C ${S} O=${B} ${UBOOT_CONFIG}
 	oe_runmake -C ${S} O=${B} envtools
 }
 
