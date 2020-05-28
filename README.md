@@ -5,7 +5,8 @@ This meta layer is mainly a mix of `meta-sunxi` and `armbian`.
 
 > Note: The master version always points to the latest Yocto version.
 If you want to use a specific version then `git checkout` to that
-specific version.
+specific version, but be aware that older versions may not be updated.
+Current master is based on `dunfell`.
 
 This meta layer supports only boards with the allwinner H2, H3 and H5 cpus.
 The boards that are supported are the same ones that supported in
@@ -36,14 +37,11 @@ Then `git clone` this repo inside with `poky` and `meta-openembedded`.
 ```sh
 cd sources
 git clone git@bitbucket.org:dimtass/meta-allwinner-hx.git
-git clone --depth 1 -b zeus git://git.yoctoproject.org/poky
-git clone --depth 1 -b zeus git@github.com:openembedded/meta-openembedded.git
+git clone --depth 1 -b dunfell git://git.yoctoproject.org/poky
+git clone --depth 1 -b dunfell git@github.com:openembedded/meta-openembedded.git
 ```
 
-> Note: This layer has been updated to `zeus` in order to support the new
-mesa 19.1.x version that supports the Lima drm. Therefore, it's preferable
-to use `zeus` if you need graphics supports. In case that you need to use
-`warrior` then only the console distro is supported.
+> Note: This layer is compatible with `warrior`, `zeus` and `dunfell`.
 
 #### Setting the environment
 Then from the `top` directory that includes the sources run this command:
@@ -202,7 +200,7 @@ PREFERRED_VERSION_linux-megous-rt = "5.4%"
 > Note: You can now go back to previous kernel versions using git tags
 
 #### Current versions
-* 5.4.30
+* 5.4.42
 * 5.4.28-rt19
 
 ## Build the SDK
@@ -253,7 +251,7 @@ in the `build/conf/local.conf` and build the image. You can remove the comment o
 two lines in the `build/conf/local.conf` and the proper values for your network.
 ```sh
 SSID = "YOUR_SSID"
-PSK = YOUR_SSID_PASSWORD"
+PSK = "YOUR_SSID_PASSWORD"
 ```
 
 For some reason it seems that the `wpa_supplicant@wlan0.service` service is not installed
@@ -372,8 +370,8 @@ docker run -it --name allwinner-builder -v $(pwd):/docker -v /opt/yocto-download
 
 Then you can build the yocto image inside the container as usual, e.g.:
 ```sh
-yoctouser@dcca27f70336:/docker$ DISTRO=allwinner-distro-wayland MACHINE=nanopi-k1-plus source ./setup-environment.sh build
-yoctouser@dcca27f70336:/docker$ bitbake allwinner-multimedia-image
+yoctouser@dcca27f70336:/docker$ DISTRO=allwinner-distro-console MACHINE=nanopi-k1-plus source ./setup-environment.sh build
+yoctouser@dcca27f70336:/docker$ bitbake allwinner-console-image
 ```
 
 ## Notes
