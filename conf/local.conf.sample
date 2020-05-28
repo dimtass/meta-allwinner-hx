@@ -33,7 +33,7 @@ WKS_FILE ?= "${IMGDEPLOYDIR}/${IMAGE_BASENAME}.wks"
 HOSTTOOLS += "lsdiff"
 
 PREFERRED_VERSION_u-boot ?= "v2020.04%"
-PREFERRED_RPROVIDER_u-boot-fw-utils ? = "u-boot-fw-utils"
+PREFERRED_RPROVIDER_u-boot-fw-utils ?= "u-boot-fw-utils"
 PREFERRED_VERSION_u-boot-fw-utils ?= "v2020.04%"
 
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-megous"
