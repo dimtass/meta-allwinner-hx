@@ -6,7 +6,7 @@ This meta layer is mainly a mix of `meta-sunxi` and `armbian`.
 > Note: The master version always points to the latest Yocto version.
 If you want to use a specific version then `git checkout` to that
 specific version, but be aware that older versions may not be updated.
-Current master is based on `dunfell`.
+Current master is based on `zeus`.
 
 This meta layer supports only boards with the allwinner H2, H3 and H5 cpus.
 The boards that are supported are the same ones that supported in
@@ -37,11 +37,11 @@ Then `git clone` this repo inside with `poky` and `meta-openembedded`.
 ```sh
 cd sources
 git clone git@bitbucket.org:dimtass/meta-allwinner-hx.git
-git clone --depth 1 -b dunfell git://git.yoctoproject.org/poky
-git clone --depth 1 -b dunfell git@github.com:openembedded/meta-openembedded.git
+git clone --depth 1 -b zeus git://git.yoctoproject.org/poky
+git clone --depth 1 -b zeus git@github.com:openembedded/meta-openembedded.git
 ```
 
-> Note: This layer is compatible with `warrior`, `zeus` and `dunfell`.
+> Note: This layer is compatible with `warrior`, `zeus` and `zeus`.
 
 #### Setting the environment
 Then from the `top` directory that includes the sources run this command:
