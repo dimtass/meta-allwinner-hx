@@ -6,7 +6,7 @@ COMPATIBLE_MACHINE = "(sun8i|sun50iw2|sun50iw6)"
 LIC_FILES_CHKSUM ?= "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
 
 # Pull in the devicetree files and u-boot config files into the rootfs
-RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree u-boot"
+RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
 
 # We need mkimage for the overlays
 DEPENDS += "u-boot-tools-native"
