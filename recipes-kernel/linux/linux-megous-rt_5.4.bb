@@ -1,7 +1,7 @@
 require linux-stable.inc
 
 LINUX_VERSION = "5.4"
-PREEMPT_RT_VERSION = "5.4.28-rt19"
+PREEMPT_RT_VERSION = "5.4.40-rt24"
 PV = "5.4.18"
 
 FILESEXTRAPATHS_prepend := "${THISDIR}/linux-megous-rt_${LINUX_VERSION}:${THISDIR}/../../scripts:"
