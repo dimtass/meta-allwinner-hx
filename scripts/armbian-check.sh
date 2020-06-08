@@ -8,12 +8,12 @@
 : ${ALLWINNER:=/rnd/yocto/allwinner/sources/meta-allwinner-hx}
 
 LINUX_INC_PATH=${ALLWINNER}/recipes-kernel/linux/linux-stable.inc
-UBOOT_RECIPE_PATH=${ALLWINNER}/recipes-bsp/u-boot/u-boot_2019.10.bb
+UBOOT_RECIPE_PATH=${ALLWINNER}/recipes-bsp/u-boot/u-boot_2020.04.bb
 LINUX_RECIPE_PATH=${ALLWINNER}/recipes-kernel/linux/linux-megous_5.4.bb
 
 SOURCES=${ARMBIAN}/cache/sources
 
-UBOOT_PATH=${SOURCES}/u-boot/v2019.10
+UBOOT_PATH=${SOURCES}/u-boot/v2020.04
 KERNEL_PATH=${SOURCES}/linux-mainline/orange-pi-5.4
 
 AUF5_PATH=${SOURCES}/aufs5/aufs5.4.3
@@ -26,10 +26,10 @@ RTL8188EU_PATH=${SOURCES}/rtl8188eu/v5.7.6.1
 RTL88X2BU_PATH=${SOURCES}/rtl88x2bu/5.6.1_30362.20181109_COEX20180928-6a6a/
 
 ARMBIAN_UBOOT_PATCHES_PATH=${ARMBIAN}/patch/u-boot/u-boot-sunxi/
-ALLWINNER_UBOOT_PATCHES_PATH=${ALLWINNER}/recipes-bsp/u-boot/files/patches-sun8i-2019.10/
+ALLWINNER_UBOOT_PATCHES_PATH=${ALLWINNER}/recipes-bsp/u-boot/files/patches-sun8i-2020.04/
 
 ARMBIAN_UBOOT_SUN50IW6_PATCHES_PATH=${ARMBIAN}/patch/u-boot/u-boot-sunxi/
-ALLWINNER_UBOOT_SUN50IW6_PATCHES_PATH=${ALLWINNER}/recipes-bsp/u-boot/files/patches-sun50iw6-2019.10/
+ALLWINNER_UBOOT_SUN50IW6_PATCHES_PATH=${ALLWINNER}/recipes-bsp/u-boot/files/patches-sun50iw6-2020.04/
 
 ARMBIAN_KERNEL_PATCHES_PATH=${ARMBIAN}/patch/kernel/sunxi-current/
 ALLWINNER_KERNEL_PATCHES_PATH=${ALLWINNER}/recipes-kernel/linux/linux-megous_5.4/patches-5.4/

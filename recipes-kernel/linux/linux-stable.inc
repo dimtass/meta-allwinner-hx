@@ -41,14 +41,14 @@ ARMBIAN_URI = " \
         git://github.com/cilynx/rtl88x2bu.git;branch=5.6.1_30362.20181109_COEX20180928-6a6a;name=rtl88x2bu;destsuffix=extras/rtl88x2bu \
 "
 SRCREV_aufs5 =          "11887377b825f6d534bbd496dbba8e47d1b22d6c"
-SRCREV_wireguard =      "10b8e74e9be86ad9cc8a5fb2d89d2593f7becdda"
+SRCREV_wireguard =      "55385041a8cb74188be566e65d80bf9baecdd2e7"
 SRCREV_xradio =         "354e8c32e7948d46a63796d0ca266b1f702999b0"
 SRCREV_rtl8189es =      "2c8d44ae26485052f39d933a3a132b3ff395803a"
 SRCREV_rtl8189fs =      "2c8d44ae26485052f39d933a3a132b3ff395803a"
-SRCREV_rtl8812au =      "fc0194c1d90453bf4943089ca237159ef19a7374"
-SRCREV_rtl8811cu =      "2bebdb9a35c1d9b6e6a928e371fa39d5fcec8a62"
+SRCREV_rtl8812au =      "df2b8dfd8cb7d9f6cfeb55abaeab8a5372011fc9"
+SRCREV_rtl8811cu =      "ca0bcba405f8865e6acd6a6d3cacf93f7e1b8a2c"
 SRCREV_rtl8188eu =      "9315815f5a446ba87e5965fde71094b10a00fac7"
-SRCREV_rtl88x2bu =      "0f159d7cd937a12b818121cb1f1c4910bd1adc72"
+SRCREV_rtl88x2bu =      "64aa087c5ead11960425125c955dcfe98233202e"
 
 # Apply the armbian patches and defconfig
 do_patch_append() {
