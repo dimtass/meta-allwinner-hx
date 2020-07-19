@@ -84,6 +84,8 @@ WIREGUARD = "yes"
 AUFS = "yes"
 ```
 
+> Note: For kernel versions > 5.4.x `WIREGUARD` is not used anymore
+
 #### Supported machines/boards
 To view the list of the supported boards run this command:
 ```sh
@@ -200,7 +202,7 @@ PREFERRED_VERSION_linux-megous-rt = "5.4%"
 > Note: You can now go back to previous kernel versions using git tags
 
 #### Current versions
-* 5.4.45
+* 5.7.8
 * 5.4.40-rt24
 
 ## Build the SDK
