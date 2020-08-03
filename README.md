@@ -8,6 +8,10 @@ If you want to use a specific version then `git checkout` to that
 specific version, but be aware that older versions may not be updated.
 Current master is based on `dunfell`.
 
+> Note: Currently the PREEMPT-RT kernel build fails with the Wireguard module enabled.
+Therefore, it's now disabled and will be re-enbled when the kernel is
+updated to 5.6+.
+
 This meta layer supports only boards with the allwinner H2, H3 and H5 cpus.
 The boards that are supported are the same ones that supported in
 [armbian](https://www.armbian.com/download/).
