@@ -63,7 +63,11 @@ if [ ! -e conf/local.conf.sample ]; then
 
     # Replace conf/bblayers.conf and conf/local.conf with the platform's ones
     cp -f $CWD/sources/${METALAYER}/conf/bblayers.conf.sample $CWD/$1/conf/bblayers.conf
-    cp -f $CWD/sources/${METALAYER}/conf/local.conf.sample $CWD/$1/conf/local.conf
+    if [ "${DISTRO}" == "allwinner-distro-tiny" ]; then
+        cp -f $CWD/sources/${METALAYER}/conf/local.conf.tiny-sample $CWD/$1/conf/local.conf
+    else
+        cp -f $CWD/sources/${METALAYER}/conf/local.conf.sample $CWD/$1/conf/local.conf
+    fi
 
     # Change settings according environment
     sed -e "s,MACHINE ?=.*,MACHINE = '$MACHINE',g" \

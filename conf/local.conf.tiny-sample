@@ -1,0 +1,58 @@
+# Common configuration for all Machine types
+AUTHOR = "Dimitris Tassopoulos"
+MACHINE ?= "allwinner"
+DISTRO ?= "poky"
+
+PACKAGE_CLASSES ?= " package_ipk"
+USER_CLASSES = "buildstats image-mklibs image-prelink"
+CONF_VERSION = "1"
+
+INHERIT += " rm_work"
+# For debugging u-boot and kernel
+RM_WORK_EXCLUDE += " linux-stable u-boot"
+
+# BB_GENERATE_MIRROR_TARBALLS = "1"
+
+DL_DIR ?= "${BSPDIR}/downloads/"
+TMPDIR ?= "${TOPDIR}/tmp"
+
+SDKMACHINE = "x86_64"
+## It's a known issue that when you build the SDK using `-c populate_sdk`
+# then there are a few packages that conflict with recipes like:
+# poky/meta/recipes-core/meta/target-sdk-provides-dummy.bb
+# Therefore, in this case we need to remove those packages from out image build.
+REMOVE_SDK_CONFLICT_PKGS = "0"
+
+WKS_FILE ?= "${IMGDEPLOYDIR}/${IMAGE_BASENAME}.wks"
+
+# Extra host tools that are used in this BSP
+HOSTTOOLS += "lsdiff"
+
+PREFERRED_VERSION_u-boot ?= "v2020.04%"
+PREFERRED_RPROVIDER_u-boot-fw-utils ?= "u-boot-fw-utils"
+PREFERRED_VERSION_u-boot-fw-utils ?= "v2020.04%"
+
+PREFERRED_PROVIDER_virtual/kernel = "linux-megous"
+PREFERRED_VERSION_linux-megous ?= "5.7%"
+
+# In case you need the rt-kernel uncomment the two lines below
+#PREFERRED_PROVIDER_virtual/kernel = "linux-megous-rt"
+#PREFERRED_VERSION_linux-megous-rt = "5.4%"
+
+#SSID = "YOUR_SSID"
+#PSK = YOUR_SSID_PASSWORD"
+
+# Since adding the /lib/firmware blob in the image is not
+# always wanted, you can comment out this line if not needed
+IMAGE_INSTALL += "armbian-firmware"
+
+# In armbian those flags are enabled by default.
+# These are used in meta-allwinner-hx/recipes-kernel/linux/linux-stable.inc
+# in order to add extra functionality into the kernel. To disable them
+# just set it to `no`
+EXTRAWIFI = "yes"
+WIREGUARD = "no"
+AUFS = "yes"
+
+# Add your custom config under this line
+

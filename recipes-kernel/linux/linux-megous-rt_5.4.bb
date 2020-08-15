@@ -1,4 +1,4 @@
-require linux-stable.inc
+require linux-stable-rt.inc
 
 LINUX_VERSION = "5.4"
 PREEMPT_RT_VERSION = "5.4.40-rt24"

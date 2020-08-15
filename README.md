@@ -8,6 +8,10 @@ If you want to use a specific version then `git checkout` to that
 specific version, but be aware that older versions may not be updated.
 Current master is based on `zeus`.
 
+> Note: Currently the PREEMPT-RT kernel build fails with the Wireguard module enabled.
+Therefore, it's now disabled and will be re-enbled when the kernel is
+updated to 5.6+.
+
 This meta layer supports only boards with the allwinner H2, H3 and H5 cpus.
 The boards that are supported are the same ones that supported in
 [armbian](https://www.armbian.com/download/).
@@ -84,6 +88,8 @@ WIREGUARD = "yes"
 AUFS = "yes"
 ```
 
+> Note: For kernel versions > 5.4.x `WIREGUARD` is not used anymore
+
 #### Supported machines/boards
 To view the list of the supported boards run this command:
 ```sh
@@ -99,6 +105,7 @@ the Lima DRM. Also the Armbian patches have support for Lima, therefore you can
 build X11/Wayland images with graphic acceleration from Lima.
 
 Currently, this layer supports the following DISTROs:
+* `allwinner-distro-tiny`: only console, no GUI, initramfs.
 * `allwinner-distro-console`: only console, no GUI.
 * `allwinner-distro-wayland`: Supports Wyland with Weston as composer
 * `allwinner-distro-x11`: Supports xserver-xorg
@@ -175,6 +182,16 @@ After the environment is set you can start building the image:
 bitbake allwinner-multimedia-image
 ```
 
+> Note: Added a new tiny image distro. This image boot in 1-2 seconds on the nanopi-k1-plus.
+This is a initramfs image, therefore you need to create your own `/init` script to mount the
+bigger rootfs partition. This is not currenty done and this image is provided as a template
+to create fast boot ditros. In order to use it run the following commands:
+
+```sh
+DISTRO=allwinner-distro-tiny MACHINE=nanopi-k1-plus source ./setup-environment.sh build
+bitbake allwinner-tiny-console-image
+```
+
 In this case this will create a `.wic.bz2` image inside your `build/tmp/deploy/images/nanopi-k1-plus`.
 
 ## Supported Kernels
@@ -200,7 +217,7 @@ PREFERRED_VERSION_linux-megous-rt = "5.4%"
 > Note: You can now go back to previous kernel versions using git tags
 
 #### Current versions
-* 5.4.45
+* 5.7.8
 * 5.4.40-rt24
 
 ## Build the SDK
