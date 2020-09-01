@@ -217,7 +217,7 @@ PREFERRED_VERSION_linux-megous-rt = "5.4%"
 > Note: You can now go back to previous kernel versions using git tags
 
 #### Current versions
-* 5.7.8
+* 5.8.5
 * 5.4.40-rt24
 
 ## Build the SDK
