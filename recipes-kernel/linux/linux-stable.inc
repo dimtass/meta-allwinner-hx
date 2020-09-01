@@ -69,6 +69,7 @@ do_patch_append() {
     fi
     if [ "${EXTRAWIFI}" = "yes" ]; then
         patch_rtl8152
+        patch_rtl8189fs
         patch_rtl8189es
         patch_rtl8812au
         patch_xradio
@@ -220,6 +221,9 @@ patch_rtl8189fs() {
     echo "obj-\$(CONFIG_RTL8189FS) += rtl8189fs/" >> ${S}/drivers/net/wireless/Makefile
     sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8189fs\/Kconfig"' \
         ${S}/drivers/net/wireless/Kconfig
+
+    # Remove all printk
+    sed -i 's/printk/\/\//g' ${S}/drivers/net/wireless/rtl8189fs/include/rtw_debug.h
 }
 
 patch_rtl8812au() {
