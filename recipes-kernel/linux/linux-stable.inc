@@ -42,6 +42,7 @@ ARMBIAN_URI = " \
         git://github.com/cilynx/rtl88x2bu.git;branch=5.6.1_30362.20181109_COEX20180928-6a6a;name=rtl88x2bu;destsuffix=extras/rtl88x2bu \
         git://github.com/lwfinger/rtl8723ds.git;name=rtl8723ds;destsuffix=extras/rtl8723ds \
         git://github.com/lwfinger/rtl8723du.git;name=rtl8723du;destsuffix=extras/rtl8723du \
+        git://github.com/Mange/rtl8192eu-linux-driver.git;branch=realtek-4.4.x;name=rtl8192eu;destsuffix=extras/rtl8192eu \
 "
 SRCREV_aufs5 =          "ac34d21c4044d0232f5ff74e5543e3793071c671"
 SRCREV_wireguard =      "55385041a8cb74188be566e65d80bf9baecdd2e7"
@@ -49,12 +50,13 @@ SRCREV_xradio =         "354e8c32e7948d46a63796d0ca266b1f702999b0"
 SRCREV_rtl8152 =        "1ae92418ba8002c6eb77eda34cc0f998fc9ef094"
 SRCREV_rtl8189es =      "42f293406700988c10655aaa5ee865b411389aeb"
 SRCREV_rtl8189fs =      "86dba26ae963c3c704d0e623d4ea7a6fa020d3f1"
-SRCREV_rtl8812au =      "058ef814b8e27639fdf10b03cac1a1d8e41c6777"
+SRCREV_rtl8812au =      "006c821ae82f0675d98db5c569a30591f5fc2a70"
 SRCREV_rtl8811cu =      "2bebdb9a35c1d9b6e6a928e371fa39d5fcec8a62"
 SRCREV_rtl8188eu =      "f7806db66f015dfe6aab3d4b1b730205d2ef96be"
-SRCREV_rtl88x2bu =      "64aa087c5ead11960425125c955dcfe98233202e"
+SRCREV_rtl88x2bu =      "a1c53f43fb9995fbe3ad26567079d6384626d350"
 SRCREV_rtl8723ds =      "149dcf11405bd5ab7b2f5dc638b63e060a63d72c"
 SRCREV_rtl8723du =      "ac34f36dba33ba5996db1c1e4ade170b2e0ab43b"
+SRCREV_rtl8192eu =      "6d2705d8023c25b43f845298e707252fd813e68e"
 
 # Apply the armbian patches and defconfig
 do_patch_append() {
@@ -78,6 +80,7 @@ do_patch_append() {
         patch_rtl88x2bu
         patch_rtl8723ds
         patch_rtl8723du
+        patch_rtl8192eu
     fi
     # Copy defconfig
     cp ${WORKDIR}/${DEFCONFIG_PATH}/defconfig ${WORKDIR}/defconfig
@@ -99,7 +102,7 @@ do_patch_append() {
 do_compile_append() {
     set -x
     bbnote "Compiling kernel overlays"
-    oe_runmake -C ${B} CC="${KERNEL_CC}" ${PARALLEL_MAKE} dtbs
+    oe_runmake -C ${B} CC="${KERNEL_CC}" ${PARALLEL_MAKE} modules dtbs
 }
 
 # deploy the dtbo overlays in the DEPLOYDIR
@@ -450,4 +453,37 @@ patch_rtl8723du() {
     echo "obj-\$(CONFIG_RTL8822BU) += rtl88x2bu/" >> ${S}/drivers/net/wireless/Makefile
     sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl88x2bu\/Kconfig"' \
         ${S}/drivers/net/wireless/Kconfig
+}
+
+
+patch_rtl8192eu() {
+    bbnote "Adding Wireless drivers for Realtek 8192EU chipsets"
+
+    cd ${S}
+    rm -rf ${S}/drivers/net/wireless/rtl8192eu
+    mkdir -p ${S}/drivers/net/wireless/rtl8192eu/
+    cp -R ${WORKDIR}/extras/rtl8192eu/core \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/hal \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/include \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/os_dep \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/platform \
+            ${S}/drivers/net/wireless/rtl8192eu
+
+    # Makefile
+    cp ${WORKDIR}/extras/rtl8192eu/Makefile \
+            ${S}/drivers/net/wireless/rtl8192eu/Makefile
+
+    # Kconfig
+    sed -i 's/---help---/help/g' "${WORKDIR}/extras/rtl8192eu/Kconfig"
+    cp ${WORKDIR}/extras/rtl8192eu/Kconfig \
+            ${S}/drivers/net/wireless/rtl8192eu/Kconfig
+
+    # Add to section Makefile
+    echo "obj-\$(CONFIG_RTL8192EU) += rtl8192eu/" >> ${S}/drivers/net/wireless/Makefile
+    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8192eu\/Kconfig"' \
+            ${S}/drivers/net/wireless/Kconfig
 }
