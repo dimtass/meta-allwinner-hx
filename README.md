@@ -40,9 +40,9 @@ Then `git clone` this repo inside with `poky` and `meta-openembedded`.
 
 ```sh
 cd sources
-git clone git@bitbucket.org:dimtass/meta-allwinner-hx.git
-git clone --depth 1 -b dunfell git://git.yoctoproject.org/poky
-git clone --depth 1 -b dunfell git@github.com:openembedded/meta-openembedded.git
+git clone https://gitlab.com/dimtass/meta-allwinner-hx.git
+git clone --depth 1 -b dunfell https://git.yoctoproject.org/git/poky
+git clone --depth 1 -b dunfell https://github.com/openembedded/meta-openembedded.git
 ```
 
 > Note: This layer is compatible with `warrior`, `zeus` and `dunfell`.
