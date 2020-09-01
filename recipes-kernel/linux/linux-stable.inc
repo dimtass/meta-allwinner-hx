@@ -69,6 +69,7 @@ do_patch_append() {
     fi
     if [ "${EXTRAWIFI}" = "yes" ]; then
         patch_rtl8152
+        patch_rtl8189fs
         patch_rtl8189es
         patch_rtl8812au
         patch_xradio
