@@ -20,6 +20,7 @@ SDK_CONFLICT_PACKAGES = " \
 # Standard packages
 STANDARD_PKGS = " \
     systemd \
+    systemd-serialgetty \
     tar \
     merge-files \
     wget \
