@@ -21,4 +21,5 @@ sharing their amazing work and it was possible to create this layer.
 Dimitris Tassopoulos <dimtass@gmail.com>
 
 ## Contributors
-Lasse Hyldahl Jensen <lasse@lasse-it.dk>
+* Lasse Hyldahl Jensen <lasse@lasse-it.dk>
+* Jordi Gonzalez Muñoz <jordigonzm@gmail.com>

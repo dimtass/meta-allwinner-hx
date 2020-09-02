@@ -40,9 +40,9 @@ Then `git clone` this repo inside with `poky` and `meta-openembedded`.
 
 ```sh
 cd sources
-git clone git@bitbucket.org:dimtass/meta-allwinner-hx.git
-git clone --depth 1 -b zeus git://git.yoctoproject.org/poky
-git clone --depth 1 -b zeus git@github.com:openembedded/meta-openembedded.git
+git clone https://gitlab.com/dimtass/meta-allwinner-hx.git
+git clone --depth 1 -b zeus https://git.yoctoproject.org/git/poky
+git clone --depth 1 -b zeus https://github.com/openembedded/meta-openembedded.git
 ```
 
 > Note: This layer is compatible with `warrior`, `zeus` and `zeus`.
@@ -217,7 +217,7 @@ PREFERRED_VERSION_linux-megous-rt = "5.4%"
 > Note: You can now go back to previous kernel versions using git tags
 
 #### Current versions
-* 5.7.8
+* 5.8.5
 * 5.4.40-rt24
 
 ## Build the SDK

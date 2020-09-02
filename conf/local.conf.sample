@@ -37,7 +37,7 @@ PREFERRED_RPROVIDER_u-boot-fw-utils ?= "u-boot-fw-utils"
 PREFERRED_VERSION_u-boot-fw-utils ?= "v2020.04%"
 
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-megous"
-PREFERRED_VERSION_linux-megous ?= "5.7%"
+PREFERRED_VERSION_linux-megous ?= "5.8%"
 
 # In case you need the rt-kernel uncomment the two lines below
 #PREFERRED_PROVIDER_virtual/kernel = "linux-megous-rt"
