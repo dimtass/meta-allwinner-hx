@@ -18,7 +18,7 @@ UBOOT_ENTRYPOINT ?= "0x40008000"
 
 LINUX_VERSION_EXTENSION ?= "-allwinner"
 
-SERIAL_CONSOLE ?= "115200;ttyS0 115200;ttyGS0"
+SERIAL_CONSOLES ?= "115200;ttyS0 115200;ttyGS0"
 MACHINE_FEATURES ?= "alsa apm keyboard rtc serial screen usbgadget usbhost vfat"
 
 # By default allwinner supports video output, unless specific machine conf disables it
