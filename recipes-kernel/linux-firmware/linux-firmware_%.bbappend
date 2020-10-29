@@ -1,9 +1,4 @@
-do_install_append_orange-pi-zero-plus2-h5() {
-    # Set brcmfmac config file used with this machine
-    ln -sf brcmfmac43430-sdio.AP6212.txt ${D}${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt
+do_install_append() {
+    install -m 644 ${D}${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.AP6212.txt ${D}${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.xunlong,orangepi-zero-plus2-h3.txt
+    install -m 644 ${D}${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.AP6212.txt ${D}${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.xunlong,orangepi-zero-plus2-h5.txt
 }
-
-FILES_${PN}-bcm43430_append_orange-pi-zero-plus2-h5 += " \
-    ${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.txt \
-    ${nonarch_base_libdir}/firmware/brcm/brcmfmac43430-sdio.AP6212.txt \
-"

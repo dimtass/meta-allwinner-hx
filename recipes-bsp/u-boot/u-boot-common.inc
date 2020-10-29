@@ -25,6 +25,7 @@ SRC_URI = " \
         git://gitlab.denx.de/u-boot.git;branch=master \
         file://armbian-patcher.sh \
         file://patches-${SOC_FAMILY}-${UBOOT_VERSION} \
+        file://custom-patches/ \
     "
 
 S = "${WORKDIR}/git"
