@@ -112,8 +112,15 @@ do_compile_append() {
 do_install_append() {
     set -x
     dtbos=$(find . -name "*.dtbo" | grep ${OVERLAY_PREFIX})
+    install -d ${D}/${KERNEL_IMAGEDEST}/overlay
     for dtbo in $dtbos; do
-        install -m 644 $dtbo ${D}/${KERNEL_IMAGEDEST}/
+        install -m 644 $dtbo ${D}/${KERNEL_IMAGEDEST}/overlay
+    done
+
+    install -d ${D}/${KERNEL_IMAGEDEST}/allwinner
+    dtbs=$(find . -name "*.dtb" | grep ${OVERLAY_PREFIX})
+    for dtb in $dtbs; do
+        install -m 644 $dtb ${D}/${KERNEL_IMAGEDEST}/allwinner
     done
 
     bbnote "Extract ${OVERLAY_PREFIX} fixup"
