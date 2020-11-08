@@ -1,0 +1,12 @@
+diff --git a/common/spl/spl.c b/common/spl/spl.c
+index 88d4b8a9bf..767fae2fe7 100644
+--- a/common/spl/spl.c
++++ b/common/spl/spl.c
+@@ -554,6 +554,7 @@ static int boot_from_devices(struct spl_image_info *spl_image,
+ 		else
+ 			puts(SPL_TPL_PROMPT "Unsupported Boot Device!\n");
+ #endif
++		mdelay(50);
+ 		if (loader && !spl_load_image(spl_image, loader)) {
+ 			spl_image->boot_device = spl_boot_list[i];
+ 			return 0;

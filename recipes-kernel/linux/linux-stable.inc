@@ -5,8 +5,16 @@ COMPATIBLE_MACHINE = "(sun8i|sun50iw2|sun50iw6)"
 
 LIC_FILES_CHKSUM ?= "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
+# Install fixup.scr to /boot/
+FILES_${KERNEL_PACKAGE_NAME}-fixup = "${KERNEL_IMAGEDEST}/fixup.scr"
+# Install overlays to /boot/overlay
+FILES_${KERNEL_PACKAGE_NAME}-dtbo = "${KERNEL_IMAGEDEST}/overlay"
+# Install devicetree files
+FILES_${KERNEL_PACKAGE_NAME}-dt = "${KERNEL_IMAGEDEST}/allwinner"
+PACKAGES_append += "${KERNEL_PACKAGE_NAME}-fixup ${KERNEL_PACKAGE_NAME}-dtbo ${KERNEL_PACKAGE_NAME}-dt"
+
 # Pull in the devicetree files and u-boot config files into the rootfs
-RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
+RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree kernel-image kernel-fixup u-boot"
 
 # We need mkimage for the overlays
 DEPENDS += "u-boot-tools-native"
@@ -105,6 +113,26 @@ do_compile_append() {
     oe_runmake -C ${B} CC="${KERNEL_CC}" ${PARALLEL_MAKE} modules dtbs
 }
 
+do_install_append() {
+    set -x
+    dtbos=$(find . -name "*.dtbo" | grep ${OVERLAY_PREFIX})
+    install -d ${D}/${KERNEL_IMAGEDEST}/overlay
+    for dtbo in $dtbos; do
+        install -m 644 $dtbo ${D}/${KERNEL_IMAGEDEST}/overlay
+    done
+
+    install -d ${D}/${KERNEL_IMAGEDEST}/allwinner
+    dtbs=$(find . -name "*.dtb" | grep ${OVERLAY_PREFIX})
+    for dtb in $dtbs; do
+        install -m 644 $dtb ${D}/${KERNEL_IMAGEDEST}/allwinner
+    done
+
+    bbnote "Extract ${OVERLAY_PREFIX} fixup"
+    fixup=$(find . -name "*.scr-cmd" | grep ${OVERLAY_PREFIX})
+    mkimage -C none -A arm -T script -d $fixup ${WORKDIR}/fixup.scr
+    install -m 644 ${WORKDIR}/fixup.scr ${D}/${KERNEL_IMAGEDEST}/
+}
+
 # deploy the dtbo overlays in the DEPLOYDIR
 do_deploy_append() {
     set -x
@@ -113,9 +141,6 @@ do_deploy_append() {
         install -m 644 $dtbo ${DEPLOYDIR}/
     done
 
-    bbnote "Extract ${OVERLAY_PREFIX} fixup"
-    fixup=$(find . -name "*.scr-cmd" | grep ${OVERLAY_PREFIX})
-    mkimage -C none -A arm -T script -d $fixup ${WORKDIR}/fixup.scr
     install -m 644 ${WORKDIR}/fixup.scr ${DEPLOYDIR}/
 }
 

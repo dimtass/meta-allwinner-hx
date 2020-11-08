@@ -9,11 +9,14 @@ SRC_URI += " \
             file://${SOC_FAMILY}-boot/boot.cmd \
             file://allwinnerEnv.txt \
 "
+UBOOT_ENV = "boot"
+UBOOT_ENV_SUFFIX = "scr"
 
 do_configure() {
     set -x
     cd ${S}
     ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patches-${SOC_FAMILY}-${UBOOT_VERSION}
+    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/custom-patches
     oe_runmake -C ${S} ${UBOOT_CONFIG} O=${B}
 }
 
@@ -37,16 +40,7 @@ do_compile() {
 do_install() {
     # Install files to rootfs/boot/
     install -D -m 644 ${WORKDIR}/allwinnerEnv.txt ${D}/boot/allwinnerEnv.txt
-
-    # Fix broken device tree reference build into u-boot
-    for dtb in ${KERNEL_DEVICETREE}; do
-        dtb_base_name=`basename $dtb`
-        dtb_dir_name=`dirname $dtb`
-        if [ "${dtb_dir_name}" != "." ]; then
-            install -d ${D}/boot/$dtb_dir_name
-            ln -rsf ${D}/boot/$dtb_base_name ${D}/boot/$dtb
-        fi
-    done
+    install -D -m 644 ${WORKDIR}/${UBOOT_ENV_BINARY} ${D}/boot/${UBOOT_ENV_BINARY}
 
     # Cleanup u-boot rootfs files
     rm -rf ${D}/boot/${SPL_BINARYNAME} ${D}/boot/${SPL_IMAGE} ${D}/boot/${UBOOT_BINARY} ${D}/boot/${UBOOT_IMAGE}
