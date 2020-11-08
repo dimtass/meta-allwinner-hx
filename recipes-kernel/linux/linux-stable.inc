@@ -7,7 +7,11 @@ LIC_FILES_CHKSUM ?= "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
 
 # Install fixup.scr to /boot/
 FILES_${KERNEL_PACKAGE_NAME}-fixup = "${KERNEL_IMAGEDEST}/fixup.scr"
-PACKAGES_append += "${KERNEL_PACKAGE_NAME}-fixup"
+# Install overlays to /boot/overlay
+FILES_${KERNEL_PACKAGE_NAME}-dtbo = "${KERNEL_IMAGEDEST}/overlay"
+# Install devicetree files
+FILES_${KERNEL_PACKAGE_NAME}-dt = "${KERNEL_IMAGEDEST}/allwinner"
+PACKAGES_append += "${KERNEL_PACKAGE_NAME}-fixup ${KERNEL_PACKAGE_NAME}-dtbo ${KERNEL_PACKAGE_NAME}-dt"
 
 # Pull in the devicetree files and u-boot config files into the rootfs
 RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree kernel-image kernel-fixup u-boot"
