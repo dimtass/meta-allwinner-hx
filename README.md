@@ -31,6 +31,21 @@ and the kernel and is lcated in `scripts/armbian-patcher.sh`.
 I'm only testing with `nanopi-k1-plus` and occasionally `nanopi-neo`, 
 `nanopi-neo2` and `nanopi-duo`.
 
+## Important updates notes
+
+#### 11.01.2021
+One of the major changes in this update is that the `allwinner-wks-defs.inc` has been moved from:
+```
+classes/allwinner-wks-defs.inc -> conf/machine/include/allwinner-defs.inc
+```
+
+The reason for this change is that from now on the `rootdev` device in the `boot.scr` script is no
+longer automatically picked up by u-boot because this creates issues in kernels post to 5.8.x.
+For this reason the `SUNXI_STORAGE_DEVICE` in `conf/machine/include/allwinner-defs.inc` is used from
+now on as the base boot device. This value is automatically replaced in `recipes-bsp/u-boot/files/allwinnerEnv.txt`,
+`recipes-bsp/u-boot/files/fw_env.config` and all relative scripts like `classes/allwinner-create-wks.bbclass`.
+
+
 ## How to use the layer
 Create a folder for your project, then create a folder inside and name it
 `sources`. You _have_ to use that name.
@@ -195,17 +210,17 @@ bitbake allwinner-tiny-console-image
 In this case this will create a `.wic.bz2` image inside your `build/tmp/deploy/images/nanopi-k1-plus`.
 
 ## Supported Kernels
-The default kernel version for this version is 5.4.y. Also the PREEMPT-RT kernel
+The default kernel version for this version is 5.10.y. Also the PREEMPT-RT kernel
 is supported, but it might be a slight different version compared to the SMP,
 depending the current rt release.
 
 To enable another kernel you need to edit your `build/conf/local.conf` and select
 the kernel you want. The available options are:
 
-* orange-pi megous 5.4.y
+* orange-pi megous 5.10.y
 ```
 PREFERRED_PROVIDER_virtual/kernel = "linux-megous"
-PREFERRED_VERSION_linux-stable = "5.4%"
+PREFERRED_VERSION_linux-stable = "5.10%"
 ```
 
 * linux-stable-rt 5.4.y
@@ -217,7 +232,7 @@ PREFERRED_VERSION_linux-megous-rt = "5.4%"
 > Note: You can now go back to previous kernel versions using git tags
 
 #### Current versions
-* 5.8.5
+* 5.10.6
 * 5.4.40-rt24
 
 ## Build the SDK
