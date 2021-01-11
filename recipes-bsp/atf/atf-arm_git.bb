@@ -10,8 +10,8 @@ SRC_URI = " \
         git://github.com/ARM-software/arm-trusted-firmware.git;nobranch=1 \
         file://0001-Fix-reset-issue-on-H6-by-using-R_WDOG.patch \
         "
-SRCREV_sun50iw2 = "743600b25ccbea5733a9794241f98f2a9cdd508d"
-SRCREV_sun50iw6 = "a04808c16cfc126d9fe572ae7c4b5a3d39de5796"
+SRCREV_sun50iw2 = "c390ecd6db5fadb054466a8d4168d9bbbff2fa95"
+SRCREV_sun50iw6 = "c390ecd6db5fadb054466a8d4168d9bbbff2fa95"
 
 S = "${WORKDIR}/git"
 B = "${WORKDIR}/build"
