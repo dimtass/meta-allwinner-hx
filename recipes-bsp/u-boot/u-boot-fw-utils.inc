@@ -1,9 +1,10 @@
 DESCRIPTION="Upstream's U-boot fw utils configured for allwinner devices"
 AUTHOR = "Dimitris Tassopoulos <dimtass@gmail.com>"
 
+require conf/machine/include/allwinner-defs.inc
 require u-boot-common.inc
 
-LIC_FILES_CHKSUM ?= "file://Licenses/README;md5=30503fd321432fc713238f582193b78e"
+LIC_FILES_CHKSUM ?= "file://Licenses/README;md5=5a7450c57ffe5ae63fd732446b988025"
 
 PROVIDES = "u-boot-fw-utils"
 RPROVIDES_${PN} = "u-boot-fw-utils"
@@ -30,6 +31,8 @@ do_install() {
 	install -d ${D}${sysconfdir}
 	install -m 755 ${B}/tools/env/fw_printenv ${D}${base_sbindir}/fw_printenv
 	install -m 755 ${B}/tools/env/fw_printenv ${D}${base_sbindir}/fw_setenv
+	# replace the proper partition in the fw_env.config
+	sed -e "s,/dev/u-boot,/dev/${SUNXI_STORAGE_DEVICE},g" -i ${WORKDIR}/fw_env.config
 	install -m 0644 ${WORKDIR}/fw_env.config ${D}${sysconfdir}/fw_env.config
 }
 

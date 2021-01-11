@@ -4,7 +4,7 @@
 #
 
 # default values
-setenv load_addr "0x44000000"
+setenv load_addr "0x45000000"
 setenv overlay_error "false"
 # default values
 setenv verbosity "1"

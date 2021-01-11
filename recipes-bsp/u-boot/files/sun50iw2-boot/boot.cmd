@@ -4,7 +4,7 @@
 #
 
 # default values
-setenv load_addr "0x44000000"
+setenv load_addr "0x45000000"
 setenv overlay_error "false"
 # default values
 setenv verbosity "1"
@@ -25,15 +25,15 @@ itest.b *0x28 == 0x03 && echo "U-boot loaded from SPI"
 # mmc 0 is always mapped to device u-boot (2016.09+) was loaded from
 if test "${devtype}" = "mmc"; then
   part uuid mmc ${devnum}:1 partuuid;
+  # Get the UUID of the OS partition
   setenv devnum ${mmc_bootdev}
-  setenv rootdev "/dev/mmcblk${mmc_bootdev}p2"
 fi
 
 echo "Boot script loaded from ${devtype}"
 
+# Check if boot and OS partitions are the same
 if test -e ${devtype} ${devnum}:1 /sbin/init; then
   echo "Combined boot and rootfs partition detected"
-  setenv rootdev "/dev/mmcblk${mmc_bootdev}p1"
 fi
 
 if test -e ${devtype} ${devnum} ${prefix}allwinnerEnv.txt; then

@@ -3,7 +3,7 @@
 # Please edit /boot/allwinnerEnv.txt to set supported parameters
 #
 
-setenv load_addr "0x44000000"
+setenv load_addr "0x45000000"
 setenv overlay_error "false"
 # default values
 setenv verbosity "1"
@@ -14,6 +14,7 @@ setenv rootfstype "ext4"
 setenv docker_optimizations "on"
 setenv devnum "0"
 setenv rootdev "/dev/mmcblk${devnum}p2"
+setenv earlycon "off"
 
 # Print boot source
 itest.b *0x28 == 0x00 && echo "U-boot loaded from SD"
@@ -44,6 +45,7 @@ if test "${logo}" = "disabled"; then setenv logo "logo.nologo"; fi
 
 if test "${console}" = "display" || test "${console}" = "both"; then setenv consoleargs "console=ttyS0,115200 console=tty1"; fi
 if test "${console}" = "serial"; then setenv consoleargs "console=ttyS0,115200"; fi
+if test "${earlycon}" = "on"; then setenv consoleargs "earlycon ${consoleargs}"; fi
 
 setenv bootargs "root=${rootdev} rootwait rootfstype=${rootfstype} ${consoleargs} hdmi.audio=EDID:0 disp.screen0_output_mode=${disp_mode} panic=10 consoleblank=0 loglevel=${verbosity} ubootpart=${partuuid} ubootsource=${devtype} usb-storage.quirks=${usbstoragequirks} ${extraargs} ${extraboardargs}"
 
