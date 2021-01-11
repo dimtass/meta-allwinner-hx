@@ -45,6 +45,9 @@ For this reason the `SUNXI_STORAGE_DEVICE` in `conf/machine/include/allwinner-de
 now on as the base boot device. This value is automatically replaced in `recipes-bsp/u-boot/files/allwinnerEnv.txt`,
 `recipes-bsp/u-boot/files/fw_env.config` and all relative scripts like `classes/allwinner-create-wks.bbclass`.
 
+> Note: You may have to change the `SUNXI_STORAGE_DEVICE` parameter depending on your board.
+(e.g. `mmcblk0` or `mmcblk2`). I can't test with all the boards!
+
 
 ## How to use the layer
 Create a folder for your project, then create a folder inside and name it
