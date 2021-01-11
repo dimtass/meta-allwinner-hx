@@ -7,7 +7,8 @@ SOC_FAMILY = "sun50iw6"
 KERNEL_IMAGETYPE ?= "Image"
 
 UBOOT_BINARY ?= "u-boot.itb"
-SPL_BINARY ?= "spl/sunxi-spl.bin"
+SPL_NAME ?= "sunxi-spl.bin"
+SPL_BINARY ?= "spl/${SPL_NAME}"
 
 KERNEL_DEVICETREE ?= "${SUNXI_KERNEL_DEVICETREE}"
 

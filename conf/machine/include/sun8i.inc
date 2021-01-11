@@ -11,6 +11,7 @@ MACHINE_SOCARCH_SUFFIX_sun4i = "-sun4i"
 KERNEL_IMAGETYPE ?= "zImage"
 
 SPL_BINARY ?= "u-boot-sunxi-with-spl.bin"
+SPL_NAME ?= "${SPL_BINARY}"
 
 KERNEL_DEVICETREE ?= "${SUNXI_KERNEL_DEVICETREE}"
 
