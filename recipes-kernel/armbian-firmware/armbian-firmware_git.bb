@@ -16,8 +16,8 @@ AUTHOR = "Dimitris Tassopoulos <dimitris.tassopoulos@gmail.com>"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRCREV_linux-firmware = "9e194c730712addbdf5b50cf71f9a4ec42623a29"
-SRCREV_armbian-firmware = "78a566d50b7f82bfe77b32c172ce0dfee8642dea"
+SRCREV_linux-firmware = "d5288624259300c558480c21a860fcf94187d29d"
+SRCREV_armbian-firmware = "292e1e5b5bc5756e9314ea6d494d561422d23264"
 
 TMP_FIRMWARE_FOLDER = "${WORKDIR}/lib-firmware"
 
