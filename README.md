@@ -6,7 +6,8 @@ This meta layer is mainly a mix of `meta-sunxi` and `armbian`.
 > Note: The master version always points to the latest Yocto version.
 If you want to use a specific version then `git checkout` to that
 specific version, but be aware that older versions may not be updated.
-Current master is based on `dunfell`.
+
+**Current master branch is based on `gatesgarth`.**
 
 > Note: Currently the PREEMPT-RT kernel build fails with the Wireguard module enabled.
 Therefore, it's now disabled and will be re-enbled when the kernel is
@@ -32,6 +33,29 @@ I'm only testing with `nanopi-k1-plus` and occasionally `nanopi-neo`,
 `nanopi-neo2` and `nanopi-duo`.
 
 ## Important updates notes
+
+#### 16.01.2021
+**Important note on this version:**
+Poky 3.2.1 version (gatesgarth) currently supports GCC 10.2 which has a
+[known bug](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96377). This bug
+is fixed in GCC 10.3. Therefore, be advised that _the Neon acceleration for
+AEGIS128 is disabled in the kernel_.
+
+This is the default configuration of the Armbian kernel:
+```
+CONFIG_CRYPTO_AEGIS128=m
+CONFIG_CRYPTO_AEGIS128_SIMD=y
+```
+
+And this is the configuration of this kernel.
+```
+CONFIG_CRYPTO_AEGIS128=m
+```
+
+I will revert this change when GCC is updated.
+
+If you need the neon acceleration vectors then use the `dunfell` brach and do not
+update to `master` or `gatesgarth`.
 
 #### 11.01.2021
 One of the major changes in this update is that the `allwinner-wks-defs.inc` has been moved from:
@@ -59,11 +83,12 @@ Then `git clone` this repo inside with `poky` and `meta-openembedded`.
 ```sh
 cd sources
 git clone https://gitlab.com/dimtass/meta-allwinner-hx.git
-git clone --depth 1 -b dunfell https://git.yoctoproject.org/git/poky
-git clone --depth 1 -b dunfell https://github.com/openembedded/meta-openembedded.git
+git clone --depth 1 -b gatesgarth https://git.yoctoproject.org/git/poky
+git clone --depth 1 -b gatesgarth https://github.com/openembedded/meta-openembedded.git
 ```
 
-> Note: This layer is compatible with `warrior`, `zeus` and `dunfell`.
+> Note: This layer is compatible with `warrior`, `zeus`, `dunfell` and `gatesgarth`.
+But be aware that the compatibility may be broken with older versions than `gatesgarth`.
 
 #### Setting the environment
 Then from the `top` directory that includes the sources run this command:
@@ -96,17 +121,12 @@ recipe:
 IMAGE_INSTALL += "armbian-firmware"
 ```
 
-By default this repo is applying all the extra patches that armbian applies
-in its images. Those are the `aufs`, `wireguard` and a few extra wifi drivers.
+By default this repo is applying all the extra wifi drivers patches of the armbian images.
 This is enabled by default in the `local.conf` file and you can disable this
 by setting the following variables to `no` instead of `yes`, which is the default.
 ```py
 EXTRAWIFI = "yes"
-WIREGUARD = "yes"
-AUFS = "yes"
 ```
-
-> Note: For kernel versions > 5.4.x `WIREGUARD` is not used anymore
 
 #### Supported machines/boards
 To view the list of the supported boards run this command:
@@ -235,7 +255,7 @@ PREFERRED_VERSION_linux-megous-rt = "5.4%"
 > Note: You can now go back to previous kernel versions using git tags
 
 #### Current versions
-* 5.10.6
+* 5.10.7
 * 5.4.40-rt24
 
 ## Build the SDK
