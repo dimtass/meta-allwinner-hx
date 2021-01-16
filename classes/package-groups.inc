@@ -61,7 +61,6 @@ EXTRA_DEBUG_PKGS = " \
 
 APT_PKGS = " \
     apt \
-    apt-repo \
 "
 
 # Python2.7 related packages
