@@ -25,7 +25,6 @@ itest.b *0x28 == 0x03 && echo "U-boot loaded from SPI"
 # mmc 0 is always mapped to device u-boot (2016.09+) was loaded from
 if test "${devtype}" = "mmc"; then
   part uuid mmc ${devnum}:1 partuuid;
-  # Get the UUID of the OS partition
   setenv devnum ${mmc_bootdev}
 fi
 
@@ -54,6 +53,7 @@ if test "${devtype}" = "mmc"; then part uuid mmc 0:1 partuuid; fi
 
 setenv bootargs "root=${rootdev} rootwait rootfstype=${rootfstype} ${consoleargs} panic=10 consoleblank=0 loglevel=${verbosity} ubootpart=${partuuid} usb-storage.quirks=${usbstoragequirks} ${extraargs} ${extraboardargs}"
 
+if test "${disp_mem_reserves}" = "off"; then setenv bootargs "${bootargs} sunxi_ve_mem_reserve=0 sunxi_g2d_mem_reserve=0 sunxi_fb_mem_reserve=16"; fi
 if test "${docker_optimizations}" = "on"; then setenv bootargs "${bootargs} cgroup_enable=memory swapaccount=1"; fi
 
 load ${devtype} ${devnum} ${fdt_addr_r} ${prefix}${fdtfile}
@@ -61,7 +61,7 @@ load ${devtype} ${devnum} ${kernel_addr_r} ${prefix}Image
 
 fdt addr ${fdt_addr_r}
 fdt resize 65536
-# Load environment file
+# Load overlays
 for overlay_file in ${overlays}; do
 	if load ${devtype} ${devnum} ${load_addr} ${prefix}overlay/${overlay_prefix}-${overlay_file}.dtbo; then
 		echo "Applying kernel provided DT overlay ${overlay_prefix}-${overlay_file}.dtbo"
