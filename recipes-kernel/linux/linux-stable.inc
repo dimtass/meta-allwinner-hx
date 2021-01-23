@@ -215,6 +215,38 @@ patch_rtl8189fs() {
     sed -i 's/printk/\/\//g' ${S}/drivers/net/wireless/rtl8189fs/include/rtw_debug.h
 }
 
+patch_rtl8192eu() {
+    bbnote "Adding Wireless drivers for Realtek 8192EU chipsets"
+
+    cd ${S}
+    rm -rf ${S}/drivers/net/wireless/rtl8192eu
+    mkdir -p ${S}/drivers/net/wireless/rtl8192eu/
+    cp -R ${WORKDIR}/extras/rtl8192eu/core \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/hal \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/include \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/os_dep \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/platform \
+            ${S}/drivers/net/wireless/rtl8192eu
+
+    # Makefile
+    cp ${WORKDIR}/extras/rtl8192eu/Makefile \
+            ${S}/drivers/net/wireless/rtl8192eu/Makefile
+
+    # Kconfig
+    sed -i 's/---help---/help/g' ${WORKDIR}/extras/rtl8192eu/Kconfig
+    cp ${WORKDIR}/extras/rtl8192eu/Kconfig \
+            ${S}/drivers/net/wireless/rtl8192eu/Kconfig
+
+    # Add to section Makefile
+    echo "obj-\$(CONFIG_RTL8192EU) += rtl8192eu/" >> ${S}/drivers/net/wireless/Makefile
+    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8192eu\/Kconfig"' \
+            ${S}/drivers/net/wireless/Kconfig
+}
+
 patch_rtl8812au() {
     bbnote "Adding Wireless drivers for Realtek 8811, 8812, 8814 and 8821 chipsets"
 
@@ -452,48 +484,17 @@ patch_rtl8723du() {
     cp ${WORKDIR}/extras/rtl8723du/Makefile \
             ${S}/drivers/net/wireless/rtl8723du/Makefile
 
-	# Disable debug
-	sed -i "s/^CONFIG_RTW_DEBUG.*/CONFIG_RTW_DEBUG = n/" \
-		${S}/drivers/net/wireless/rtl8723du/Makefile
-
-	# Add to section Makefile
-	echo "obj-\$(CONFIG_RTL8723DU) += rtl8723du/" >> ${S}/drivers/net/wireless/Makefile
-	sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8723du\/Kconfig"' \
-		${S}/drivers/net/wireless/Kconfig
-    echo "obj-\$(CONFIG_RTL8822BU) += rtl88x2bu/" >> ${S}/drivers/net/wireless/Makefile
-    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl88x2bu\/Kconfig"' \
-        ${S}/drivers/net/wireless/Kconfig
-}
-
-
-patch_rtl8192eu() {
-    bbnote "Adding Wireless drivers for Realtek 8192EU chipsets"
-
-    cd ${S}
-    rm -rf ${S}/drivers/net/wireless/rtl8192eu
-    mkdir -p ${S}/drivers/net/wireless/rtl8192eu/
-    cp -R ${WORKDIR}/extras/rtl8192eu/core \
-            ${S}/drivers/net/wireless/rtl8192eu
-    cp -R ${WORKDIR}/extras/rtl8192eu/hal \
-            ${S}/drivers/net/wireless/rtl8192eu
-    cp -R ${WORKDIR}/extras/rtl8192eu/include \
-            ${S}/drivers/net/wireless/rtl8192eu
-    cp -R ${WORKDIR}/extras/rtl8192eu/os_dep \
-            ${S}/drivers/net/wireless/rtl8192eu
-    cp -R ${WORKDIR}/extras/rtl8192eu/platform \
-            ${S}/drivers/net/wireless/rtl8192eu
-
-    # Makefile
-    cp ${WORKDIR}/extras/rtl8192eu/Makefile \
-            ${S}/drivers/net/wireless/rtl8192eu/Makefile
-
-    # Kconfig
-    sed -i 's/---help---/help/g' ${WORKDIR}/extras/rtl8192eu/Kconfig
-    cp ${WORKDIR}/extras/rtl8192eu/Kconfig \
-            ${S}/drivers/net/wireless/rtl8192eu/Kconfig
+    # Disable debug
+    sed -i "s/^CONFIG_RTW_DEBUG.*/CONFIG_RTW_DEBUG = n/" \
+            ${S}/drivers/net/wireless/rtl8723du/Makefile
 
     # Add to section Makefile
-    echo "obj-\$(CONFIG_RTL8192EU) += rtl8192eu/" >> ${S}/drivers/net/wireless/Makefile
-    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8192eu\/Kconfig"' \
+    echo "obj-\$(CONFIG_RTL8723DU) += rtl8723du/" >> ${S}/drivers/net/wireless/Makefile
+    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8723du\/Kconfig"' \
+            ${S}/drivers/net/wireless/Kconfig
+
+    # Add to section Makefile
+    echo "obj-\$(CONFIG_RTL8822BU) += rtl88x2bu/" >> ${S}/drivers/net/wireless/Makefile
+    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl88x2bu\/Kconfig"' \
             ${S}/drivers/net/wireless/Kconfig
 }
