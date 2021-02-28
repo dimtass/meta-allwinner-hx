@@ -55,5 +55,6 @@ IMAGE_INSTALL += "armbian-firmware"
 # in order to add extra functionality into the kernel. To disable them
 # just set it to `no`
 EXTRAWIFI = "yes"
+AUFS = "yes"
 
 # Add your custom config under this line

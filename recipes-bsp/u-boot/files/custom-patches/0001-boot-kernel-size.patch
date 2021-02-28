@@ -1,0 +1,17 @@
+--- a/include/configs/sunxi-common.h	2021-01-25 21:44:53.919011197 +0100
++++ b/include/configs/sunxi-common.h	2021-01-25 21:45:07.219070804 +0100
+@@ -31,9 +31,12 @@
+ # define CONFIG_MACH_TYPE_COMPAT_REV	1
+ #endif
+ 
+-#ifdef CONFIG_ARM64
++/**
++* I've removed the CONFIG_ARM64 so u-boot allocates more space also for sun8i kernels.
++*/ 
++// #ifdef CONFIG_ARM64
+ #define CONFIG_SYS_BOOTM_LEN		(32 << 20)
+-#endif
++// #endif
+ 
+ /* Serial & console */
+ #define CONFIG_SYS_NS16550_SERIAL
