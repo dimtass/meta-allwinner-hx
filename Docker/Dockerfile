@@ -38,6 +38,7 @@ RUN apt-get update && \
         g++-multilib \
         gawk \
         gcc-multilib \
+        libmpc-dev \
         git-core \
         graphviz \
         help2man \
