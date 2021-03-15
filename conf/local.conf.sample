@@ -41,7 +41,7 @@ PREFERRED_VERSION_linux-megous ?= "5.10%"
 
 # In case you need the rt-kernel uncomment the two lines below
 #PREFERRED_PROVIDER_virtual/kernel = "linux-megous-rt"
-#PREFERRED_VERSION_linux-megous-rt = "5.4%"
+#PREFERRED_VERSION_linux-megous-rt = "5.10%"
 
 #SSID = "YOUR_SSID"
 #PSK = YOUR_SSID_PASSWORD"
@@ -56,5 +56,7 @@ IMAGE_INSTALL += "armbian-firmware"
 # just set it to `no`
 EXTRAWIFI = "yes"
 AUFS = "yes"
+BOOTSPLASH = "yes"
+WIFI_INJECTION = "yes"
 
 # Add your custom config under this line

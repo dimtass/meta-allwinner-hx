@@ -3,10 +3,18 @@ SECTION = "kernel"
 LICENSE = "GPLv2"
 COMPATIBLE_MACHINE = "(sun8i|sun50iw2|sun50iw6)"
 
-LIC_FILES_CHKSUM ?= "file://COPYING;md5=bbea815ee2795b2f4230826c0c6b8814"
+LIC_FILES_CHKSUM ?= "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+
+# Install fixup.scr to /boot/
+FILES_${KERNEL_PACKAGE_NAME}-fixup = "${KERNEL_IMAGEDEST}/fixup.scr"
+# Install overlays to /boot/overlay
+FILES_${KERNEL_PACKAGE_NAME}-dtbo = "${KERNEL_IMAGEDEST}/overlay"
+# Install devicetree files
+FILES_${KERNEL_PACKAGE_NAME}-dt = "${KERNEL_IMAGEDEST}/allwinner"
+PACKAGES_append += "${KERNEL_PACKAGE_NAME}-fixup ${KERNEL_PACKAGE_NAME}-dtbo ${KERNEL_PACKAGE_NAME}-dt"
 
 # Pull in the devicetree files and u-boot config files into the rootfs
-RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree"
+RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree kernel-image kernel-dt kernel-dtbo kernel-fixup u-boot"
 
 # We need mkimage for the overlays
 DEPENDS += "u-boot-tools-native"
@@ -26,29 +34,36 @@ S = "${WORKDIR}/git"
 DEFCONFIG_PATH =  "${@'${SOC_FAMILY}-defconfig' if d.getVar('PREEMPT_RT_VERSION') == '' else '${SOC_FAMILY}-rt-defconfig'}"
 
 ARMBIAN_URI = " \
-        file://armbian-patcher.sh \
+        file://process_patch_file.sh \
+        file://process_patch_folder.sh \
         file://patches-${LINUX_VERSION} \
         file://custom-patches \
         file://${DEFCONFIG_PATH}/defconfig \
-        git://github.com/sfjro/aufs5-standalone.git;name=aufs5;branch=aufs5.4.3;destsuffix=extras/aufs5 \
-        git://git.zx2c4.com/wireguard-linux-compat.git;name=wireguard;destsuffix=extras/wireguard \
+        git://github.com/sfjro/aufs5-standalone.git;name=aufs5;branch=aufs5.10;destsuffix=extras/aufs5 \
+        git://github.com/igorpecovnik/realtek-r8152-linux.git;name=rtl8152;destsuffix=extras/rtl8152 \
         git://github.com/jwrdegoede/rtl8189ES_linux.git;name=rtl8189es;destsuffix=extras/rtl8189es \
-        git://github.com/jwrdegoede/rtl8189ES_linux.git;name=rtl8189fs;destsuffix=extras/rtl8189fs \
+        git://github.com/jwrdegoede/rtl8189ES_linux.git;name=rtl8189fs;branch=rtl8189fs;destsuffix=extras/rtl8189fs \
+        git://github.com/Mange/rtl8192eu-linux-driver.git;branch=realtek-4.4.x;name=rtl8192eu;destsuffix=extras/rtl8192eu \
         git://github.com/aircrack-ng/rtl8812au.git;branch=v5.6.4.2;name=rtl8812au;destsuffix=extras/rtl8812au \
         git://github.com/karabek/xradio.git;name=xradio;destsuffix=extras/xradio \
         git://github.com/brektrou/rtl8821CU.git;name=rtl8811cu;destsuffix=extras/rtl8811cu \
         git://github.com/aircrack-ng/rtl8188eus.git;branch=v5.7.6.1;name=rtl8188eu;destsuffix=extras/rtl8188eu \
         git://github.com/cilynx/rtl88x2bu.git;branch=5.6.1_30362.20181109_COEX20180928-6a6a;name=rtl88x2bu;destsuffix=extras/rtl88x2bu \
+        git://github.com/lwfinger/rtl8723ds.git;name=rtl8723ds;destsuffix=extras/rtl8723ds \
+        git://github.com/lwfinger/rtl8723du.git;name=rtl8723du;destsuffix=extras/rtl8723du \
 "
-SRCREV_aufs5 =          "11887377b825f6d534bbd496dbba8e47d1b22d6c"
-SRCREV_wireguard =      "90a9e82ba613d39951c8b6fb66d149a06b5b2298"
+SRCREV_aufs5 =          "05111a0a66afcfce8eb4aafb5cfc887e052ac594"
 SRCREV_xradio =         "354e8c32e7948d46a63796d0ca266b1f702999b0"
-SRCREV_rtl8189es =      "2c8d44ae26485052f39d933a3a132b3ff395803a"
-SRCREV_rtl8189fs =      "2c8d44ae26485052f39d933a3a132b3ff395803a"
-SRCREV_rtl8812au =      "df2b8dfd8cb7d9f6cfeb55abaeab8a5372011fc9"
-SRCREV_rtl8811cu =      "ca0bcba405f8865e6acd6a6d3cacf93f7e1b8a2c"
-SRCREV_rtl8188eu =      "9315815f5a446ba87e5965fde71094b10a00fac7"
-SRCREV_rtl88x2bu =      "64aa087c5ead11960425125c955dcfe98233202e"
+SRCREV_rtl8152 =        "006c40bcdf56c1701c9eadc34e29662bab5948ca"
+SRCREV_rtl8189es =      "a57f6985018f601b22ab689f36d1205273ae9e90"
+SRCREV_rtl8189fs =      "1ebc898cc5b671fe7145141fb9f3da14dab8c8ad"
+SRCREV_rtl8192eu =      "7e8858e0dfc10c025c8d114330f6c7d0353b4819"
+SRCREV_rtl8812au =      "b65dcf4105641716d16f3a6c96507fdd9c1862b4"
+SRCREV_rtl8811cu =      "2bebdb9a35c1d9b6e6a928e371fa39d5fcec8a62"
+SRCREV_rtl8188eu =      "0683c3382f7ad4bb90d72b9c903a90a7bd7b200d"
+SRCREV_rtl88x2bu =      "48e7c19c92a77554403e1347447f8e2cfd780228"
+SRCREV_rtl8723ds =      "80af87ac7687eb66e9359be118ef654160d0db53"
+SRCREV_rtl8723du =      "9690f34fc2603d04b53432df4e3d6c282f3d1ca6"
 
 # Apply the armbian patches and defconfig
 do_patch_append() {
@@ -58,28 +73,56 @@ do_patch_append() {
     if [ "${AUFS}" = "yes" ]; then
         patch_aufs5
     fi
-    if [ "${WIREGUARD}" = "yes" ]; then
-        patch_wireguard
-    fi
+    # Add extra armbian modules in the kernel?
     if [ "${EXTRAWIFI}" = "yes" ]; then
+        patch_rtl8152
+        patch_rtl8189fs
         patch_rtl8189es
         patch_rtl8812au
         patch_xradio
         patch_rtl8811cu
         patch_rtl8188eu
         patch_rtl88x2bu
+        patch_rtl8723ds
+        patch_rtl8723du
+        patch_rtl8192eu
     fi
     # Copy defconfig
     cp ${WORKDIR}/${DEFCONFIG_PATH}/defconfig ${WORKDIR}/defconfig
+    cp ${WORKDIR}/${DEFCONFIG_PATH}/defconfig ${B}/.config
     cd ${S}
     # Apply patches
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/custom-patches
+    if [ "${BOOTSPLASH}" = "yes" ]; then
+        bbnote "Apply bootsplash patches..."
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/bootsplash-5.8.10-0001-Revert-vgacon-remove-software-scrollback-support.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/bootsplash-5.8.10-0002-Revert-fbcon-remove-now-unusued-softback_lines-curso.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/bootsplash-5.10.y-0003-Revert-fbcon-remove-soft-scrollback-code.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0001-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0002-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0003-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0004-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0005-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0006-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0007-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0008-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0009-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0010-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0011-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0012-bootsplash.patch"
+    fi
+    if [ "${WIFI_INJECTION}" = "yes" ]; then
+        bbnote "Adding" "Wireless package injections for mac80211 compatible chipsets"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/kali-wifi-injection-1-v5.9-post.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/kali-wifi-injection-2.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/kali-wifi-injection-3.patch"
+    fi
+
     if [ -d "${WORKDIR}/patch-${PREEMPT_RT_VERSION}" ]; then
-        echo "Applying preempt-rt patches"
-        ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patches-${LINUX_VERSION}
-        ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patch-${PREEMPT_RT_VERSION}
+        bbnote "Applying preempt-rt patches"
+        ${WORKDIR}/process_patch_folder.sh ${WORKDIR}/patches-${LINUX_VERSION}
+        ${WORKDIR}/process_patch_folder.sh ${WORKDIR}/patch-${PREEMPT_RT_VERSION}
     else
-        ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patches-${LINUX_VERSION}
+        ${WORKDIR}/process_patch_folder.sh ${WORKDIR}/patches-${LINUX_VERSION}
     fi
 }
 
@@ -88,7 +131,27 @@ do_patch_append() {
 do_compile_append() {
     set -x
     bbnote "Compiling kernel overlays"
-    oe_runmake -C ${B} CC="${KERNEL_CC}" ${PARALLEL_MAKE} dtbs
+    oe_runmake -C ${B} CC="${KERNEL_CC}" ${PARALLEL_MAKE} modules dtbs
+}
+
+do_install_append() {
+    set -x
+    dtbos=$(find . -name "*.dtbo" | grep ${OVERLAY_PREFIX})
+    install -d ${D}/${KERNEL_IMAGEDEST}/overlay
+    for dtbo in $dtbos; do
+        install -m 644 $dtbo ${D}/${KERNEL_IMAGEDEST}/overlay
+    done
+
+    install -d ${D}/${KERNEL_IMAGEDEST}/allwinner
+    dtbs=$(find . -name "*.dtb" | grep ${OVERLAY_PREFIX})
+    for dtb in $dtbs; do
+        install -m 644 $dtb ${D}/${KERNEL_IMAGEDEST}/allwinner
+    done
+
+    bbnote "Extract ${OVERLAY_PREFIX} fixup"
+    fixup=$(find . -name "*.scr-cmd" | grep ${OVERLAY_PREFIX})
+    mkimage -C none -A arm -T script -d $fixup ${WORKDIR}/fixup.scr
+    install -m 644 ${WORKDIR}/fixup.scr ${D}/${KERNEL_IMAGEDEST}/
 }
 
 # deploy the dtbo overlays in the DEPLOYDIR
@@ -99,9 +162,6 @@ do_deploy_append() {
         install -m 644 $dtbo ${DEPLOYDIR}/
     done
 
-    bbnote "Extract ${OVERLAY_PREFIX} fixup"
-    fixup=$(find . -name "*.scr-cmd" | grep ${OVERLAY_PREFIX})
-    mkimage -C none -A arm -T script -d $fixup ${WORKDIR}/fixup.scr
     install -m 644 ${WORKDIR}/fixup.scr ${DEPLOYDIR}/
 }
 
@@ -116,39 +176,22 @@ python() {
 patch_aufs5() {
     bbnote "Adding AUFS"
     cd ${S}
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/extras/aufs5/aufs5-kbuild.patch
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/extras/aufs5/aufs5-base.patch
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/extras/aufs5/aufs5-mmap.patch
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/extras/aufs5/aufs5-standalone.patch
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/extras/aufs5/aufs5-kbuild.patch
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/extras/aufs5/aufs5-base.patch
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/extras/aufs5/aufs5-mmap.patch
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/extras/aufs5/aufs5-standalone.patch
     cp -R ${WORKDIR}/extras/aufs5/Documentation .
     cp -R ${WORKDIR}/extras/aufs5/fs .
     cp ${WORKDIR}/extras/aufs5/include/uapi/linux/aufs_type.h include/uapi/linux/
 }
 
-patch_wireguard() {
-    bbnote "Adding WireGuard"
-
-    cd ${S}
-    rm -rf ${S}/net/wireguard
-    cp -R ${WORKDIR}/extras/wireguard/src/ ${S}/net/wireguard
-    sed -i "/^obj-\\\$(CONFIG_NETFILTER).*+=/a obj-\$(CONFIG_WIREGUARD) += wireguard/" \
-            ${S}/net/Makefile
-    sed -i "/^if INET\$/a source \"net/wireguard/Kconfig\"" \
-            ${S}/net/Kconfig
-    # remove duplicates
-    [[ $(grep -c wireguard "${S}/net/Makefile") -gt 1 ]] && \
-            sed -i '0,/wireguard/{/wireguard/d;}' ${S}/net/Makefile
-    [[ $(grep -c wireguard "${S}/net/Kconfig") -gt 1 ]] && \
-            sed -i '0,/wireguard/{/wireguard/d;}' ${S}/net/Kconfig
-    # headers workaround
-    bbnote "Patching WireGuard. Applying workaround for headers compilation"
-    sed -i '/mkdir -p "$destdir"/a mkdir -p "$destdir"/net/wireguard; \
-    touch "$destdir"/net/wireguard/Kconfig # workaround for Wireguard' \
-            ${S}/scripts/package/builddeb
-    touch "$destdir"/net/wireguard/Makefile # workaround for Wireguard' \
-            ${S}/scripts/package/builddeb
+patch_rtl8152() {
+    bbnote "Adding Wireless drivers for Realtek 8152 chipsets"
+    cp -R ${WORKDIR}/extras/rtl8152/r8152.c \
+        "${S}/drivers/net/usb/"
+    cp -R ${WORKDIR}/extras/rtl8152/compatibility.h \
+        "${S}/drivers/net/usb/"
 }
-
 
 patch_rtl8189es() {
     bbnote "Adding Wireless drivers for Realtek 8189ES chipsets"
@@ -169,8 +212,11 @@ patch_rtl8189es() {
     # Makefile
     cp ${WORKDIR}/extras/rtl8189fs/Makefile \
         ${S}/drivers/net/wireless/rtl8189es/Makefile
+
+    # Kconfig
+    sed -i 's/---help---/help/g' ${WORKDIR}/extras/rtl8189fs/Kconfig
     cp ${WORKDIR}/extras/rtl8189fs/Kconfig \
-        ${S}/drivers/net/wireless/rtl8189es/Kconfig
+            ${S}/drivers/net/wireless/rtl8189es/Kconfig
 
     # Add to section Makefile
     echo "obj-\$(CONFIG_RTL8189ES) += rtl8189es/" >> ${S}/drivers/net/wireless/Makefile
@@ -198,6 +244,9 @@ patch_rtl8189fs() {
     # Makefile
     cp ${WORKDIR}/extras/rtl8189fs/Makefile \
         ${S}/drivers/net/wireless/rtl8189fs/Makefile
+
+    # Kconfig
+    sed -i 's/---help---/help/g' ${WORKDIR}/extras/rtl8189fs/Kconfig
     cp ${WORKDIR}/extras/rtl8189fs/Kconfig \
         ${S}/drivers/net/wireless/rtl8189fs/Kconfig
 
@@ -205,6 +254,38 @@ patch_rtl8189fs() {
     echo "obj-\$(CONFIG_RTL8189FS) += rtl8189fs/" >> ${S}/drivers/net/wireless/Makefile
     sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8189fs\/Kconfig"' \
         ${S}/drivers/net/wireless/Kconfig
+}
+
+patch_rtl8192eu() {
+    bbnote "Adding Wireless drivers for Realtek 8192EU chipsets"
+
+    cd ${S}
+    rm -rf ${S}/drivers/net/wireless/rtl8192eu
+    mkdir -p ${S}/drivers/net/wireless/rtl8192eu/
+    cp -R ${WORKDIR}/extras/rtl8192eu/core \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/hal \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/include \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/os_dep \
+            ${S}/drivers/net/wireless/rtl8192eu
+    cp -R ${WORKDIR}/extras/rtl8192eu/platform \
+            ${S}/drivers/net/wireless/rtl8192eu
+
+    # Makefile
+    cp ${WORKDIR}/extras/rtl8192eu/Makefile \
+            ${S}/drivers/net/wireless/rtl8192eu/Makefile
+
+    # Kconfig
+    sed -i 's/---help---/help/g' ${WORKDIR}/extras/rtl8192eu/Kconfig
+    cp ${WORKDIR}/extras/rtl8192eu/Kconfig \
+            ${S}/drivers/net/wireless/rtl8192eu/Kconfig
+
+    # Add to section Makefile
+    echo "obj-\$(CONFIG_RTL8192EU) += rtl8192eu/" >> ${S}/drivers/net/wireless/Makefile
+    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8192eu\/Kconfig"' \
+            ${S}/drivers/net/wireless/Kconfig
 }
 
 patch_rtl8812au() {
@@ -227,14 +308,10 @@ patch_rtl8812au() {
     # Makefile
     cp ${WORKDIR}/extras/rtl8812au/Makefile \
             ${S}/drivers/net/wireless/rtl8812au/Makefile
+
+    # Kconfig
     cp ${WORKDIR}/extras/rtl8812au/Kconfig \
             ${S}/drivers/net/wireless/rtl8812au/Kconfig
-
-    # Adjust path
-    sed -i 's/include $(src)\/hal\/phydm\/phydm.mk/include $(TopDIR)\/drivers\/net\/wireless\/rtl8812au\/hal\/phydm\/phydm.mk/' \
-            ${S}/drivers/net/wireless/rtl8812au/Makefile
-    sed -i 's/include $(TopDIR)\/hal\/phydm\/phydm.mk/include $(TopDIR)\/drivers\/net\/wireless\/rtl8812au\/hal\/phydm\/phydm.mk/' \
-            ${S}/drivers/net/wireless/rtl8812au/Makefile
 
     # Add to section Makefile
     echo "obj-\$(CONFIG_RTL8812AU) += rtl8812au/" >> ${S}/drivers/net/wireless/Makefile
@@ -256,6 +333,9 @@ patch_xradio() {
     # Makefile
     cp ${WORKDIR}/extras/xradio/Makefile \
             ${S}/drivers/net/wireless/xradio/Makefile
+
+    # Kconfig
+    sed -i 's/---help---/help/g' ${WORKDIR}/extras/xradio/Kconfig
     cp ${WORKDIR}/extras/xradio/Kconfig \
             ${S}/drivers/net/wireless/xradio/Kconfig
 
@@ -285,10 +365,17 @@ patch_rtl8811cu() {
             ${S}/drivers/net/wireless/rtl8811cu
 
     # Makefile
-    cp ${WORKDIR}/extras/rtl8811cu//Makefile \
+    cp ${WORKDIR}/extras/rtl8811cu/Makefile \
             ${S}/drivers/net/wireless/rtl8811cu/Makefile
-    cp ${WORKDIR}/extras/rtl8811cu//Kconfig \
+
+    # Kconfig
+    sed -i 's/---help---/help/g' ${WORKDIR}/extras/rtl8811cu/Kconfig
+    cp ${WORKDIR}/extras/rtl8811cu/Kconfig \
             ${S}/drivers/net/wireless/rtl8811cu/Kconfig
+
+    # Disable debug
+    sed -i "s/^CONFIG_RTW_DEBUG.*/CONFIG_RTW_DEBUG = n/" \
+            ${S}/drivers/net/wireless/rtl8811cu/Makefile
 
     # Address ARM related bug https://github.com/aircrack-ng/rtl8812au/issues/233
     sed -i "s/^CONFIG_MP_VHT_HW_TX_MODE.*/CONFIG_MP_VHT_HW_TX_MODE = n/" \
@@ -298,6 +385,8 @@ patch_rtl8811cu() {
     echo "obj-\$(CONFIG_RTL8821CU) += rtl8811cu/" >> ${S}/drivers/net/wireless/Makefile
     sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8811cu\/Kconfig"' \
             ${S}/drivers/net/wireless/Kconfig
+
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/custom-patches/wireless-rtl8811cu.patch
 }
 
 patch_rtl8188eu() {
@@ -320,13 +409,22 @@ patch_rtl8188eu() {
     # Makefile
     cp ${WORKDIR}/extras/rtl8188eu/Makefile \
             ${S}/drivers/net/wireless/rtl8188eu/Makefile
+
+    # Kconfig
+    sed -i 's/---help---/help/g' ${WORKDIR}/extras/rtl8188eu/Kconfig
     cp ${WORKDIR}/extras/rtl8188eu/Kconfig \
             ${S}/drivers/net/wireless/rtl8188eu/Kconfig
+
+    # Disable debug
+    sed -i "s/^CONFIG_RTW_DEBUG.*/CONFIG_RTW_DEBUG = n/" \
+            ${S}/drivers/net/wireless/rtl8188eu/Makefile
 
     # Add to section Makefile
     echo "obj-\$(CONFIG_RTL8188EU) += rtl8188eu/" >> ${S}/drivers/net/wireless/Makefile
     sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8188eu\/Kconfig"' \
             ${S}/drivers/net/wireless/Kconfig
+
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/custom-patches/wireless-rtl8188eu.patch
 }
 
 patch_rtl88x2bu() {
@@ -351,9 +449,11 @@ patch_rtl88x2bu() {
             ${S}/drivers/net/wireless/rtl88x2bu
 
     # Makefile
-    cp ${WORKDIR}/extras/rtl88x2bu//Makefile \
+    cp ${WORKDIR}/extras/rtl88x2bu/Makefile \
             ${S}/drivers/net/wireless/rtl88x2bu/Makefile
-    cp ${WORKDIR}/extras/rtl88x2bu//Kconfig \
+    # Kconfig
+    sed -i 's/---help---/help/g' ${WORKDIR}/extras/rtl88x2bu/Kconfig
+    cp ${WORKDIR}/extras/rtl88x2bu/Kconfig \
             ${S}/drivers/net/wireless/rtl88x2bu/Kconfig
 
     # Adjust path
@@ -364,4 +464,80 @@ patch_rtl88x2bu() {
     echo "obj-\$(CONFIG_RTL8822BU) += rtl88x2bu/" >> ${S}/drivers/net/wireless/Makefile
     sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl88x2bu\/Kconfig"' \
             ${S}/drivers/net/wireless/Kconfig
+}
+
+patch_rtl8723ds() {
+    bbnote "Adding Wireless drivers for Realtek 8723DS chipsets"
+
+    cd ${S}
+    rm -rf ${S}/drivers/net/wireless/rtl8723ds
+    mkdir -p ${S}/drivers/net/wireless/rtl8723ds/
+    cp -R ${WORKDIR}/extras/rtl8723ds/core \
+            ${S}/drivers/net/wireless/rtl8723ds
+    cp -R ${WORKDIR}/extras/rtl8723ds/hal \
+            ${S}/drivers/net/wireless/rtl8723ds
+    cp -R ${WORKDIR}/extras/rtl8723ds/include \
+            ${S}/drivers/net/wireless/rtl8723ds
+    cp -R ${WORKDIR}/extras/rtl8723ds/os_dep \
+            ${S}/drivers/net/wireless/rtl8723ds
+    cp -R ${WORKDIR}/extras/rtl8723ds/platform \
+            ${S}/drivers/net/wireless/rtl8723ds
+
+    # Makefile
+    cp ${WORKDIR}/extras/rtl8723ds/Makefile \
+            ${S}/drivers/net/wireless/rtl8723ds/Makefile
+
+    # Kconfig
+    sed -i 's/---help---/help/g' ${WORKDIR}/extras/rtl8723ds/Kconfig
+    cp ${WORKDIR}/extras/rtl8723ds/Kconfig \
+            ${S}/drivers/net/wireless/rtl8723ds/Kconfig
+
+    # Disable debug
+    sed -i "s/^CONFIG_RTW_DEBUG.*/CONFIG_RTW_DEBUG = n/" \
+            ${S}/drivers/net/wireless/rtl8723ds/Makefile
+
+    # Add to section Makefile
+    echo "obj-\$(CONFIG_RTL8723DS) += rtl8723ds/" >> ${S}/drivers/net/wireless/Makefile
+    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8723ds\/Kconfig"' \
+            ${S}/drivers/net/wireless/Kconfig
+    
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/custom-patches/wireless-rtl8723ds.patch
+}
+
+patch_rtl8723du() {
+    bbnote "Adding Wireless drivers for Realtek 8723DU chipsets"
+
+    cd ${S}
+    rm -rf ${S}/drivers/net/wireless/rtl8723du
+    mkdir -p ${S}/drivers/net/wireless/rtl8723du/
+    cp -R ${WORKDIR}/extras/rtl8723du/core \
+            ${S}/drivers/net/wireless/rtl8723du
+    cp -R ${WORKDIR}/extras/rtl8723du/hal \
+            ${S}/drivers/net/wireless/rtl8723du
+    cp -R ${WORKDIR}/extras/rtl8723du/include \
+            ${S}/drivers/net/wireless/rtl8723du
+    cp -R ${WORKDIR}/extras/rtl8723du/os_dep \
+            ${S}/drivers/net/wireless/rtl8723du
+    cp -R ${WORKDIR}/extras/rtl8723du/platform \
+            ${S}/drivers/net/wireless/rtl8723du
+
+    # Makefile
+    cp ${WORKDIR}/extras/rtl8723du/Makefile \
+            ${S}/drivers/net/wireless/rtl8723du/Makefile
+
+    # Disable debug
+    sed -i "s/^CONFIG_RTW_DEBUG.*/CONFIG_RTW_DEBUG = n/" \
+            ${S}/drivers/net/wireless/rtl8723du/Makefile
+
+    # Add to section Makefile
+    echo "obj-\$(CONFIG_RTL8723DU) += rtl8723du/" >> ${S}/drivers/net/wireless/Makefile
+    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8723du\/Kconfig"' \
+            ${S}/drivers/net/wireless/Kconfig
+
+    # Add to section Makefile
+    echo "obj-\$(CONFIG_RTL8822BU) += rtl88x2bu/" >> ${S}/drivers/net/wireless/Makefile
+    sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl88x2bu\/Kconfig"' \
+            ${S}/drivers/net/wireless/Kconfig
+    
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/custom-patches/wireless-rtl8723du.patch
 }

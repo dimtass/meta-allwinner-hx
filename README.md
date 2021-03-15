@@ -1,17 +1,16 @@
 meta-allwinner-hx
 ----
 
-This meta layer is mainly a mix of `meta-sunxi` and `armbian`.
+This meta layer is mainly a mix of `meta-sunxi` and `armbian`. Because of that
+this is not a light-weight kernel but it's meant to support as much peripherals
+as possible. For this reason, if you need to a light-weight kernel, then you
+need to strip out the kernel configuration manually. 
 
 > Note: The master version always points to the latest Yocto version.
 If you want to use a specific version then `git checkout` to that
 specific version, but be aware that older versions may not be updated.
 
 **Current master branch is based on `gatesgarth`.**
-
-> Note: Currently the PREEMPT-RT kernel build fails with the Wireguard module enabled.
-Therefore, it's now disabled and will be re-enbled when the kernel is
-updated to 5.6+.
 
 This meta layer supports only boards with the allwinner H2, H3 and H5 cpus.
 The boards that are supported are the same ones that supported in
@@ -33,9 +32,18 @@ I'm only testing with `nanopi-k1-plus` and occasionally `nanopi-neo`,
 `nanopi-neo2` and `nanopi-duo`.
 
 ## Important updates notes
+#### 15.03.2021
+- Updated PREEMPT-RT kernel to `5.10.18-rt32`. Warning: The patch is the `5.10.17-rt32` applied on 5.10.18!
+- Only verified build method is to use the included Dockerfile
+- Added `libmpc-dev` and `libgmp-dev` packages in the Dockerfile. You need to rebuild your docker image.
+- Added two new options in `local.conf` which are `BOOTSPLASH` and `WIFI_INJECTION` and they're enabled by default.
+  To disable them replace `yes` with `no`.
+```
+BOOTSPLASH = "yes"
+WIFI_INJECTION = "yes"
+```
 
 #### 16.01.2021
-**Important note on this version:**
 Poky 3.2.1 version (gatesgarth) currently supports GCC 10.2 which has a
 [known bug](https://gcc.gnu.org/bugzilla/show_bug.cgi?id=96377). This bug
 is fixed in GCC 10.3. Therefore, be advised that _the Neon acceleration for
@@ -246,17 +254,17 @@ PREFERRED_PROVIDER_virtual/kernel = "linux-megous"
 PREFERRED_VERSION_linux-stable = "5.10%"
 ```
 
-* linux-stable-rt 5.4.y
+* linux-stable-rt 5.10.y
 ```
 PREFERRED_PROVIDER_virtual/kernel = "linux-megous-rt"
-PREFERRED_VERSION_linux-megous-rt = "5.4%"
+PREFERRED_VERSION_linux-megous-rt = "5.10%"
 ```
 
 > Note: You can now go back to previous kernel versions using git tags
 
 #### Current versions
 * 5.10.18
-* 5.4.40-rt24
+* 5.10.18-rt32
 
 ## Build the SDK
 There's a known issue that some bb recipes that are used while the SDK is built

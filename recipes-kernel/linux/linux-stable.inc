@@ -118,7 +118,7 @@ do_patch_append() {
     fi
 
     if [ -d "${WORKDIR}/patch-${PREEMPT_RT_VERSION}" ]; then
-        echo "Applying preempt-rt patches"
+        bbnote "Applying preempt-rt patches"
         ${WORKDIR}/process_patch_folder.sh ${WORKDIR}/patches-${LINUX_VERSION}
         ${WORKDIR}/process_patch_folder.sh ${WORKDIR}/patch-${PREEMPT_RT_VERSION}
     else

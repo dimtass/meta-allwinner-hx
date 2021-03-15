@@ -39,6 +39,7 @@ RUN apt-get update && \
         gawk \
         gcc-multilib \
         libmpc-dev \
+        libgmp-dev \
         git-core \
         graphviz \
         help2man \
