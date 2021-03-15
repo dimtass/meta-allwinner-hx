@@ -34,7 +34,8 @@ S = "${WORKDIR}/git"
 DEFCONFIG_PATH =  "${@'${SOC_FAMILY}-defconfig' if d.getVar('PREEMPT_RT_VERSION') == '' else '${SOC_FAMILY}-rt-defconfig'}"
 
 ARMBIAN_URI = " \
-        file://armbian-patcher.sh \
+        file://process_patch_file.sh \
+        file://process_patch_folder.sh \
         file://patches-${LINUX_VERSION} \
         file://custom-patches \
         file://${DEFCONFIG_PATH}/defconfig \
@@ -91,13 +92,37 @@ do_patch_append() {
     cp ${WORKDIR}/${DEFCONFIG_PATH}/defconfig ${B}/.config
     cd ${S}
     # Apply patches
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/custom-patches
+    if [ "${BOOTSPLASH}" = "yes" ]; then
+        bbnote "Apply bootsplash patches..."
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/bootsplash-5.8.10-0001-Revert-vgacon-remove-software-scrollback-support.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/bootsplash-5.8.10-0002-Revert-fbcon-remove-now-unusued-softback_lines-curso.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/bootsplash-5.10.y-0003-Revert-fbcon-remove-soft-scrollback-code.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0001-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0002-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0003-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0004-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0005-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0006-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0007-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0008-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0009-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0010-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0011-bootsplash.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/0012-bootsplash.patch"
+    fi
+    if [ "${WIFI_INJECTION}" = "yes" ]; then
+        bbnote "Adding" "Wireless package injections for mac80211 compatible chipsets"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/kali-wifi-injection-1-v5.9-post.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/kali-wifi-injection-2.patch"
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/kali-wifi-injection-3.patch"
+    fi
+
     if [ -d "${WORKDIR}/patch-${PREEMPT_RT_VERSION}" ]; then
         echo "Applying preempt-rt patches"
-        ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patches-${LINUX_VERSION}
-        ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patch-${PREEMPT_RT_VERSION}
+        ${WORKDIR}/process_patch_folder.sh ${WORKDIR}/patches-${LINUX_VERSION}
+        ${WORKDIR}/process_patch_folder.sh ${WORKDIR}/patch-${PREEMPT_RT_VERSION}
     else
-        ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/patches-${LINUX_VERSION}
+        ${WORKDIR}/process_patch_folder.sh ${WORKDIR}/patches-${LINUX_VERSION}
     fi
 }
 
@@ -151,10 +176,10 @@ python() {
 patch_aufs5() {
     bbnote "Adding AUFS"
     cd ${S}
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/extras/aufs5/aufs5-kbuild.patch
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/extras/aufs5/aufs5-base.patch
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/extras/aufs5/aufs5-mmap.patch
-    ${WORKDIR}/armbian-patcher.sh ${WORKDIR}/extras/aufs5/aufs5-standalone.patch
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/extras/aufs5/aufs5-kbuild.patch
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/extras/aufs5/aufs5-base.patch
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/extras/aufs5/aufs5-mmap.patch
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/extras/aufs5/aufs5-standalone.patch
     cp -R ${WORKDIR}/extras/aufs5/Documentation .
     cp -R ${WORKDIR}/extras/aufs5/fs .
     cp ${WORKDIR}/extras/aufs5/include/uapi/linux/aufs_type.h include/uapi/linux/
@@ -360,6 +385,8 @@ patch_rtl8811cu() {
     echo "obj-\$(CONFIG_RTL8821CU) += rtl8811cu/" >> ${S}/drivers/net/wireless/Makefile
     sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8811cu\/Kconfig"' \
             ${S}/drivers/net/wireless/Kconfig
+
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/custom-patches/wireless-rtl8811cu.patch
 }
 
 patch_rtl8188eu() {
@@ -396,6 +423,8 @@ patch_rtl8188eu() {
     echo "obj-\$(CONFIG_RTL8188EU) += rtl8188eu/" >> ${S}/drivers/net/wireless/Makefile
     sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8188eu\/Kconfig"' \
             ${S}/drivers/net/wireless/Kconfig
+
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/custom-patches/wireless-rtl8188eu.patch
 }
 
 patch_rtl88x2bu() {
@@ -471,6 +500,8 @@ patch_rtl8723ds() {
     echo "obj-\$(CONFIG_RTL8723DS) += rtl8723ds/" >> ${S}/drivers/net/wireless/Makefile
     sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl8723ds\/Kconfig"' \
             ${S}/drivers/net/wireless/Kconfig
+    
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/custom-patches/wireless-rtl8723ds.patch
 }
 
 patch_rtl8723du() {
@@ -507,4 +538,6 @@ patch_rtl8723du() {
     echo "obj-\$(CONFIG_RTL8822BU) += rtl88x2bu/" >> ${S}/drivers/net/wireless/Makefile
     sed -i '/source "drivers\/net\/wireless\/ti\/Kconfig"/a source "drivers\/net\/wireless\/rtl88x2bu\/Kconfig"' \
             ${S}/drivers/net/wireless/Kconfig
+    
+    ${WORKDIR}/process_patch_file.sh ${WORKDIR}/custom-patches/wireless-rtl8723du.patch
 }
