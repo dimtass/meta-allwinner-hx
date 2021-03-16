@@ -124,6 +124,7 @@ do_patch_append() {
     else
         ${WORKDIR}/process_patch_folder.sh ${WORKDIR}/patches-${LINUX_VERSION}
     fi
+    ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/meta-allwinner-fix-kernel-build_5.10.patch"
 }
 
 # Compile overlays. This is for compatibility since from version 4.20
@@ -149,7 +150,7 @@ do_install_append() {
     done
 
     bbnote "Extract ${OVERLAY_PREFIX} fixup"
-    fixup=$(find . -name "*.scr-cmd" | grep ${OVERLAY_PREFIX})
+    fixup=$(find ${STAGING_KERNEL_DIR} -name "*.scr-cmd" | grep ${OVERLAY_PREFIX})
     mkimage -C none -A arm -T script -d $fixup ${WORKDIR}/fixup.scr
     install -m 644 ${WORKDIR}/fixup.scr ${D}/${KERNEL_IMAGEDEST}/
 }
