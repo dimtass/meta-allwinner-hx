@@ -18,14 +18,15 @@ RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree kernel-image kernel-d
 
 # We need mkimage for the overlays
 DEPENDS += "u-boot-tools-native"
-# Fix missing gmp.h issues on kernel >= 5.8
-DEPENDS += "gmp-native"
-EXTRA_OEMAKE += "HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
 
 do_compile[depends] += "u-boot-tools-native:do_populate_sysroot"
 
 inherit deploy
 require recipes-kernel/linux/linux-yocto.inc
+
+# Fix missing gmp.h issues on kernel >= 5.8
+DEPENDS += "gmp-native"
+EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
 
 LINUX_VERSION ?= ""
 PREEMPT_RT_VERSION ?= ""
