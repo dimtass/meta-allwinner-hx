@@ -128,7 +128,7 @@ do_patch_append() {
     else
         ${WORKDIR}/process_patch_folder.sh ${WORKDIR}/patches-${LINUX_VERSION}
     fi
-    ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/meta-allwinner-fix-kernel-build_5.10.patch"
+    ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8723cs-makefile.patch"
 }
 
 # Compile overlays. This is for compatibility since from version 4.20
