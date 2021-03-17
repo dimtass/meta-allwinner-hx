@@ -82,15 +82,24 @@ do_patch_append() {
     if [ "${EXTRAWIFI}" = "yes" ]; then
         patch_rtl8152
         patch_rtl8189fs
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8189fs-makefile.patch"
         patch_rtl8189es
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8189es-makefile.patch"
         patch_rtl8812au
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8812au-makefile.patch"
         patch_xradio
         patch_rtl8811cu
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8811cu-makefile.patch"
         patch_rtl8188eu
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8188eu-makefile.patch"
         patch_rtl88x2bu
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl88x2bu-makefile.patch"
         patch_rtl8723ds
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8723ds-makefile.patch"
         patch_rtl8723du
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8723du-makefile.patch"
         patch_rtl8192eu
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8192eu-makefile.patch"
     fi
     # Copy defconfig
     cp ${WORKDIR}/${DEFCONFIG_PATH}/defconfig ${WORKDIR}/defconfig
