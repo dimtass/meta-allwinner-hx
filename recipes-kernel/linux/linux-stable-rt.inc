@@ -18,10 +18,15 @@ RDEPENDS_${KERNEL_PACKAGE_NAME}-base += "kernel-devicetree kernel-image kernel-d
 
 # We need mkimage for the overlays
 DEPENDS += "u-boot-tools-native"
+
 do_compile[depends] += "u-boot-tools-native:do_populate_sysroot"
 
 inherit deploy
 require recipes-kernel/linux/linux-yocto.inc
+
+# Fix missing gmp.h issues on kernel >= 5.8
+DEPENDS += "gmp-native"
+EXTRA_OEMAKE += " HOSTCXX="${BUILD_CXX} ${BUILD_CXXFLAGS} ${BUILD_LDFLAGS}""
 
 LINUX_VERSION ?= ""
 PREEMPT_RT_VERSION ?= ""
@@ -77,15 +82,24 @@ do_patch_append() {
     if [ "${EXTRAWIFI}" = "yes" ]; then
         patch_rtl8152
         patch_rtl8189fs
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8189fs-makefile.patch"
         patch_rtl8189es
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8189es-makefile.patch"
         patch_rtl8812au
+        ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8812au-makefile.patch"
         patch_xradio
         patch_rtl8811cu
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8811cu-makefile.patch"
         patch_rtl8188eu
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8188eu-makefile.patch"
         patch_rtl88x2bu
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl88x2bu-makefile.patch"
         patch_rtl8723ds
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8723ds-makefile.patch"
         patch_rtl8723du
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8723du-makefile.patch"
         patch_rtl8192eu
+	${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8192eu-makefile.patch"
     fi
     # Copy defconfig
     cp ${WORKDIR}/${DEFCONFIG_PATH}/defconfig ${WORKDIR}/defconfig
@@ -124,6 +138,7 @@ do_patch_append() {
     else
         ${WORKDIR}/process_patch_folder.sh ${WORKDIR}/patches-${LINUX_VERSION}
     fi
+    ${WORKDIR}/process_patch_file.sh "${WORKDIR}/custom-patches/fix-rtl8723cs-makefile.patch"
 }
 
 # Compile overlays. This is for compatibility since from version 4.20
@@ -149,7 +164,7 @@ do_install_append() {
     done
 
     bbnote "Extract ${OVERLAY_PREFIX} fixup"
-    fixup=$(find . -name "*.scr-cmd" | grep ${OVERLAY_PREFIX})
+    fixup=$(find ${STAGING_KERNEL_DIR} -name "*.scr-cmd" | grep ${OVERLAY_PREFIX})
     mkimage -C none -A arm -T script -d $fixup ${WORKDIR}/fixup.scr
     install -m 644 ${WORKDIR}/fixup.scr ${D}/${KERNEL_IMAGEDEST}/
 }

@@ -1,0 +1,36 @@
+Index: kernel-source/drivers/net/wireless/rtl8723du/Makefile
+===================================================================
+--- kernel-source.orig/drivers/net/wireless/rtl8723du/Makefile
++++ kernel-source/drivers/net/wireless/rtl8723du/Makefile
+@@ -6,7 +6,7 @@ ifeq ($(GCC_VER_49),1)
+ EXTRA_CFLAGS += -Wno-date-time	# Fix compile error && warning on gcc 4.9 and later
+ endif
+ 
+-EXTRA_CFLAGS += -I$(src)/include
++EXTRA_CFLAGS += -I$(srctree)/$(src)/include
+ 
+ EXTRA_LDFLAGS += --strip-debug
+ 
+@@ -25,7 +25,7 @@ CONFIG_WAKEUP_TYPE = 0x7 #bit2: deauth,
+ 
+ CONFIG_DRVEXT_MODULE = n
+ 
+-export TopDIR ?= $(src)
++export TopDIR ?= $(srctree)/$(src)
+ 
+ ########### COMMON  #################################
+ HCI_NAME = usb
+@@ -55,10 +55,11 @@ _HAL_INTFS_FILES :=	hal/hal_intf.o \
+ 			hal/hal_usb_led.o
+ 
+ 
+-EXTRA_CFLAGS += -I$(src)/platform
++EXTRA_CFLAGS += -I$(srctree)/$(src)/platform
+ _PLATFORM_FILES := platform/platform_ops.o
+ 
+-EXTRA_CFLAGS += -I$(src)/hal
++EXTRA_CFLAGS += -I$(srctree)/$(src)/hal
++EXTRA_CFLAGS += -I$(srctree)/$(src)/hal/phydm
+ 
+ include $(TopDIR)/hal/phydm/phydm.mk
+ ########### HAL_RTL8723D #################################
