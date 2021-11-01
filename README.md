@@ -1,6 +1,9 @@
 meta-allwinner-hx
 ----
 
+> Note: **This repo is not maintained!!!**
+
+
 This meta layer is mainly a mix of `meta-sunxi` and `armbian`. Because of that
 this is not a light-weight kernel but it's meant to support as much peripherals
 as possible. For this reason, if you need to a light-weight kernel, then you
