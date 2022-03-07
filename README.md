@@ -1,7 +1,7 @@
 meta-allwinner-hx
 ----
 
-> Note: **This repo is not maintained!!!**
+## Warning: **This repo is not maintained and it's EOL !!!**
 
 
 This meta layer is mainly a mix of `meta-sunxi` and `armbian`. Because of that
